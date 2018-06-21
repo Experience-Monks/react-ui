@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CloseButton should render correctly 1`] = `
+<button
+  className="CloseButton"
+>
+  <span />
+  <span />
+</button>
+`;
