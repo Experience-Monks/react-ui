@@ -2,15 +2,13 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, number, boolean, object } from '@storybook/addon-knobs/react';
 
-import { VideoPlayer } from '../../../dist/index.js';
-
+import VideoPlayer from './VideoPlayer';
 import VideoTimeline from './VideoTimeline/VideoTimeline';
 import VideoControls from './VideoControls/VideoControls';
 
 const onTimeUpdate = currentTime => console.log(currentTime);
 
-const poster =
-  'http://il6.picdn.net/shutterstock/videos/3548084/thumb/1.jpg?i10c=img.resize(height:160)';
+const poster = 'http://il6.picdn.net/shutterstock/videos/3548084/thumb/1.jpg?i10c=img.resize(height:160)';
 const src = 'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4';
 
 const captions = {
@@ -47,17 +45,13 @@ class VideoControlsTest extends React.PureComponent {
 
   onFullscreenToggle = () => {
     this.setState({ isFullScreen: !this.state.isFullScreen }, () => {
-      console.log(
-        this.state.isFullScreen ? 'enter fullscreen' : 'exit fullscreen'
-      );
+      console.log(this.state.isFullScreen ? 'enter fullscreen' : 'exit fullscreen');
     });
   };
 
   onCaptionsToggle = () => {
     this.setState({ isShowingCaptions: !this.state.isShowingCaptions }, () => {
-      console.log(
-        this.state.isShowingCaptions ? 'captions on' : 'captions off'
-      );
+      console.log(this.state.isShowingCaptions ? 'captions on' : 'captions off');
     });
   };
 
@@ -115,9 +109,7 @@ storiesOf('VideoPlayer', module)
       allowKeyboardControl={boolean('Allow Keyboard Control', false)}
     />
   ))
-  .addWithJSX('Basic player', () => (
-    <VideoPlayer src={src} poster={poster} style={regular} />
-  ))
+  .addWithJSX('Basic player', () => <VideoPlayer src={src} poster={poster} style={regular} />)
   .addWithJSX('VideoTimeline', () => (
     <VideoTimeline
       duration={number('Duration', 90)}
@@ -126,8 +118,5 @@ storiesOf('VideoPlayer', module)
     />
   ))
   .addWithJSX('VideoControls', () => (
-    <VideoControlsTest
-      duration={number('Timeline Duration', 240)}
-      captions={boolean('Caption', true)}
-    />
+    <VideoControlsTest duration={number('Timeline Duration', 240)} captions={boolean('Caption', true)} />
   ));

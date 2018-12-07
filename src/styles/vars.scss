@@ -1,6 +1,18 @@
+@import 'layout.scss';
+
 // Variables
 //
 // Add global variables here, color palette, those variables shared by components all applied to global styling
+
+// ====================================================================
+// Breakpoints
+//
+// Window breakpoints
+// ====================================================================
+
+$layout-medium: map-get($layout, medium) + px;
+$layout-large: map-get($layout, large) + px;
+$layout-xlarge: map-get($layout, xlarge) + px;
 
 // ====================================================================
 // Animation
@@ -38,6 +50,7 @@ $blue-dark: #004280;
 // ====================================================================
 
 $page-bg-color: $white;
+$rotate-screen-bg-color: $black;
 $element-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.04);
 $generic-fonts: sans-serif;
 
@@ -62,7 +75,7 @@ $phone-content-margin: px-to-rem(20);
 $navbar-height-mobile: 6rem;
 $navbar-height-desktop: 6rem;
 $navbar-padding-mobile: 4rem;
-$navbar-padding-destkop: 6rem;
+$navbar-padding-desktop: 6rem;
 
 // ====================================================================
 // List of z-index element

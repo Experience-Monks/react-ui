@@ -9,15 +9,12 @@ import './VideoPlayer.css';
 import VideoControls from './VideoControls/VideoControls';
 
 import checkProps from '../../util/check-props';
-import animate from '../../util/gsap-animate';
 import { noop } from '../../util/basic-functions';
+import animate from '../../util/gsap-animate';
 
-export class VideoPlayer extends React.PureComponent {
+export default class VideoPlayer extends React.PureComponent {
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (
-      nextProps.windowWidth !== prevState.containerWidth ||
-      nextProps.windowHeight !== prevState.containerHeight
-    ) {
+    if (nextProps.windowWidth !== prevState.containerWidth || nextProps.windowHeight !== prevState.containerHeight) {
       return {
         containerWidth: nextProps.windowWidth,
         containerHeight: nextProps.windowHeight
@@ -49,17 +46,11 @@ export class VideoPlayer extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.fullScreen = fullScreen(
-      this.container,
-      this.onEnterFullScreen,
-      this.onExitFullScreen
-    );
+    this.fullScreen = fullScreen(this.container, this.onEnterFullScreen, this.onExitFullScreen);
     this.controls = this.container.querySelector('.VideoControls');
 
     if (this.props.hasControls) {
-      this.props.showControlsOnLoad
-        ? this.setHideControlsTimeout()
-        : this.hideControls(0);
+      this.props.showControlsOnLoad ? this.setHideControlsTimeout() : this.hideControls(0);
     }
 
     if (this.props.autoPlay) {
@@ -70,9 +61,7 @@ export class VideoPlayer extends React.PureComponent {
     }
 
     if (this.props.captions) {
-      animate.set(this.captionsContainer, {
-        autoAlpha: Boolean(this.state.isShowingCaptions)
-      });
+      animate.set(this.captionsContainer, { autoAlpha: Boolean(this.state.isShowingCaptions) });
     }
   }
 
@@ -91,16 +80,10 @@ export class VideoPlayer extends React.PureComponent {
     }
 
     if (prevState.isShowingCaptions !== this.state.isShowingCaptions) {
-      this.captions &&
-        animate.to(this.captionsContainer, 0.1, {
-          autoAlpha: Boolean(this.state.isShowingCaptions)
-        });
+      this.captions && animate.to(this.captionsContainer, 0.1, { autoAlpha: Boolean(this.state.isShowingCaptions) });
     }
 
-    if (
-      this.props.captions &&
-      prevProps.captions.src !== this.props.captions.src
-    ) {
+    if (this.props.captions && prevProps.captions.src !== this.props.captions.src) {
       this.setCaptions(this.props.captions);
     }
   }
@@ -110,20 +93,17 @@ export class VideoPlayer extends React.PureComponent {
     this.pause();
     this.clearAutoPlayTimeout();
     this.props.hasControls && this.clearHideControlsTimeout();
-    this.captions &&
-      this.captions.removeEventListener('cuechange', this.onTrackChange);
+    this.captions && this.captions.removeEventListener('cuechange', this.onTrackChange);
   }
 
   showControls = (dur = 0.2) => {
     this.controls && animate.to(this.controls, dur, { y: '0%' });
-    this.captions &&
-      animate.to(this.captionsContainer, dur, { x: '-50%', y: '0%' });
+    this.captions && animate.to(this.captionsContainer, dur, { x: '-50%', y: '0%' });
   };
 
   hideControls = (dur = 0.2) => {
     this.controls && animate.to(this.controls, dur, { y: '100%' });
-    this.captions &&
-      animate.to(this.captionsContainer, dur, { x: '-50%', y: '100%' });
+    this.captions && animate.to(this.captionsContainer, dur, { x: '-50%', y: '100%' });
   };
 
   play = () => {
@@ -212,10 +192,7 @@ export class VideoPlayer extends React.PureComponent {
   onTrackChange = () => {
     const trackList = this.video.video.textTracks;
     const textTracks = trackList && trackList.length > 0 ? trackList[0] : null;
-    let cue =
-      textTracks && textTracks.activeCues.length > 0
-        ? textTracks.activeCues[0]
-        : null;
+    let cue = textTracks && textTracks.activeCues.length > 0 ? textTracks.activeCues[0] : null;
     let text = cue ? cue.text : '';
     this.setState({ currentCaptions: text });
   };
@@ -307,10 +284,7 @@ export class VideoPlayer extends React.PureComponent {
         />
 
         {this.props.captions && (
-          <div
-            className="VideoPlayer-captions-container"
-            ref={r => (this.captionsContainer = r)}
-          >
+          <div className="VideoPlayer-captions-container" ref={r => (this.captionsContainer = r)}>
             {this.state.currentCaptions && <p>{this.state.currentCaptions}</p>}
           </div>
         )}
@@ -383,5 +357,3 @@ VideoPlayer.defaultProps = {
   onPause: noop,
   onEnd: noop
 };
-
-export default VideoPlayer;
