@@ -1,28 +1,33 @@
-@import 'shared.scss';
+$rotate-screen-bg-color: #000 !default;
+$rotate-screen-text-color: #fff !default;
+$rotate-screen-text-font-size: 1.6rem !default;
+$rotate-screen-icon-width: 10rem !default;
 
 .Rotate {
-  @include flex-center;
-  @include position-100(fixed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: $rotate-screen-bg-color;
-  @include z-index(rotate);
 
   .container {
     text-align: center;
 
-    p {
-      color: $white;
-      font-size: px-to-rem(16);
-      line-height: 120%;
-      margin-top: px-to-rem(20);
-      text-align: center;
+    .rotate-text {
+      color: $rotate-screen-text-color;
+      font-size: $rotate-screen-text-font-size;
     }
 
     .rotate-icon {
-      margin: auto;
-      width: px-to-rem(100);
+      width: $rotate-screen-icon-width;
 
       svg {
-        @include box(100%);
+        width: 100%;
+        height: 100%;
         display: block;
       }
     }

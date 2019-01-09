@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import 'default-passive-events';
 
 import './Rotate.css';
 
-import RotateIcon from './assets/rotate.svg';
-
 import checkProps from '../../util/check-props';
 import detect from '../../util/detect';
-import { preventEvent } from '../../util/basic-functions';
-import usePassiveEvent from '../../util/use-passive-event';
 
 export default class RotateScreen extends PureComponent {
   constructor(props) {
@@ -21,12 +20,12 @@ export default class RotateScreen extends PureComponent {
     this.setOrientationParentClass();
 
     if (detect.isAndroid) {
-      window.addEventListener('orientationchange', this.handleOrientationChange, usePassiveEvent());
+      window.addEventListener('orientationchange', this.handleOrientationChange);
     } else {
-      window.addEventListener('resize', this.handleOrientationChange, usePassiveEvent());
+      window.addEventListener('resize', this.handleOrientationChange);
     }
 
-    this.container.addEventListener('touchmove', this.preventScrolling, usePassiveEvent());
+    this.container.addEventListener('touchmove', this.preventScrolling);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -45,7 +44,8 @@ export default class RotateScreen extends PureComponent {
   }
 
   preventScrolling = e => {
-    preventEvent(e);
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   setOrientationParentClass = (orientation = this.state.orientation) => {
@@ -67,17 +67,23 @@ export default class RotateScreen extends PureComponent {
     };
 
     return (
-      <section className="Rotate" style={style} ref={r => (this.container = r)}>
+      <div className={classnames('Rotate', this.props.className)} style={style} ref={r => (this.container = r)}>
         <div className="container">
-          <img src={RotateIcon} className="rotate-icon" alt="Please rotate your device" />
-          <p>
-            Please rotate your device<br />into portrait mode.
-          </p>
+          {this.props.iconSrc && <img src={this.props.iconSrc} className="rotate-icon" alt={this.props.iconAlt} />}
+          {this.props.copy && <p className="rotate-text">{this.props.copy}</p>}
         </div>
-      </section>
+      </div>
     );
   }
 }
 
-RotateScreen.propTypes = checkProps({});
-RotateScreen.defaultProps = {};
+RotateScreen.propTypes = checkProps({
+  copy: PropTypes.string,
+  iconSrc: PropTypes.string,
+  iconAlt: PropTypes.string
+});
+
+RotateScreen.defaultProps = {
+  copy: 'Please rotate your device into portrait mode.',
+  iconAlt: 'Please rotate your device'
+};

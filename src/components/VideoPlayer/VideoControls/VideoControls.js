@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import noop from 'no-op';
 
 import './VideoControls.css';
 
@@ -14,10 +15,9 @@ import captionsOnIcon from './assets/captions-on.svg';
 import captionsOffIcon from './assets/captions-off.svg';
 
 import VideoTimeline from '../VideoTimeline/VideoTimeline';
-import Button from '../../Button/Button';
+import BaseButton from '../../BaseButton/BaseButton';
 
 import checkProps from '../../../util/check-props';
-import { noop } from '../../../util/basic-functions';
 
 const VideoControls = props => {
   function formatTime(totalSeconds) {
@@ -32,14 +32,14 @@ const VideoControls = props => {
 
   return (
     <nav className={classnames('VideoControls', props.className)} aria-label="Video Controls">
-      <Button
+      <BaseButton
         className="VideoControls-button"
         aria-label={props.isPlaying ? 'Pause Video' : 'Play Video'}
         title={props.isPlaying ? 'Pause Video' : 'Play Video'}
         onClick={props.onPlayToggle}
       >
         <img src={props.isPlaying ? PauseIcon : PlayIcon} alt={props.isPlaying ? 'Pause Icon' : 'Play Icon'} />
-      </Button>
+      </BaseButton>
 
       <VideoTimeline
         duration={props.duration}
@@ -52,7 +52,7 @@ const VideoControls = props => {
       </time>
 
       {props.captions && (
-        <Button
+        <BaseButton
           className="VideoControls-button"
           aria-label={props.isShowingCaptions ? 'Hide Captions' : 'Show Captions'}
           title={props.isShowingCaptions ? 'Hide Captions' : 'Show Captions'}
@@ -62,19 +62,19 @@ const VideoControls = props => {
             src={props.isShowingCaptions ? captionsOnIcon : captionsOffIcon}
             alt={props.isShowingCaptions ? 'Captions On Icon' : 'Captions Off Icon'}
           />
-        </Button>
+        </BaseButton>
       )}
 
-      <Button
+      <BaseButton
         className="VideoControls-button"
         aria-label={props.isMuted ? 'Unmute Video' : 'Mute Video'}
         title={props.isMuted ? 'Unmute Video' : 'Mute Video'}
         onClick={props.onMuteToggle}
       >
         <img src={props.isMuted ? MutedIcon : UnmutedIcon} alt={props.isMuted ? 'Muted Icon' : 'Unmuted Icon'} />
-      </Button>
+      </BaseButton>
 
-      <Button
+      <BaseButton
         className="VideoControls-button"
         aria-label={props.isFullScreen ? 'Exit Fullscreen Mode' : 'Enter Fullscreen Mode'}
         title={props.isFullScreen ? 'Exit Fullscreen Mode' : 'Enter Fullscreen Mode'}
@@ -84,7 +84,7 @@ const VideoControls = props => {
           src={props.isFullScreen ? ExitFullscreenIcon : EnterFullscreenIcon}
           alt={props.isFullScreen ? 'Fullscreen Mode Icon' : 'Normal Mode Icon'}
         />
-      </Button>
+      </BaseButton>
     </nav>
   );
 };

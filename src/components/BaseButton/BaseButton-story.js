@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text } from '@storybook/addon-knobs/react';
-import Component from './Button';
+import Component from './BaseButton';
 
 function handleClick() {
   console.log('Click');
@@ -14,8 +13,8 @@ function handleMouseMove() {
 storiesOf('Button', module).addWithJSX(
   'Default',
   () => (
-    <Component onClick={handleClick} onMouseMove={handleMouseMove} aria-label={text('Aria Label', 'Test Aria Label')}>
-      {text('Label', 'Hello')}
+    <Component onClick={handleClick} onMouseMove={handleMouseMove}>
+      Hello
     </Component>
   ),
   { notes: 'This is a button' }

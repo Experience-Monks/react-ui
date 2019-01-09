@@ -1,4 +1,11 @@
-@import 'shared.scss';
+$video-player-controls-buttons-margin: 2rem !default;
+$video-player-controls-buttons-width: 2rem !default;
+$video-player-controls-buttons-height: 2rem !default;
+$video-player-controls-height: 5rem !default;
+$video-player-controls-bg-color: #000 !default;
+$video-player-controls-timer-color: #fff !default;
+$video-player-controls-timer-width: 4rem !default;
+$video-player-controls-timer-font-size: 1.5rem !default;
 
 .VideoControls {
   display: flex;
@@ -7,18 +14,15 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: px-to-rem(50);
-  background-color: rgba(0, 0, 0, 0.8);
+  height: $video-player-controls-height;
+  background-color: $video-player-controls-bg-color;
   z-index: 1;
-
-  $margin: px-to-rem(20);
+  box-sizing: border-box;
 
   &-button {
-    width: px-to-rem(20);
-    height: px-to-rem(20);
-    margin-left: $margin;
-    opacity: 0.8;
-    transition: opacity 0.3s;
+    width: $video-player-controls-buttons-width;
+    height: $video-player-controls-buttons-height;
+    margin-left: $video-player-controls-buttons-margin;
     border: none;
     cursor: pointer;
     background: transparent;
@@ -28,17 +32,14 @@
     font-size: inherit;
     text-transform: inherit;
     color: inherit;
-
-    &:hover {
-      opacity: 1;
-    }
+    outline: none;
 
     &:first-of-type {
-      margin-right: $margin;
+      margin-right: $video-player-controls-buttons-margin;
     }
 
     &:last-of-type {
-      margin-right: $margin;
+      margin-right: $video-player-controls-buttons-margin;
     }
 
     img {
@@ -48,9 +49,9 @@
   }
 
   &-time {
-    width: px-to-rem(40);
-    color: #fff;
-    font-size: px-to-rem(15);
-    margin-left: $margin;
+    width: $video-player-controls-timer-width;
+    color: $video-player-controls-timer-color;
+    font-size: $video-player-controls-timer-font-size;
+    margin-left: $video-player-controls-buttons-margin;
   }
 }

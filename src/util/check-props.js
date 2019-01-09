@@ -15,14 +15,9 @@ export default function(propTypes, ignoreData = []) {
     'route',
     'routes',
     'routeParams',
-    'windowHeight',
-    'windowWidth',
     'context',
     'slug',
     'fn',
-    'mobileLayout',
-    'phoneLayout',
-    'tabletLayout',
     'match',
     'staticContext',
     ...ignoreData
@@ -36,7 +31,7 @@ export default function(propTypes, ignoreData = []) {
       );
 
       if (unspecifiedProps.length) {
-        throw new TypeError(`Component ${componentName} has unspecified props: ${unspecifiedProps.join(', ')}`);
+        console.warn(`Component ${componentName} has unspecified props: ${unspecifiedProps.join(', ')}`);
       }
     }
   };

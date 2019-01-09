@@ -1,11 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
-import { text } from '@storybook/addon-knobs/react';
+import noop from 'no-op';
 
 import BaseLink from './BaseLink';
-
-import { noop } from '../../util/basic-functions';
 
 function generateImage() {
   const canvas = document.createElement('canvas');
@@ -82,15 +80,15 @@ storiesOf('BaseLink', module).addWithJSX(
           return (
             <li key={`li-${link.text}-${num}`}>
               <BaseLink
-                title={text(`${num} - Title`, link.title, num)}
+                title={link.title}
                 className={link.className}
                 key={`${link.text}-${i}`}
-                link={text(`${num} - Link`, link.link, num)}
-                target={text(`${num} - Target`, link.target, num)}
+                link={link.link}
+                target={link.target}
                 onClick={link.onClick || noop}
-                download={text(`${num} - Download`, link.download, num)}
+                download={link.download}
               >
-                {text(`${num} - Text`, link.text, num)}
+                {link.text}
               </BaseLink>
             </li>
           );

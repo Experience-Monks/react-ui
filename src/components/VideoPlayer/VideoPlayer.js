@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import BackgroundVideo from 'react-background-video-player';
 import fullScreen from 'fullscreen-handler';
 import classnames from 'classnames';
+import noop from 'no-op';
 
 import './VideoPlayer.css';
 
 import VideoControls from './VideoControls/VideoControls';
 
 import checkProps from '../../util/check-props';
-import { noop } from '../../util/basic-functions';
 import animate from '../../util/gsap-animate';
 
 export default class VideoPlayer extends React.PureComponent {

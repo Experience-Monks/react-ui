@@ -1,12 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text, number, boolean, object } from '@storybook/addon-knobs/react';
+import 'default-passive-events';
 
 import VideoPlayer from './VideoPlayer';
-import VideoTimeline from './VideoTimeline/VideoTimeline';
 import VideoControls from './VideoControls/VideoControls';
-
-const onTimeUpdate = currentTime => console.log(currentTime);
 
 const poster = 'http://il6.picdn.net/shutterstock/videos/3548084/thumb/1.jpg?i10c=img.resize(height:160)';
 const src = 'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4';
@@ -16,20 +13,23 @@ const captions = {
   label: 'English',
   srclang: 'en',
   default: false, // show by default
-  src: process.env.PUBLIC_URL + '/assets/videos/captions-test.vtt'
+  src: 'https://www.iandevlin.com/html5test/webvtt/upc-video-subtitles-en.vtt'
 };
 
 const full = { width: '100vw', height: '100vh' };
 const regular = { width: '640px', height: '360px' };
 
 class VideoControlsTest extends React.PureComponent {
-  state = {
-    currentTime: 80,
-    isPlaying: false,
-    isMuted: false,
-    isFullScreen: false,
-    isShowingCaptions: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTime: props.currentTime,
+      isPlaying: false,
+      isMuted: false,
+      isFullScreen: false,
+      isShowingCaptions: false
+    };
+  }
 
   onPlayToggle = () => {
     this.setState({ isPlaying: !this.state.isPlaying }, () => {
@@ -82,41 +82,55 @@ class VideoControlsTest extends React.PureComponent {
   }
 }
 
+class VideoTest extends React.PureComponent {
+  state = {
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight
+  };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize = () => {
+    this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight });
+  };
+
+  render() {
+    return <VideoPlayer {...this.props} windowWidth={this.state.windowWidth} windowHeight={this.state.windowHeight} />;
+  }
+}
+
 storiesOf('VideoPlayer', module)
-  .addWithJSX('Cover & Controls', () => (
-    <VideoPlayer
-      {...this.props}
-      src={text('Src', src)}
-      poster={text('Poster', poster)}
-      style={object('Styles', full)}
-      disableBackgroundCover={boolean('Disable Background Cover', false)}
-      startTime={number('Start Time', 15)}
-      captions={object('Captions', captions)}
+  .addWithJSX('Cover Video + Controls', () => (
+    <VideoTest
+      src={src}
+      poster={poster}
+      style={full}
+      disableBackgroundCover={false}
+      startTime={15}
+      captions={captions}
     />
   ))
-  .addWithJSX('Looping Cover', () => (
-    <VideoPlayer
-      {...this.props}
-      src={text('Src', src)}
-      poster={text('Poster', poster)}
-      autoPlay={boolean('Autoplay', true)}
-      loop={boolean('Loop', true)}
-      muted={boolean('Muted', true)}
-      hasControls={boolean('Controls', false)}
-      style={object('Styles', full)}
-      togglePlayOnClick={boolean('Toggle Play on Click', false)}
-      disableBackgroundCover={boolean('Disable Background Cover', false)}
-      allowKeyboardControl={boolean('Allow Keyboard Control', false)}
+  .addWithJSX('Looping Cover Video', () => (
+    <VideoTest
+      src={src}
+      poster={poster}
+      autoPlay={true}
+      loop={true}
+      muted={true}
+      hasControls={false}
+      style={full}
+      togglePlayOnClick={false}
+      disableBackgroundCover={false}
+      allowKeyboardControl={false}
     />
   ))
-  .addWithJSX('Basic player', () => <VideoPlayer src={src} poster={poster} style={regular} />)
-  .addWithJSX('VideoTimeline', () => (
-    <VideoTimeline
-      duration={number('Duration', 90)}
-      currentTime={number('Current Time', 45)}
-      onTimeUpdate={onTimeUpdate}
-    />
-  ))
+  .addWithJSX('Basic player', () => <VideoTest src={src} poster={poster} style={regular} />)
   .addWithJSX('VideoControls', () => (
-    <VideoControlsTest duration={number('Timeline Duration', 240)} captions={boolean('Caption', true)} />
+    <VideoControlsTest duration={120} currentTime={30} captions={true} />
   ));

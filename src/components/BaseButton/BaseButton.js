@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import checkProps from '../../util/check-props';
 
-export default class Button extends React.PureComponent {
+export default class BaseButton extends React.PureComponent {
   render() {
     const { nodeRef: ref, component: Component, children, role: buttonRole, ...buttonProps } = this.props;
     const role = Component === 'button' ? buttonRole : 'button';
@@ -16,7 +16,7 @@ export default class Button extends React.PureComponent {
   }
 }
 
-Button.propTypes = checkProps({
+BaseButton.propTypes = checkProps({
   style: PropTypes.object,
   className: PropTypes.string,
   nodeRef: PropTypes.func,
@@ -38,9 +38,10 @@ Button.propTypes = checkProps({
   role: PropTypes.string,
   tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   disabled: PropTypes.bool,
-  'aria-label': PropTypes.string
+  'aria-label': PropTypes.string,
+  title: PropTypes.string
 });
 
-Button.defaultProps = {
+BaseButton.defaultProps = {
   component: 'button'
 };

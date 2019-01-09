@@ -1,4 +1,11 @@
-@import 'shared.scss';
+$video-player-fullscreen-bg-color: #000 !default;
+$video-player-captions-bottom-pos: 8rem !default;
+$video-player-captions-font-size: 3rem !default;
+$video-player-captions-font-weight: bold !default;
+$video-player-captions-bg-color: rgba(0, 0, 0, 0.8) !default;
+$video-player-captions-text-color: #fff !default;
+$video-player-captions-max-width: 50rem !default;
+$video-player-captions-padding: 1rem !default;
 
 .VideoPlayer {
   position: relative;
@@ -16,7 +23,7 @@
   &:fullscreen {
     width: 100% !important;
     height: 100% !important;
-    background-color: #000;
+    background-color: $video-player-fullscreen-bg-color;
 
     .BackgroundVideo {
       display: flex;
@@ -38,17 +45,17 @@
   &-captions-container {
     position: absolute;
     left: 50%;
-    bottom: px-to-rem(80);
-    background-color: rgba(0, 0, 0, 0.8);
+    bottom: $video-player-captions-bottom-pos;
+    background-color: $video-player-captions-bg-color;
     transform: translateX(-50%);
 
     p {
       margin: 0;
-      font-size: px-to-rem(30);
-      font-weight: bold;
-      color: #fff;
-      padding: px-to-rem(10);
-      max-width: px-to-rem(500);
+      font-size: $video-player-captions-font-size;
+      font-weight: $video-player-captions-font-weight;
+      color: $video-player-captions-text-color;
+      padding: $video-player-captions-padding;
+      max-width: $video-player-captions-max-width;
       text-align: center;
     }
   }

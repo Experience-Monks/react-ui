@@ -65,7 +65,8 @@ BaseLink.propTypes = checkProps({
   onTouchEnd: PropTypes.func,
   onTouchMove: PropTypes.func,
   onTouchStart: PropTypes.func,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  'aria-label': PropTypes.string
 });
 
 BaseLink.defaultProps = {

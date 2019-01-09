@@ -4,6 +4,7 @@
 
 # IDEs
 .vscode
+.idea
 
 # Node & Npm
 node_modules

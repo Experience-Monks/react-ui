@@ -1,41 +1,41 @@
-@import 'shared.scss';
+$main-footer-nav-padding: 0 4rem !default;
+$main-footer-links-margin: 2rem !default;
+$main-footer-link-font-size: 1.6rem !default;
+$main-footer-link-color: #fff !default;
+$main-footer-bg-color: #000 !default;
+$main-footer-copyright-color: #fff !default;
+$main-footer-copyright-font-size: 1.6rem !default;
 
 .Footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  @include flex-center-vert;
-  justify-content: space-between;
-  flex-direction: column;
+  display: inline-block;
   width: 100%;
-  padding: 2rem $navbar-padding-mobile;
-  color: $white;
-  background: $black;
-
-  @media (min-width: $layout-medium) {
-    flex-direction: row;
-  }
-
-  @media (min-width: $layout-large) {
-    padding: 2rem $navbar-padding-desktop;
-  }
+  padding: $main-footer-nav-padding;
+  background: $main-footer-bg-color;
+  box-sizing: border-box;
 
   .footer-nav {
     .nav-list {
-      display: flex;
+      display: inline-block;
+      padding-left: 0;
 
-      li {
-        padding: px-to-rem(5);
+      .nav-item {
+        display: inline-block;
+        margin-right: $main-footer-link-font-size;
+        font-size: $main-footer-link-font-size;
+
+        &:last-of-type {
+          margin-right: 0;
+        }
       }
 
       a {
-        color: inherit;
+        color: $main-footer-link-color;
       }
     }
   }
 
   .footer-copyright {
-    margin: 0;
-    font-size: px-to-rem(20);
+    font-size: $main-footer-copyright-font-size;
+    color: $main-footer-copyright-color;
   }
 }

@@ -1,19 +1,31 @@
-@import 'shared.scss';
+$close-button-width: 2.5rem !default;
+$close-button-height: 2.5rem !default;
+$close-button-bar-thickness: 3px !default;
+$close-button-bar-color: red !default;
 
 .CloseButton {
   position: relative;
-  width: 25px;
-  height: 25px;
+  width: $close-button-width;
+  height: $close-button-height;
   border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
+  text-align: inherit;
+  letter-spacing: inherit;
+  font-size: inherit;
+  text-transform: inherit;
+  color: inherit;
 
   span {
+    display: block;
     position: absolute;
     top: 50%;
     left: 50%;
-    display: block;
-    width: 3px;
+    width: $close-button-bar-thickness;
     height: 100%;
-    background-color: #000;
+    background-color: $close-button-bar-color;
 
     &:first-child {
       transform: translate(-50%, -50%) rotate(45deg);

@@ -1,52 +1,49 @@
-@import 'shared.scss';
+$black: #000;
+
+$hamburger-nav-bg-color: #eee !default;
+$hamburger-nav-padding: 2rem !default;
+$hamburger-nav-links-margin: 2rem !default;
+$hamburger-nav-link-font-size: 2rem !default;
+$hamburger-nav-idle-link-color: rgba(#000, 0.6) !default;
+$hamburger-nav-hover-link-color: rgba(#000, 1) !default;
+$hamburger-nav-active-link-color: rgba(#000, 1) !default;
+$hamburger-nav-idle-link-decoration: none !default;
+$hamburger-nav-hover-link-decoration: none !default;
+$hamburger-nav-active-link-decoration: underline !default;
 
 .HamburgerMenu {
   position: fixed;
-  top: $navbar-height-mobile;
+  top: 0;
   right: 0;
-  @include z-index(sidebar);
   width: 100%;
-  height: calc(100% - #{$navbar-height-mobile});
-  border-left: 1px solid rgba($black, 0.3);
-  background: $white;
-
-  @media (min-width: $layout-medium) {
-    max-width: px-to-rem(300);
-  }
+  height: 100vh;
+  background: $hamburger-nav-bg-color;
+  padding: $hamburger-nav-padding;
 
   .nav-list {
     width: 100%;
-    padding: px-to-rem(15) px-to-rem(15) px-to-rem(20) px-to-rem(15);
-    text-align: center;
 
     .nav-item {
-      width: 100%;
-      margin: px-to-rem(10) 0;
-
-      &:first-of-type {
-        margin-top: 0;
-      }
+      display: block;
+      margin-bottom: $hamburger-nav-links-margin;
 
       &:last-of-type {
         margin-bottom: 0;
       }
 
       a {
-        font-size: px-to-rem(20);
-        color: rgba($black, 0.7);
-        transition: color 0.2s;
-        padding: px-to-rem(5);
-        display: inline-block;
-        width: 100%;
+        font-size: $hamburger-nav-link-font-size;
+        color: $hamburger-nav-idle-link-color;
+        text-decoration: $hamburger-nav-idle-link-decoration;
 
         &.active {
-          color: rgba($black, 1);
+          color: $hamburger-nav-active-link-color;
+          text-decoration: $hamburger-nav-active-link-decoration;
         }
 
-        .desktop & {
-          &:hover {
-            color: rgba($black, 1);
-          }
+        &:hover:not(.active) {
+          color: $hamburger-nav-hover-link-color;
+          text-decoration: $hamburger-nav-hover-link-decoration;
         }
       }
     }

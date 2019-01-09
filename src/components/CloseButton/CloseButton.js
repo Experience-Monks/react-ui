@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import checkProps from '../../util/check-props';
-import * as styles from './CloseButton.css';
 
-console.log(styles)
+import './CloseButton.css';
 
 export class CloseButton extends React.PureComponent {
   render() {
