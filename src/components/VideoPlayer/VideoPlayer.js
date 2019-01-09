@@ -10,7 +10,6 @@ import './VideoPlayer.css';
 import VideoControls from './VideoControls/VideoControls';
 
 import checkProps from '../../util/check-props';
-import animate from '../../util/gsap-animate';
 
 export default class VideoPlayer extends React.PureComponent {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -36,6 +35,7 @@ export default class VideoPlayer extends React.PureComponent {
       isPlaying: false,
       isMuted: props.muted,
       isFullScreen: false,
+      isShowingControls: props.showControlsOnLoad,
       isShowingCaptions: props.captions && props.captions.default,
       currentCaptions: '',
       currentTime: 0,
@@ -59,10 +59,6 @@ export default class VideoPlayer extends React.PureComponent {
         this.clearAutoPlayTimeout();
       }, this.props.autoPlayDelay * 1000);
     }
-
-    if (this.props.captions) {
-      animate.set(this.captionsContainer, { autoAlpha: Boolean(this.state.isShowingCaptions) });
-    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -79,10 +75,6 @@ export default class VideoPlayer extends React.PureComponent {
       }
     }
 
-    if (prevState.isShowingCaptions !== this.state.isShowingCaptions) {
-      this.captions && animate.to(this.captionsContainer, 0.1, { autoAlpha: Boolean(this.state.isShowingCaptions) });
-    }
-
     if (this.props.captions && prevProps.captions.src !== this.props.captions.src) {
       this.setCaptions(this.props.captions);
     }
@@ -96,14 +88,12 @@ export default class VideoPlayer extends React.PureComponent {
     this.captions && this.captions.removeEventListener('cuechange', this.onTrackChange);
   }
 
-  showControls = (dur = 0.2) => {
-    this.controls && animate.to(this.controls, dur, { y: '0%' });
-    this.captions && animate.to(this.captionsContainer, dur, { x: '-50%', y: '0%' });
+  showControls = () => {
+    this.setState({ isShowingControls: true });
   };
 
-  hideControls = (dur = 0.2) => {
-    this.controls && animate.to(this.controls, dur, { y: '100%' });
-    this.captions && animate.to(this.captionsContainer, dur, { x: '-50%', y: '100%' });
+  hideControls = () => {
+    this.setState({ isShowingControls: false });
   };
 
   play = () => {
@@ -253,7 +243,10 @@ export default class VideoPlayer extends React.PureComponent {
   render() {
     return (
       <div
-        className={classnames('VideoPlayer', this.props.className)}
+        className={classnames('VideoPlayer', this.props.className, {
+          'show-controls': this.state.isShowingControls,
+          'show-captions': this.state.isShowingCaptions
+        })}
         style={this.props.style}
         ref={r => (this.container = r)}
         onMouseMove={this.onMouseMove}
@@ -303,6 +296,14 @@ export default class VideoPlayer extends React.PureComponent {
             onFullscreenToggle={this.toggleFullscreen}
             onCaptionsToggle={this.toggleCaptions}
             onTimeUpdate={this.updateTime}
+            playIcon={this.props.playIcon}
+            pauseIcon={this.props.pauseIcon}
+            mutedIcon={this.props.mutedIcon}
+            unmutedIcon={this.props.unmutedIcon}
+            exitFullscreenIcon={this.props.exitFullscreenIcon}
+            enterFullscreenIcon={this.props.enterFullscreenIcon}
+            captionsOnIcon={this.props.captionsOnIcon}
+            captionsOffIcon={this.props.captionsOffIcon}
           />
         )}
       </div>
@@ -334,7 +335,15 @@ VideoPlayer.propTypes = checkProps({
   startTime: PropTypes.number,
   onPlay: PropTypes.func,
   onPause: PropTypes.func,
-  onEnd: PropTypes.func
+  onEnd: PropTypes.func,
+  playIcon: PropTypes.string,
+  pauseIcon: PropTypes.string,
+  mutedIcon: PropTypes.string,
+  unmutedIcon: PropTypes.string,
+  exitFullscreenIcon: PropTypes.string,
+  enterFullscreenIcon: PropTypes.string,
+  captionsOnIcon: PropTypes.string,
+  captionsOffIcon: PropTypes.string
 });
 
 VideoPlayer.defaultProps = {

@@ -11,8 +11,8 @@ import MutedIcon from './assets/muted.svg';
 import UnmutedIcon from './assets/unmuted.svg';
 import ExitFullscreenIcon from './assets/exit-fullscreen.svg';
 import EnterFullscreenIcon from './assets/enter-fullscreen.svg';
-import captionsOnIcon from './assets/captions-on.svg';
-import captionsOffIcon from './assets/captions-off.svg';
+import CaptionsOnIcon from './assets/captions-on.svg';
+import CaptionsOffIcon from './assets/captions-off.svg';
 
 import VideoTimeline from '../VideoTimeline/VideoTimeline';
 import BaseButton from '../../BaseButton/BaseButton';
@@ -38,7 +38,10 @@ const VideoControls = props => {
         title={props.isPlaying ? 'Pause Video' : 'Play Video'}
         onClick={props.onPlayToggle}
       >
-        <img src={props.isPlaying ? PauseIcon : PlayIcon} alt={props.isPlaying ? 'Pause Icon' : 'Play Icon'} />
+        <img
+          src={props.isPlaying ? props.pauseIcon : props.playIcon}
+          alt={props.isPlaying ? 'Pause Icon' : 'Play Icon'}
+        />
       </BaseButton>
 
       <VideoTimeline
@@ -59,7 +62,7 @@ const VideoControls = props => {
           onClick={props.onCaptionsToggle}
         >
           <img
-            src={props.isShowingCaptions ? captionsOnIcon : captionsOffIcon}
+            src={props.isShowingCaptions ? props.captionsOnIcon : props.captionsOffIcon}
             alt={props.isShowingCaptions ? 'Captions On Icon' : 'Captions Off Icon'}
           />
         </BaseButton>
@@ -71,7 +74,10 @@ const VideoControls = props => {
         title={props.isMuted ? 'Unmute Video' : 'Mute Video'}
         onClick={props.onMuteToggle}
       >
-        <img src={props.isMuted ? MutedIcon : UnmutedIcon} alt={props.isMuted ? 'Muted Icon' : 'Unmuted Icon'} />
+        <img
+          src={props.isMuted ? props.mutedIcon : props.unmutedIcon}
+          alt={props.isMuted ? 'Muted Icon' : 'Unmuted Icon'}
+        />
       </BaseButton>
 
       <BaseButton
@@ -81,7 +87,7 @@ const VideoControls = props => {
         onClick={props.onFullscreenToggle}
       >
         <img
-          src={props.isFullScreen ? ExitFullscreenIcon : EnterFullscreenIcon}
+          src={props.isFullScreen ? props.exitFullscreenIcon : props.enterFullscreenIcon}
           alt={props.isFullScreen ? 'Fullscreen Mode Icon' : 'Normal Mode Icon'}
         />
       </BaseButton>
@@ -102,7 +108,15 @@ VideoControls.propTypes = checkProps({
   onMuteToggle: PropTypes.func,
   onFullscreenToggle: PropTypes.func,
   onCaptionsToggle: PropTypes.func,
-  onTimeUpdate: PropTypes.func
+  onTimeUpdate: PropTypes.func,
+  playIcon: PropTypes.string,
+  pauseIcon: PropTypes.string,
+  mutedIcon: PropTypes.string,
+  unmutedIcon: PropTypes.string,
+  exitFullscreenIcon: PropTypes.string,
+  enterFullscreenIcon: PropTypes.string,
+  captionsOnIcon: PropTypes.string,
+  captionsOffIcon: PropTypes.string
 });
 
 VideoControls.defaultProps = {
@@ -110,7 +124,15 @@ VideoControls.defaultProps = {
   onMuteToggle: noop,
   onFullscreenToggle: noop,
   onCaptionsToggle: noop,
-  onTimeUpdate: noop
+  onTimeUpdate: noop,
+  playIcon: PlayIcon,
+  pauseIcon: PauseIcon,
+  mutedIcon: MutedIcon,
+  unmutedIcon: UnmutedIcon,
+  exitFullscreenIcon: ExitFullscreenIcon,
+  enterFullscreenIcon: EnterFullscreenIcon,
+  captionsOnIcon: CaptionsOnIcon,
+  captionsOffIcon: CaptionsOffIcon
 };
 
 export default VideoControls;

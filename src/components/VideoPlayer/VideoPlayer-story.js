@@ -13,7 +13,7 @@ const captions = {
   label: 'English',
   srclang: 'en',
   default: false, // show by default
-  src: 'https://www.iandevlin.com/html5test/webvtt/upc-video-subtitles-en.vtt'
+  src: 'http://generator.jam3.net/components/assets/videos/captions-test.vtt'
 };
 
 const full = { width: '100vw', height: '100vh' };
