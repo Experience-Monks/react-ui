@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import 'default-passive-events';
 
-import './Rotate.css';
+import './RotateScreen.css';
 
 import checkProps from '../../util/check-props';
 import detect from '../../util/detect';
