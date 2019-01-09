@@ -67,7 +67,7 @@ export default class RotateScreen extends PureComponent {
     };
 
     return (
-      <div className={classnames('Rotate', this.props.className)} style={style} ref={r => (this.container = r)}>
+      <div className={classnames('RotateScreen', this.props.className)} style={style} ref={r => (this.container = r)}>
         <div className="container">
           {this.props.iconSrc && <img src={this.props.iconSrc} className="rotate-icon" alt={this.props.iconAlt} />}
           {this.props.copy && <p className="rotate-text">{this.props.copy}</p>}
