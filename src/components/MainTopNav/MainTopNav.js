@@ -68,6 +68,7 @@ class MainTopNav extends React.PureComponent {
             )
           )}
         </nav>
+        {this.props.children}
       </header>
     );
   }

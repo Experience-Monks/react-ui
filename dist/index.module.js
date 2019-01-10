@@ -3371,6 +3371,7 @@ CloseButton.defaultProps = {
 var css$2 = ".Footer {\n  display: inline-block;\n  width: 100%;\n  padding: 0 4rem;\n  background: #000;\n  box-sizing: border-box; }\n  .Footer .footer-nav .nav-list {\n    display: inline-block;\n    padding-left: 0; }\n    .Footer .footer-nav .nav-list .nav-item {\n      display: inline-block;\n      margin-right: 1.6rem;\n      font-size: 1.6rem; }\n      .Footer .footer-nav .nav-list .nav-item:last-of-type {\n        margin-right: 0; }\n    .Footer .footer-nav .nav-list a {\n      color: #fff; }\n  .Footer .footer-copyright {\n    font-size: 1.6rem;\n    color: #fff; }\n";
 styleInject(css$2);
 
+var _this = undefined;
 var Footer = React.forwardRef(function (props, ref) {
   return React.createElement("footer", {
     className: classnames('Footer', props.className),
@@ -3387,7 +3388,7 @@ var Footer = React.forwardRef(function (props, ref) {
     }, React.createElement(BaseLink, {
       link: link.path
     }, link.text));
-  }))), props.copyright && React.createElement("p", {
+  }))), _this.props.children, props.copyright && React.createElement("p", {
     className: "footer-copyright"
   }, props.copyright));
 });
@@ -3640,7 +3641,7 @@ function (_React$PureComponent) {
             active: removeTrailingSeparator(_this2.props.location.pathname) === removeTrailingSeparator(link.path)
           })
         }, link.text));
-      }))));
+      }))), this.props.children);
     }
   }]);
 
@@ -4641,7 +4642,7 @@ function (_PureComponent) {
         alt: this.props.iconAlt
       }), this.props.copy && React.createElement("p", {
         className: "rotate-text"
-      }, this.props.copy)));
+      }, this.props.copy), this.props.children));
     }
   }]);
 

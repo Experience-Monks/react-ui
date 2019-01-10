@@ -21,6 +21,7 @@ const Footer = React.forwardRef((props, ref) => (
         </ul>
       </nav>
     )}
+    {this.props.children}
     {props.copyright && <p className="footer-copyright">{props.copyright}</p>}
   </footer>
 ));
