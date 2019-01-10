@@ -27,7 +27,12 @@ const Footer = React.forwardRef((props, ref) => (
 
 Footer.propTypes = checkProps({
   className: PropTypes.string,
-  links: PropTypes.array,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      path: PropTypes.string,
+    })
+  ),
   ariaNavLabel: PropTypes.string,
   copyright: PropTypes.string
 });

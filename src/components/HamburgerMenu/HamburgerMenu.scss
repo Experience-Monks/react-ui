@@ -1,5 +1,3 @@
-$black: #000;
-
 $hamburger-nav-bg-color: #eee !default;
 $hamburger-nav-padding: 2rem !default;
 $hamburger-nav-links-margin: 2rem !default;
@@ -10,6 +8,7 @@ $hamburger-nav-active-link-color: rgba(#000, 1) !default;
 $hamburger-nav-idle-link-decoration: none !default;
 $hamburger-nav-hover-link-decoration: none !default;
 $hamburger-nav-active-link-decoration: underline !default;
+$hamburger-nav-transition: 0.2s !default;
 
 .HamburgerMenu {
   position: fixed;
@@ -19,6 +18,12 @@ $hamburger-nav-active-link-decoration: underline !default;
   height: 100vh;
   background: $hamburger-nav-bg-color;
   padding: $hamburger-nav-padding;
+  transform: translateX(100%);
+  transition: $hamburger-nav-transition;
+
+  &.open {
+    transform: translateX(0%);
+  }
 
   .nav-list {
     width: 100%;

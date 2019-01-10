@@ -50,7 +50,12 @@ class HamburgerMenu extends React.PureComponent {
 
 HamburgerMenu.propTypes = checkProps({
   className: PropTypes.string,
-  links: PropTypes.array,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      path: PropTypes.string,
+    })
+  ),
   closeOnRouteChange: PropTypes.bool,
   isMobileMenuOpen: PropTypes.bool,
   setIsMobileMenuOpen: PropTypes.func

@@ -82,7 +82,12 @@ MainTopNav.propTypes = checkProps({
   logoLink: PropTypes.string,
   logoAriaLabel: PropTypes.string,
   logoAlt: PropTypes.string,
-  links: PropTypes.array,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      path: PropTypes.string,
+    })
+  ),
   showHamburger: PropTypes.bool,
   isMobileMenuOpen: PropTypes.bool,
   setIsMobileMenuOpen: PropTypes.func
