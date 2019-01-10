@@ -3393,7 +3393,10 @@ var Footer = React.forwardRef(function (props, ref) {
 });
 Footer.propTypes = checkProps({
   className: propTypes.string,
-  links: propTypes.array,
+  links: propTypes.arrayOf(propTypes.shape({
+    text: propTypes.string,
+    path: propTypes.string
+  })),
   ariaNavLabel: propTypes.string,
   copyright: propTypes.string
 });
@@ -3484,7 +3487,7 @@ function isSeparator(str, i) {
 	return i > 0 && (char === '/' || (isWin && char === '\\'));
 }
 
-var css$4 = ".HamburgerMenu {\n  position: fixed;\n  top: 0;\n  right: 0;\n  width: 100%;\n  height: 100vh;\n  background: #eee;\n  padding: 2rem; }\n  .HamburgerMenu .nav-list {\n    width: 100%; }\n    .HamburgerMenu .nav-list .nav-item {\n      display: block;\n      margin-bottom: 2rem; }\n      .HamburgerMenu .nav-list .nav-item:last-of-type {\n        margin-bottom: 0; }\n      .HamburgerMenu .nav-list .nav-item a {\n        font-size: 2rem;\n        color: rgba(0, 0, 0, 0.6);\n        text-decoration: none; }\n        .HamburgerMenu .nav-list .nav-item a.active {\n          color: black;\n          text-decoration: underline; }\n        .HamburgerMenu .nav-list .nav-item a:hover:not(.active) {\n          color: black;\n          text-decoration: none; }\n";
+var css$4 = ".HamburgerMenu {\n  position: fixed;\n  top: 0;\n  right: 0;\n  width: 100%;\n  height: 100vh;\n  background: #eee;\n  padding: 2rem;\n  transform: translateX(100%);\n  transition: 0.2s; }\n  .HamburgerMenu.open {\n    transform: translateX(0%); }\n  .HamburgerMenu .nav-list {\n    width: 100%; }\n    .HamburgerMenu .nav-list .nav-item {\n      display: block;\n      margin-bottom: 2rem; }\n      .HamburgerMenu .nav-list .nav-item:last-of-type {\n        margin-bottom: 0; }\n      .HamburgerMenu .nav-list .nav-item a {\n        font-size: 2rem;\n        color: rgba(0, 0, 0, 0.6);\n        text-decoration: none; }\n        .HamburgerMenu .nav-list .nav-item a.active {\n          color: black;\n          text-decoration: underline; }\n        .HamburgerMenu .nav-list .nav-item a:hover:not(.active) {\n          color: black;\n          text-decoration: none; }\n";
 styleInject(css$4);
 
 var HamburgerMenu =
@@ -3543,7 +3546,10 @@ function (_React$PureComponent) {
 
 HamburgerMenu.propTypes = checkProps({
   className: propTypes.string,
-  links: propTypes.array,
+  links: propTypes.arrayOf(propTypes.shape({
+    text: propTypes.string,
+    path: propTypes.string
+  })),
   closeOnRouteChange: propTypes.bool,
   isMobileMenuOpen: propTypes.bool,
   setIsMobileMenuOpen: propTypes.func
@@ -3650,7 +3656,10 @@ MainTopNav.propTypes = checkProps({
   logoLink: propTypes.string,
   logoAriaLabel: propTypes.string,
   logoAlt: propTypes.string,
-  links: propTypes.array,
+  links: propTypes.arrayOf(propTypes.shape({
+    text: propTypes.string,
+    path: propTypes.string
+  })),
   showHamburger: propTypes.bool,
   isMobileMenuOpen: propTypes.bool,
   setIsMobileMenuOpen: propTypes.func
