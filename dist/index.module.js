@@ -3309,7 +3309,7 @@ BaseButton.defaultProps = {
   component: 'button'
 };
 
-var css$1 = ".CloseButton {\n  position: relative;\n  width: 2.5rem;\n  height: 2.5rem;\n  border: none;\n  outline: none;\n  cursor: pointer;\n  background: transparent;\n  padding: 0;\n  text-align: inherit;\n  letter-spacing: inherit;\n  font-size: inherit;\n  text-transform: inherit;\n  color: inherit; }\n  .CloseButton span {\n    display: block;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 3px;\n    height: 100%;\n    background-color: red; }\n    .CloseButton span:first-child {\n      transform: translate(-50%, -50%) rotate(45deg); }\n    .CloseButton span:last-child {\n      transform: translate(-50%, -50%) rotate(-45deg); }\n";
+var css$1 = ".CloseButton {\n  position: relative;\n  width: 2.5rem;\n  height: 2.5rem;\n  border: none;\n  outline: none;\n  cursor: pointer;\n  background: transparent;\n  padding: 0;\n  text-align: inherit;\n  letter-spacing: inherit;\n  font-size: inherit;\n  text-transform: inherit;\n  color: inherit; }\n  .CloseButton span {\n    display: block;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 3px;\n    height: 100%;\n    background-color: #000; }\n    .CloseButton span:first-child {\n      transform: translate(-50%, -50%) rotate(45deg); }\n    .CloseButton span:last-child {\n      transform: translate(-50%, -50%) rotate(-45deg); }\n";
 styleInject(css$1);
 
 var CloseButton =
@@ -3371,7 +3371,6 @@ CloseButton.defaultProps = {
 var css$2 = ".Footer {\n  display: inline-block;\n  width: 100%;\n  padding: 0 4rem;\n  background: #000;\n  box-sizing: border-box; }\n  .Footer .footer-nav .nav-list {\n    display: inline-block;\n    padding-left: 0; }\n    .Footer .footer-nav .nav-list .nav-item {\n      display: inline-block;\n      margin-right: 1.6rem;\n      font-size: 1.6rem; }\n      .Footer .footer-nav .nav-list .nav-item:last-of-type {\n        margin-right: 0; }\n    .Footer .footer-nav .nav-list a {\n      color: #fff; }\n  .Footer .footer-copyright {\n    font-size: 1.6rem;\n    color: #fff; }\n";
 styleInject(css$2);
 
-var _this = undefined;
 var Footer = React.forwardRef(function (props, ref) {
   return React.createElement("footer", {
     className: classnames('Footer', props.className),
@@ -3388,7 +3387,7 @@ var Footer = React.forwardRef(function (props, ref) {
     }, React.createElement(BaseLink, {
       link: link.path
     }, link.text));
-  }))), _this.props.children, props.copyright && React.createElement("p", {
+  }))), props.children, props.copyright && React.createElement("p", {
     className: "footer-copyright"
   }, props.copyright));
 });
@@ -3673,8 +3672,6 @@ MainTopNav.defaultProps = {
   setIsMobileMenuOpen: noOp
 };
 var MainTopNav$1 = withRouter(MainTopNav);
-
-!function(e){function t(n){if(o[n])return o[n].exports;var r=o[n]={i:n,l:!1,exports:{}};return e[n].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var o={};t.m=e,t.c=o,t.d=function(e,o,n){t.o(e,o)||Object.defineProperty(e,o,{configurable:!1,enumerable:!0,get:n});},t.n=function(e){var o=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(o,"a",o),o},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0);}([function(e,t,o){var n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},r=o(1),u={passive:!0,capture:!1},i=["scroll","wheel","touchstart","touchmove","touchenter","touchend","touchleave","mouseout","mouseleave","mouseup","mousedown","mousemove","mouseenter","mousewheel","mouseover"],s=function(e,t){return void 0!==e?e:-1!==i.indexOf(t)&&u.passive},c=function(e){var t=Object.getOwnPropertyDescriptor(e,"passive");return t&&!0!==t.writable&&void 0===t.set?Object.assign({},e):e};if((0, r.eventListenerOptionsSupported)()){var p=EventTarget.prototype.addEventListener;!function(e){EventTarget.prototype.addEventListener=function(t,o,r){var i="object"===(void 0===r?"undefined":n(r))&&null!==r,p=i?r.capture:r;r=i?c(r):{},r.passive=s(r.passive,t),r.capture=void 0===p?u.capture:p,e.call(this,t,o,r);},EventTarget.prototype.addEventListener._original=e;}(p);}},function(e,t,o){Object.defineProperty(t,"__esModule",{value:!0});t.eventListenerOptionsSupported=function(){var e=!1;try{var t=Object.defineProperty({},"passive",{get:function(){e=!0;}});window.addEventListener("test",null,t),window.removeEventListener("test",null,t);}catch(e){}return e};}]);
 
 var css$6 = ".RotateScreen {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #000; }\n  .RotateScreen .container {\n    text-align: center; }\n    .RotateScreen .container .rotate-text {\n      color: #fff;\n      font-size: 1.6rem; }\n    .RotateScreen .container .rotate-icon {\n      width: 10rem; }\n";
 styleInject(css$6);
