@@ -25,7 +25,7 @@ export default class RotateScreen extends PureComponent {
       window.addEventListener('resize', this.handleOrientationChange);
     }
 
-    this.container.addEventListener('touchmove', this.preventScrolling);
+    this.container.addEventListener('touchmove', this.preventScrolling, { passive: false });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -40,7 +40,7 @@ export default class RotateScreen extends PureComponent {
     } else {
       window.removeEventListener('resize', this.handleOrientationChange);
     }
-    this.container.removeEventListener('touchmove', this.preventScrolling, {passive: false});
+    this.container.removeEventListener('touchmove', this.preventScrolling);
   }
 
   preventScrolling = e => {

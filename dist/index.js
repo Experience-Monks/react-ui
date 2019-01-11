@@ -4605,7 +4605,9 @@ function (_PureComponent) {
         window.addEventListener('resize', this.handleOrientationChange);
       }
 
-      this.container.addEventListener('touchmove', this.preventScrolling);
+      this.container.addEventListener('touchmove', this.preventScrolling, {
+        passive: false
+      });
     }
   }, {
     key: "componentDidUpdate",
@@ -4623,9 +4625,7 @@ function (_PureComponent) {
         window.removeEventListener('resize', this.handleOrientationChange);
       }
 
-      this.container.removeEventListener('touchmove', this.preventScrolling, {
-        passive: false
-      });
+      this.container.removeEventListener('touchmove', this.preventScrolling);
     }
   }, {
     key: "render",
