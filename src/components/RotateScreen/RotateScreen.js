@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import 'default-passive-events';
 
 import './RotateScreen.css';
 
@@ -39,7 +40,7 @@ export default class RotateScreen extends PureComponent {
     } else {
       window.removeEventListener('resize', this.handleOrientationChange);
     }
-    this.container.removeEventListener('touchmove', this.preventScrolling);
+    this.container.removeEventListener('touchmove', this.preventScrolling, {passive: false});
   }
 
   preventScrolling = e => {
