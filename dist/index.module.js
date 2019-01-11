@@ -6251,5 +6251,54 @@ VideoPlayer.defaultProps = {
   onEnd: noOp
 };
 
-export { BaseLink, BaseButton, CloseButton, Footer, HamburgerButton, HamburgerMenu$1 as HamburgerMenu, MainTopNav$1 as MainTopNav, RotateScreen, VideoPlayer };
+var css$a = ".PageOverlay {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  background-color: rgba(0, 0, 0, 0.8);\n  opacity: 0;\n  visibility: hidden;\n  transition: opacity 0.2s;\n  transition-delay: visibility 0.2s; }\n  .PageOverlay.is-showing {\n    opacity: 1;\n    visibility: visible;\n    transition-delay: 0s; }\n";
+styleInject(css$a);
+
+var PageOverlay =
+/*#__PURE__*/
+function (_React$PureComponent) {
+  _inherits(PageOverlay, _React$PureComponent);
+
+  function PageOverlay() {
+    _classCallCheck(this, PageOverlay);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(PageOverlay).apply(this, arguments));
+  }
+
+  _createClass(PageOverlay, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (this.props.closeOnRouteChange && prevProps.location.pathname !== this.props.location.pathname) {
+        this.props.hideOnRouteChange && this.props.onClick();
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var componentProps = {
+        className: classnames('PageOverlay', this.props.className, {
+          'is-showing': this.props.isShowing
+        }),
+        onClick: this.props.onClick
+      };
+      return React.createElement("div", componentProps);
+    }
+  }]);
+
+  return PageOverlay;
+}(React.PureComponent);
+
+PageOverlay.propTypes = checkProps({
+  className: propTypes.string,
+  isShowing: propTypes.bool,
+  hideOnRouteChange: propTypes.bool,
+  onClick: propTypes.func
+});
+PageOverlay.defaultProps = {
+  onClick: noOp,
+  hideOnRouteChange: true
+};
+var PageOverlay$1 = withRouter(PageOverlay);
+
+export { BaseLink, BaseButton, CloseButton, Footer, HamburgerButton, HamburgerMenu$1 as HamburgerMenu, MainTopNav$1 as MainTopNav, RotateScreen, PageOverlay$1 as PageOverlay };
 //# sourceMappingURL=index.module.js.map

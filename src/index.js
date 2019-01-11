@@ -7,6 +7,7 @@ import HamburgerMenu from './components/HamburgerMenu/HamburgerMenu';
 import MainTopNav from './components/MainTopNav/MainTopNav';
 import RotateScreen from './components/RotateScreen/RotateScreen';
 import VideoPlayer from './components/VideoPlayer/VideoPlayer';
+import PageOverlay from './components/PageOverlay/PageOverlay';
 
 export {
   BaseLink,
@@ -17,5 +18,5 @@ export {
   HamburgerMenu,
   MainTopNav,
   RotateScreen,
-  VideoPlayer
+  PageOverlay
 };
