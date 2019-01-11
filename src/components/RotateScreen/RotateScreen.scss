@@ -1,0 +1,29 @@
+$rotate-screen-bg-color: #000 !default;
+$rotate-screen-text-color: #fff !default;
+$rotate-screen-text-font-size: 1.6rem !default;
+$rotate-screen-icon-width: 10rem !default;
+
+.RotateScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $rotate-screen-bg-color;
+
+  .container {
+    text-align: center;
+
+    .rotate-text {
+      color: $rotate-screen-text-color;
+      font-size: $rotate-screen-text-font-size;
+    }
+
+    .rotate-icon {
+      width: $rotate-screen-icon-width;
+    }
+  }
+}

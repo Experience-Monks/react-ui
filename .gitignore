@@ -1,0 +1,16 @@
+# Global
+.DS_Store
+*.log*
+
+# IDEs
+.vscode
+.idea
+
+# Node & Npm
+node_modules
+
+# Builds
+/build
+
+# CSS files of src
+src/**/*.css
