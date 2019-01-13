@@ -205,7 +205,7 @@ var warning_1 = warning;
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function unwrapExports (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
 }
 
 function createCommonjsModule(fn, module) {
@@ -3196,7 +3196,7 @@ var BaseLink = React.forwardRef(function (props, ref) {
   var Tag = externalLinkRegex.test(props.link) || props.download ? 'a' : Link; // clean props
 
   var componentProps = Object.keys(props).reduce(function (acc, key) {
-    return excludes.concat().indexOf(key) > -1 ? acc : _objectSpread({}, acc, _defineProperty({}, key, props[key]));
+    return [].concat(excludes).indexOf(key) > -1 ? acc : _objectSpread({}, acc, _defineProperty({}, key, props[key]));
   }, {});
 
   if (Tag === 'a') {
@@ -5100,10 +5100,6 @@ function enableInlineVideo(video, opts) {
 	}
 }
 
-var iphoneInlineVideo_esModules = /*#__PURE__*/Object.freeze({
-  default: enableInlineVideo
-});
-
 if (!Object.keys) {
   Object.keys = (function () {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -5249,8 +5245,6 @@ var ctx = context('default');
 ctx.context = context;
 var insertRule = ctx;
 
-var _iphoneInlineVideo = ( iphoneInlineVideo_esModules && enableInlineVideo ) || iphoneInlineVideo_esModules;
-
 var dist = createCommonjsModule(function (module, exports) {
 
 Object.defineProperty(exports, "__esModule", {
@@ -5277,7 +5271,7 @@ var _backgroundCover2 = _interopRequireDefault(backgroundCover);
 
 
 
-var _iphoneInlineVideo2 = _interopRequireDefault(_iphoneInlineVideo);
+var _iphoneInlineVideo2 = _interopRequireDefault(enableInlineVideo);
 
 
 
