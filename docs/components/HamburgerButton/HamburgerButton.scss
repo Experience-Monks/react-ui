@@ -1,0 +1,69 @@
+$hamburger-button-width: 2.5rem !default;
+$hamburger-button-height: 2rem !default;
+$hamburger-button-bar-thickness: 2px !default;
+$hamburger-button-bar-color: #000 !default;
+$hamburger-button-transition: 0.2s ease-out !default;
+
+.HamburgerButton {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
+  text-align: inherit;
+  letter-spacing: inherit;
+  font-size: inherit;
+  text-transform: inherit;
+  color: inherit;
+
+  .bars-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: $hamburger-button-width;
+    height: $hamburger-button-height;
+
+    .bar {
+      width: 100%;
+      height: $hamburger-button-bar-thickness;
+      background: $hamburger-button-bar-color;
+      transform-origin: top left;
+      transition: transform $hamburger-button-transition, opacity $hamburger-button-transition;
+    }
+  }
+
+  &.close {
+    .bar {
+      &:nth-child(1) {
+        transform: translateX(1px) rotate(45deg);
+      }
+
+      &:nth-child(2) {
+        transform: scaleX(0);
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  &.back {
+    .bar {
+      &:nth-child(1) {
+        transform: translateX(-1px) translateY(10px) rotate(-45deg) scaleX(0.8);
+      }
+
+      &:nth-child(2) {
+        transform: scaleX(0);
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: translateX(1px) translateY(-9px) rotate(45deg) scaleX(0.8);
+      }
+    }
+  }
+}

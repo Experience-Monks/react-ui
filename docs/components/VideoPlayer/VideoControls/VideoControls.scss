@@ -1,0 +1,57 @@
+$video-player-controls-buttons-margin: 2rem !default;
+$video-player-controls-buttons-width: 2rem !default;
+$video-player-controls-buttons-height: 2rem !default;
+$video-player-controls-height: 5rem !default;
+$video-player-controls-bg-color: #000 !default;
+$video-player-controls-timer-color: #fff !default;
+$video-player-controls-timer-width: 4rem !default;
+$video-player-controls-timer-font-size: 1.5rem !default;
+
+.VideoControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $video-player-controls-height;
+  background-color: $video-player-controls-bg-color;
+  z-index: 1;
+  box-sizing: border-box;
+
+  &-button {
+    width: $video-player-controls-buttons-width;
+    height: $video-player-controls-buttons-height;
+    margin-left: $video-player-controls-buttons-margin;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+    text-align: inherit;
+    letter-spacing: inherit;
+    font-size: inherit;
+    text-transform: inherit;
+    color: inherit;
+    outline: none;
+
+    &:first-of-type {
+      margin-right: $video-player-controls-buttons-margin;
+    }
+
+    &:last-of-type {
+      margin-right: $video-player-controls-buttons-margin;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &-time {
+    width: $video-player-controls-timer-width;
+    color: $video-player-controls-timer-color;
+    font-size: $video-player-controls-timer-font-size;
+    margin-left: $video-player-controls-buttons-margin;
+  }
+}
