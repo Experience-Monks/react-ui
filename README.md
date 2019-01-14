@@ -20,13 +20,13 @@ import React from 'react';
 import { BaseLink } from '@jam3/react-ui';
 ```
 
-For more information, please refer to Usage in our documentation.
+For more information, please refer to [Usage](USAGE.md) in our documentation.
 
 ## Contributing
-Please make sure to read the contributing guide before making a pull request.
+Please make sure to read the [contributing guide](CONTRIBUTING.md) before making a pull request.
 
 ## Changelog
-Detailed changes for each release are documented in the release notes.
+Detailed changes for each release are documented in the [release notes](CHANGELOG.md).
 
 ## Licence
 @jam3/react-ui is open source and released under the MIT Licence.
