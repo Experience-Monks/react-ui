@@ -2,6 +2,9 @@
 
 Repository for public react components in Jam3. These components are used out of the box in the [Jam3 SPA Generator](https://github.com/Jam3/nyg-jam3)
 
+## Component Library
+https://jam3.github.io/react-ui/
+
 ## Installation
 
 @Jam3/React-UI is available as an npm package
