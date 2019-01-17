@@ -1,5 +1,5 @@
 {
-  "name": "public-react-ui",
+  "name": "@jam3/react-ui",
   "version": "1.0.1",
   "description": "React components that follow Jam3 standards",
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jam3/public-react-ui.git"
+    "url": "git+https://github.com/Jam3/react-ui.git"
   },
   "keywords": [
     "react",
@@ -26,9 +26,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jam3/public-react-ui/issues"
+    "url": "https://github.com/Jam3/react-ui/issues"
   },
-  "homepage": "https://github.com/Jam3/public-react-ui#readme",
+  "homepage": "https://github.com/Jam3/react-ui#readme",
   "dependencies": {
     "@jam3/react-check-extra-props": "^1.0.0",
     "bowser": "^2.0.0-beta.3",
