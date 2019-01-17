@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-import checkProps from '../../util/check-props';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './CloseButton.css';
 

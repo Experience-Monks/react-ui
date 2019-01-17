@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './BaseLink.css';
-
-import checkProps from '../../util/check-props';
 
 const excludes = ['children', 'download', 'target', 'rel', 'link'];
 

@@ -178,26 +178,6 @@ function _possibleConstructorReturn(self, call) {
   return _assertThisInitialized(self);
 }
 
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-}
-
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -3142,6 +3122,60 @@ var classnames = createCommonjsModule(function (module) {
 }());
 });
 
+/**
+ * Return properties that are present in the source Object, but not in the valid Object and are not ignored
+ *
+ * @param {Object} srcProps Source Properties
+ * @param {Object} validProps List of Valid Properties
+ * @param {Array} ignoreProps List of Properties to ignore, even if they are not valid
+ * @returns Array with exclude properties
+ */
+function excludeFilter(srcProps = {}, validProps = {}, ignoreProps = []) {
+  return Object.keys(srcProps).filter(prop => !validProps.hasOwnProperty(prop) && ignoreProps.indexOf(prop) === -1);
+}
+
+var excludeFilter_1 = excludeFilter;
+
+const BASE_IGNORE_LIST = [
+  'children',
+  'history',
+  'location',
+  'params',
+  'route',
+  'routes',
+  'routeParams',
+  'context',
+  'slug',
+  'fn',
+  'match',
+  'staticContext'
+];
+
+/**
+ * Check if there are unused properties or properties that were not set
+ *
+ * @export
+ * @param {any} propTypes
+ * @param {any} [ignoreData=[]]
+ * @returns {Boolean}
+ */
+function extraPropertiesChecker(propTypes = {}, ignoreData = []) {
+  const ignoreList = BASE_IGNORE_LIST.concat(ignoreData);
+
+  return {
+    ...propTypes,
+    fn: function(props, self, componentName) {
+      const unspecifiedProps = excludeFilter_1(props, propTypes, ignoreList);
+
+      if (unspecifiedProps.length) {
+        console.warn(`Component ${componentName} has unspecified props: ${unspecifiedProps.join(', ')}`);
+      }
+    }
+  };
+}
+
+var src = extraPropertiesChecker;
+
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
   var insertAt = ref.insertAt;
@@ -3172,30 +3206,6 @@ function styleInject(css, ref) {
 var css = ".BaseLink {\n  display: inline-block; }\n";
 styleInject(css);
 
-/**
- * Check if there are unused properties or properties that were not set
- *
- * @export
- * @param {any} propTypes
- * @param {any} [ignoreData=[]]
- * @returns {Boolean}
- */
-function checkProps (propTypes) {
-  var ignoreData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  var ignoreList = ['children', 'history', 'location', 'params', 'route', 'routes', 'routeParams', 'context', 'slug', 'fn', 'match', 'staticContext'].concat(_toConsumableArray(ignoreData));
-  return _objectSpread({}, propTypes, {
-    fn: function fn(props, self, componentName) {
-      var unspecifiedProps = Object.keys(props).filter(function (prop) {
-        return !propTypes.hasOwnProperty(prop) && ignoreList.indexOf(prop) === -1;
-      });
-
-      if (unspecifiedProps.length) {
-        console.warn("Component ".concat(componentName, " has unspecified props: ").concat(unspecifiedProps.join(', ')));
-      }
-    }
-  });
-}
-
 var excludes = ['children', 'download', 'target', 'rel', 'link'];
 var externalLinkRegex = /^(https:\/\/|http:\/\/|www\.|tel:|mailto:)/;
 var externalSiteRegex = /^(https:\/\/|http:\/\/|www\.)/;
@@ -3203,7 +3213,7 @@ var BaseLink = React__default.forwardRef(function (props, ref) {
   var Tag = externalLinkRegex.test(props.link) || props.download ? 'a' : Link; // clean props
 
   var componentProps = Object.keys(props).reduce(function (acc, key) {
-    return [].concat(excludes).indexOf(key) > -1 ? acc : _objectSpread({}, acc, _defineProperty({}, key, props[key]));
+    return excludes.concat().indexOf(key) > -1 ? acc : _objectSpread({}, acc, _defineProperty({}, key, props[key]));
   }, {});
 
   if (Tag === 'a') {
@@ -3227,7 +3237,7 @@ var BaseLink = React__default.forwardRef(function (props, ref) {
     className: classnames('BaseLink', props.className)
   }, componentProps), props.children);
 });
-BaseLink.propTypes = checkProps({
+BaseLink.propTypes = src({
   className: propTypes.string,
   rel: propTypes.string,
   link: propTypes.string,
@@ -3287,7 +3297,7 @@ function (_React$PureComponent) {
 
   return BaseButton;
 }(React__default.PureComponent);
-BaseButton.propTypes = checkProps({
+BaseButton.propTypes = src({
   style: propTypes.object,
   className: propTypes.string,
   nodeRef: propTypes.func,
@@ -3347,7 +3357,7 @@ function (_React$PureComponent) {
 
   return CloseButton;
 }(React__default.PureComponent);
-CloseButton.propTypes = checkProps({
+CloseButton.propTypes = src({
   style: propTypes.object,
   className: propTypes.string,
   nodeRef: propTypes.func,
@@ -3398,7 +3408,7 @@ var Footer = React__default.forwardRef(function (props, ref) {
     className: "footer-copyright"
   }, props.copyright));
 });
-Footer.propTypes = checkProps({
+Footer.propTypes = src({
   className: propTypes.string,
   links: propTypes.arrayOf(propTypes.shape({
     text: propTypes.string,
@@ -3458,7 +3468,7 @@ function (_PureComponent) {
 
   return HamburgerButton;
 }(React.PureComponent);
-HamburgerButton.propTypes = checkProps({
+HamburgerButton.propTypes = src({
   className: propTypes.string,
   tabIndex: propTypes.number,
   currentState: propTypes.string,
@@ -3551,7 +3561,7 @@ function (_React$PureComponent) {
   return HamburgerMenu;
 }(React__default.PureComponent);
 
-HamburgerMenu.propTypes = checkProps({
+HamburgerMenu.propTypes = src({
   className: propTypes.string,
   links: propTypes.arrayOf(propTypes.shape({
     text: propTypes.string,
@@ -3654,7 +3664,7 @@ function (_React$PureComponent) {
   return MainTopNav;
 }(React__default.PureComponent);
 
-MainTopNav.propTypes = checkProps({
+MainTopNav.propTypes = src({
   className: propTypes.string,
   logoSrc: propTypes.string,
   ariaSiteTitle: propTypes.string,
@@ -3685,628 +3695,12 @@ var MainTopNav$1 = withRouter(MainTopNav);
 var css$6 = ".RotateScreen {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #000; }\n  .RotateScreen .container {\n    text-align: center; }\n    .RotateScreen .container .rotate-text {\n      color: #fff;\n      font-size: 1.6rem; }\n    .RotateScreen .container .rotate-icon {\n      width: 10rem; }\n";
 styleInject(css$6);
 
-var bowser = createCommonjsModule(function (module) {
-/*!
- * Bowser - a browser detector
- * https://github.com/ded/bowser
- * MIT License | (c) Dustin Diaz 2015
- */
-
-!function (root, name, definition) {
-  if (module.exports) module.exports = definition();
-  else if (typeof undefined == 'function' && undefined.amd) undefined(name, definition);
-  else root[name] = definition();
-}(commonjsGlobal, 'bowser', function () {
-  /**
-    * See useragents.js for examples of navigator.userAgent
-    */
-
-  var t = true;
-
-  function detect(ua) {
-
-    function getFirstMatch(regex) {
-      var match = ua.match(regex);
-      return (match && match.length > 1 && match[1]) || '';
-    }
-
-    function getSecondMatch(regex) {
-      var match = ua.match(regex);
-      return (match && match.length > 1 && match[2]) || '';
-    }
-
-    var iosdevice = getFirstMatch(/(ipod|iphone|ipad)/i).toLowerCase()
-      , likeAndroid = /like android/i.test(ua)
-      , android = !likeAndroid && /android/i.test(ua)
-      , nexusMobile = /nexus\s*[0-6]\s*/i.test(ua)
-      , nexusTablet = !nexusMobile && /nexus\s*[0-9]+/i.test(ua)
-      , chromeos = /CrOS/.test(ua)
-      , silk = /silk/i.test(ua)
-      , sailfish = /sailfish/i.test(ua)
-      , tizen = /tizen/i.test(ua)
-      , webos = /(web|hpw)os/i.test(ua)
-      , windowsphone = /windows phone/i.test(ua)
-      , samsungBrowser = /SamsungBrowser/i.test(ua)
-      , windows = !windowsphone && /windows/i.test(ua)
-      , mac = !iosdevice && !silk && /macintosh/i.test(ua)
-      , linux = !android && !sailfish && !tizen && !webos && /linux/i.test(ua)
-      , edgeVersion = getSecondMatch(/edg([ea]|ios)\/(\d+(\.\d+)?)/i)
-      , versionIdentifier = getFirstMatch(/version\/(\d+(\.\d+)?)/i)
-      , tablet = /tablet/i.test(ua) && !/tablet pc/i.test(ua)
-      , mobile = !tablet && /[^-]mobi/i.test(ua)
-      , xbox = /xbox/i.test(ua)
-      , result;
-
-    if (/opera/i.test(ua)) {
-      //  an old Opera
-      result = {
-        name: 'Opera'
-      , opera: t
-      , version: versionIdentifier || getFirstMatch(/(?:opera|opr|opios)[\s\/](\d+(\.\d+)?)/i)
-      };
-    } else if (/opr\/|opios/i.test(ua)) {
-      // a new Opera
-      result = {
-        name: 'Opera'
-        , opera: t
-        , version: getFirstMatch(/(?:opr|opios)[\s\/](\d+(\.\d+)?)/i) || versionIdentifier
-      };
-    }
-    else if (/SamsungBrowser/i.test(ua)) {
-      result = {
-        name: 'Samsung Internet for Android'
-        , samsungBrowser: t
-        , version: versionIdentifier || getFirstMatch(/(?:SamsungBrowser)[\s\/](\d+(\.\d+)?)/i)
-      };
-    }
-    else if (/coast/i.test(ua)) {
-      result = {
-        name: 'Opera Coast'
-        , coast: t
-        , version: versionIdentifier || getFirstMatch(/(?:coast)[\s\/](\d+(\.\d+)?)/i)
-      };
-    }
-    else if (/yabrowser/i.test(ua)) {
-      result = {
-        name: 'Yandex Browser'
-      , yandexbrowser: t
-      , version: versionIdentifier || getFirstMatch(/(?:yabrowser)[\s\/](\d+(\.\d+)?)/i)
-      };
-    }
-    else if (/ucbrowser/i.test(ua)) {
-      result = {
-          name: 'UC Browser'
-        , ucbrowser: t
-        , version: getFirstMatch(/(?:ucbrowser)[\s\/](\d+(?:\.\d+)+)/i)
-      };
-    }
-    else if (/mxios/i.test(ua)) {
-      result = {
-        name: 'Maxthon'
-        , maxthon: t
-        , version: getFirstMatch(/(?:mxios)[\s\/](\d+(?:\.\d+)+)/i)
-      };
-    }
-    else if (/epiphany/i.test(ua)) {
-      result = {
-        name: 'Epiphany'
-        , epiphany: t
-        , version: getFirstMatch(/(?:epiphany)[\s\/](\d+(?:\.\d+)+)/i)
-      };
-    }
-    else if (/puffin/i.test(ua)) {
-      result = {
-        name: 'Puffin'
-        , puffin: t
-        , version: getFirstMatch(/(?:puffin)[\s\/](\d+(?:\.\d+)?)/i)
-      };
-    }
-    else if (/sleipnir/i.test(ua)) {
-      result = {
-        name: 'Sleipnir'
-        , sleipnir: t
-        , version: getFirstMatch(/(?:sleipnir)[\s\/](\d+(?:\.\d+)+)/i)
-      };
-    }
-    else if (/k-meleon/i.test(ua)) {
-      result = {
-        name: 'K-Meleon'
-        , kMeleon: t
-        , version: getFirstMatch(/(?:k-meleon)[\s\/](\d+(?:\.\d+)+)/i)
-      };
-    }
-    else if (windowsphone) {
-      result = {
-        name: 'Windows Phone'
-      , osname: 'Windows Phone'
-      , windowsphone: t
-      };
-      if (edgeVersion) {
-        result.msedge = t;
-        result.version = edgeVersion;
-      }
-      else {
-        result.msie = t;
-        result.version = getFirstMatch(/iemobile\/(\d+(\.\d+)?)/i);
-      }
-    }
-    else if (/msie|trident/i.test(ua)) {
-      result = {
-        name: 'Internet Explorer'
-      , msie: t
-      , version: getFirstMatch(/(?:msie |rv:)(\d+(\.\d+)?)/i)
-      };
-    } else if (chromeos) {
-      result = {
-        name: 'Chrome'
-      , osname: 'Chrome OS'
-      , chromeos: t
-      , chromeBook: t
-      , chrome: t
-      , version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
-      };
-    } else if (/edg([ea]|ios)/i.test(ua)) {
-      result = {
-        name: 'Microsoft Edge'
-      , msedge: t
-      , version: edgeVersion
-      };
-    }
-    else if (/vivaldi/i.test(ua)) {
-      result = {
-        name: 'Vivaldi'
-        , vivaldi: t
-        , version: getFirstMatch(/vivaldi\/(\d+(\.\d+)?)/i) || versionIdentifier
-      };
-    }
-    else if (sailfish) {
-      result = {
-        name: 'Sailfish'
-      , osname: 'Sailfish OS'
-      , sailfish: t
-      , version: getFirstMatch(/sailfish\s?browser\/(\d+(\.\d+)?)/i)
-      };
-    }
-    else if (/seamonkey\//i.test(ua)) {
-      result = {
-        name: 'SeaMonkey'
-      , seamonkey: t
-      , version: getFirstMatch(/seamonkey\/(\d+(\.\d+)?)/i)
-      };
-    }
-    else if (/firefox|iceweasel|fxios/i.test(ua)) {
-      result = {
-        name: 'Firefox'
-      , firefox: t
-      , version: getFirstMatch(/(?:firefox|iceweasel|fxios)[ \/](\d+(\.\d+)?)/i)
-      };
-      if (/\((mobile|tablet);[^\)]*rv:[\d\.]+\)/i.test(ua)) {
-        result.firefoxos = t;
-        result.osname = 'Firefox OS';
-      }
-    }
-    else if (silk) {
-      result =  {
-        name: 'Amazon Silk'
-      , silk: t
-      , version : getFirstMatch(/silk\/(\d+(\.\d+)?)/i)
-      };
-    }
-    else if (/phantom/i.test(ua)) {
-      result = {
-        name: 'PhantomJS'
-      , phantom: t
-      , version: getFirstMatch(/phantomjs\/(\d+(\.\d+)?)/i)
-      };
-    }
-    else if (/slimerjs/i.test(ua)) {
-      result = {
-        name: 'SlimerJS'
-        , slimer: t
-        , version: getFirstMatch(/slimerjs\/(\d+(\.\d+)?)/i)
-      };
-    }
-    else if (/blackberry|\bbb\d+/i.test(ua) || /rim\stablet/i.test(ua)) {
-      result = {
-        name: 'BlackBerry'
-      , osname: 'BlackBerry OS'
-      , blackberry: t
-      , version: versionIdentifier || getFirstMatch(/blackberry[\d]+\/(\d+(\.\d+)?)/i)
-      };
-    }
-    else if (webos) {
-      result = {
-        name: 'WebOS'
-      , osname: 'WebOS'
-      , webos: t
-      , version: versionIdentifier || getFirstMatch(/w(?:eb)?osbrowser\/(\d+(\.\d+)?)/i)
-      };
-      /touchpad\//i.test(ua) && (result.touchpad = t);
-    }
-    else if (/bada/i.test(ua)) {
-      result = {
-        name: 'Bada'
-      , osname: 'Bada'
-      , bada: t
-      , version: getFirstMatch(/dolfin\/(\d+(\.\d+)?)/i)
-      };
-    }
-    else if (tizen) {
-      result = {
-        name: 'Tizen'
-      , osname: 'Tizen'
-      , tizen: t
-      , version: getFirstMatch(/(?:tizen\s?)?browser\/(\d+(\.\d+)?)/i) || versionIdentifier
-      };
-    }
-    else if (/qupzilla/i.test(ua)) {
-      result = {
-        name: 'QupZilla'
-        , qupzilla: t
-        , version: getFirstMatch(/(?:qupzilla)[\s\/](\d+(?:\.\d+)+)/i) || versionIdentifier
-      };
-    }
-    else if (/chromium/i.test(ua)) {
-      result = {
-        name: 'Chromium'
-        , chromium: t
-        , version: getFirstMatch(/(?:chromium)[\s\/](\d+(?:\.\d+)?)/i) || versionIdentifier
-      };
-    }
-    else if (/chrome|crios|crmo/i.test(ua)) {
-      result = {
-        name: 'Chrome'
-        , chrome: t
-        , version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
-      };
-    }
-    else if (android) {
-      result = {
-        name: 'Android'
-        , version: versionIdentifier
-      };
-    }
-    else if (/safari|applewebkit/i.test(ua)) {
-      result = {
-        name: 'Safari'
-      , safari: t
-      };
-      if (versionIdentifier) {
-        result.version = versionIdentifier;
-      }
-    }
-    else if (iosdevice) {
-      result = {
-        name : iosdevice == 'iphone' ? 'iPhone' : iosdevice == 'ipad' ? 'iPad' : 'iPod'
-      };
-      // WTF: version is not part of user agent in web apps
-      if (versionIdentifier) {
-        result.version = versionIdentifier;
-      }
-    }
-    else if(/googlebot/i.test(ua)) {
-      result = {
-        name: 'Googlebot'
-      , googlebot: t
-      , version: getFirstMatch(/googlebot\/(\d+(\.\d+))/i) || versionIdentifier
-      };
-    }
-    else {
-      result = {
-        name: getFirstMatch(/^(.*)\/(.*) /),
-        version: getSecondMatch(/^(.*)\/(.*) /)
-     };
-   }
-
-    // set webkit or gecko flag for browsers based on these engines
-    if (!result.msedge && /(apple)?webkit/i.test(ua)) {
-      if (/(apple)?webkit\/537\.36/i.test(ua)) {
-        result.name = result.name || "Blink";
-        result.blink = t;
-      } else {
-        result.name = result.name || "Webkit";
-        result.webkit = t;
-      }
-      if (!result.version && versionIdentifier) {
-        result.version = versionIdentifier;
-      }
-    } else if (!result.opera && /gecko\//i.test(ua)) {
-      result.name = result.name || "Gecko";
-      result.gecko = t;
-      result.version = result.version || getFirstMatch(/gecko\/(\d+(\.\d+)?)/i);
-    }
-
-    // set OS flags for platforms that have multiple browsers
-    if (!result.windowsphone && (android || result.silk)) {
-      result.android = t;
-      result.osname = 'Android';
-    } else if (!result.windowsphone && iosdevice) {
-      result[iosdevice] = t;
-      result.ios = t;
-      result.osname = 'iOS';
-    } else if (mac) {
-      result.mac = t;
-      result.osname = 'macOS';
-    } else if (xbox) {
-      result.xbox = t;
-      result.osname = 'Xbox';
-    } else if (windows) {
-      result.windows = t;
-      result.osname = 'Windows';
-    } else if (linux) {
-      result.linux = t;
-      result.osname = 'Linux';
-    }
-
-    function getWindowsVersion (s) {
-      switch (s) {
-        case 'NT': return 'NT'
-        case 'XP': return 'XP'
-        case 'NT 5.0': return '2000'
-        case 'NT 5.1': return 'XP'
-        case 'NT 5.2': return '2003'
-        case 'NT 6.0': return 'Vista'
-        case 'NT 6.1': return '7'
-        case 'NT 6.2': return '8'
-        case 'NT 6.3': return '8.1'
-        case 'NT 10.0': return '10'
-        default: return undefined
-      }
-    }
-
-    // OS version extraction
-    var osVersion = '';
-    if (result.windows) {
-      osVersion = getWindowsVersion(getFirstMatch(/Windows ((NT|XP)( \d\d?.\d)?)/i));
-    } else if (result.windowsphone) {
-      osVersion = getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i);
-    } else if (result.mac) {
-      osVersion = getFirstMatch(/Mac OS X (\d+([_\.\s]\d+)*)/i);
-      osVersion = osVersion.replace(/[_\s]/g, '.');
-    } else if (iosdevice) {
-      osVersion = getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i);
-      osVersion = osVersion.replace(/[_\s]/g, '.');
-    } else if (android) {
-      osVersion = getFirstMatch(/android[ \/-](\d+(\.\d+)*)/i);
-    } else if (result.webos) {
-      osVersion = getFirstMatch(/(?:web|hpw)os\/(\d+(\.\d+)*)/i);
-    } else if (result.blackberry) {
-      osVersion = getFirstMatch(/rim\stablet\sos\s(\d+(\.\d+)*)/i);
-    } else if (result.bada) {
-      osVersion = getFirstMatch(/bada\/(\d+(\.\d+)*)/i);
-    } else if (result.tizen) {
-      osVersion = getFirstMatch(/tizen[\/\s](\d+(\.\d+)*)/i);
-    }
-    if (osVersion) {
-      result.osversion = osVersion;
-    }
-
-    // device type extraction
-    var osMajorVersion = !result.windows && osVersion.split('.')[0];
-    if (
-         tablet
-      || nexusTablet
-      || iosdevice == 'ipad'
-      || (android && (osMajorVersion == 3 || (osMajorVersion >= 4 && !mobile)))
-      || result.silk
-    ) {
-      result.tablet = t;
-    } else if (
-         mobile
-      || iosdevice == 'iphone'
-      || iosdevice == 'ipod'
-      || android
-      || nexusMobile
-      || result.blackberry
-      || result.webos
-      || result.bada
-    ) {
-      result.mobile = t;
-    }
-
-    // Graded Browser Support
-    // http://developer.yahoo.com/yui/articles/gbs
-    if (result.msedge ||
-        (result.msie && result.version >= 10) ||
-        (result.yandexbrowser && result.version >= 15) ||
-		    (result.vivaldi && result.version >= 1.0) ||
-        (result.chrome && result.version >= 20) ||
-        (result.samsungBrowser && result.version >= 4) ||
-        (result.firefox && result.version >= 20.0) ||
-        (result.safari && result.version >= 6) ||
-        (result.opera && result.version >= 10.0) ||
-        (result.ios && result.osversion && result.osversion.split(".")[0] >= 6) ||
-        (result.blackberry && result.version >= 10.1)
-        || (result.chromium && result.version >= 20)
-        ) {
-      result.a = t;
-    }
-    else if ((result.msie && result.version < 10) ||
-        (result.chrome && result.version < 20) ||
-        (result.firefox && result.version < 20.0) ||
-        (result.safari && result.version < 6) ||
-        (result.opera && result.version < 10.0) ||
-        (result.ios && result.osversion && result.osversion.split(".")[0] < 6)
-        || (result.chromium && result.version < 20)
-        ) {
-      result.c = t;
-    } else result.x = t;
-
-    return result
-  }
-
-  var bowser = detect(typeof navigator !== 'undefined' ? navigator.userAgent || '' : '');
-
-  bowser.test = function (browserList) {
-    for (var i = 0; i < browserList.length; ++i) {
-      var browserItem = browserList[i];
-      if (typeof browserItem=== 'string') {
-        if (browserItem in bowser) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
-
-  /**
-   * Get version precisions count
-   *
-   * @example
-   *   getVersionPrecision("1.10.3") // 3
-   *
-   * @param  {string} version
-   * @return {number}
-   */
-  function getVersionPrecision(version) {
-    return version.split(".").length;
-  }
-
-  /**
-   * Array::map polyfill
-   *
-   * @param  {Array} arr
-   * @param  {Function} iterator
-   * @return {Array}
-   */
-  function map(arr, iterator) {
-    var result = [], i;
-    if (Array.prototype.map) {
-      return Array.prototype.map.call(arr, iterator);
-    }
-    for (i = 0; i < arr.length; i++) {
-      result.push(iterator(arr[i]));
-    }
-    return result;
-  }
-
-  /**
-   * Calculate browser version weight
-   *
-   * @example
-   *   compareVersions(['1.10.2.1',  '1.8.2.1.90'])    // 1
-   *   compareVersions(['1.010.2.1', '1.09.2.1.90']);  // 1
-   *   compareVersions(['1.10.2.1',  '1.10.2.1']);     // 0
-   *   compareVersions(['1.10.2.1',  '1.0800.2']);     // -1
-   *
-   * @param  {Array<String>} versions versions to compare
-   * @return {Number} comparison result
-   */
-  function compareVersions(versions) {
-    // 1) get common precision for both versions, for example for "10.0" and "9" it should be 2
-    var precision = Math.max(getVersionPrecision(versions[0]), getVersionPrecision(versions[1]));
-    var chunks = map(versions, function (version) {
-      var delta = precision - getVersionPrecision(version);
-
-      // 2) "9" -> "9.0" (for precision = 2)
-      version = version + new Array(delta + 1).join(".0");
-
-      // 3) "9.0" -> ["000000000"", "000000009"]
-      return map(version.split("."), function (chunk) {
-        return new Array(20 - chunk.length).join("0") + chunk;
-      }).reverse();
-    });
-
-    // iterate in reverse order by reversed chunks array
-    while (--precision >= 0) {
-      // 4) compare: "000000009" > "000000010" = false (but "9" > "10" = true)
-      if (chunks[0][precision] > chunks[1][precision]) {
-        return 1;
-      }
-      else if (chunks[0][precision] === chunks[1][precision]) {
-        if (precision === 0) {
-          // all version chunks are same
-          return 0;
-        }
-      }
-      else {
-        return -1;
-      }
-    }
-  }
-
-  /**
-   * Check if browser is unsupported
-   *
-   * @example
-   *   bowser.isUnsupportedBrowser({
-   *     msie: "10",
-   *     firefox: "23",
-   *     chrome: "29",
-   *     safari: "5.1",
-   *     opera: "16",
-   *     phantom: "534"
-   *   });
-   *
-   * @param  {Object}  minVersions map of minimal version to browser
-   * @param  {Boolean} [strictMode = false] flag to return false if browser wasn't found in map
-   * @param  {String}  [ua] user agent string
-   * @return {Boolean}
-   */
-  function isUnsupportedBrowser(minVersions, strictMode, ua) {
-    var _bowser = bowser;
-
-    // make strictMode param optional with ua param usage
-    if (typeof strictMode === 'string') {
-      ua = strictMode;
-      strictMode = void(0);
-    }
-
-    if (strictMode === void(0)) {
-      strictMode = false;
-    }
-    if (ua) {
-      _bowser = detect(ua);
-    }
-
-    var version = "" + _bowser.version;
-    for (var browser in minVersions) {
-      if (minVersions.hasOwnProperty(browser)) {
-        if (_bowser[browser]) {
-          if (typeof minVersions[browser] !== 'string') {
-            throw new Error('Browser version in the minVersion map should be a string: ' + browser + ': ' + String(minVersions));
-          }
-
-          // browser version and min supported version.
-          return compareVersions([version, minVersions[browser]]) < 0;
-        }
-      }
-    }
-
-    return strictMode; // not found
-  }
-
-  /**
-   * Check if browser is supported
-   *
-   * @param  {Object} minVersions map of minimal version to browser
-   * @param  {Boolean} [strictMode = false] flag to return false if browser wasn't found in map
-   * @param  {String}  [ua] user agent string
-   * @return {Boolean}
-   */
-  function check(minVersions, strictMode, ua) {
-    return !isUnsupportedBrowser(minVersions, strictMode, ua);
-  }
-
-  bowser.isUnsupportedBrowser = isUnsupportedBrowser;
-  bowser.compareVersions = compareVersions;
-  bowser.check = check;
-
-  /*
-   * Set our detect method to the main bowser object so we can
-   * reuse it to test other user agents.
-   * This is needed to implement future tests.
-   */
-  bowser._detect = detect;
-
-  /*
-   * Set our detect public method to the main bowser object
-   * This is needed to implement bowser in server side
-   */
-  bowser.detect = detect;
-  return bowser
+var es5 = createCommonjsModule(function (module, exports) {
+!function(e,t){module.exports=t();}(commonjsGlobal,function(){return function(e){var t={};function r(n){if(t[n])return t[n].exports;var i=t[n]={i:n,l:!1,exports:{}};return e[n].call(i.exports,i,i.exports,r),i.l=!0,i.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)r.d(n,i,function(t){return e[t]}.bind(null,i));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=70)}({18:function(e,t,r){var n,i,s;i=[e],void 0===(s="function"==typeof(n=function(e){var t=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),r=function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e);}return t(e,null,[{key:"getFirstMatch",value:function(e,t){var r=t.match(e);return r&&r.length>0&&r[1]||""}},{key:"getSecondMatch",value:function(e,t){var r=t.match(e);return r&&r.length>1&&r[2]||""}},{key:"matchAndReturnConst",value:function(e,t,r){if(e.test(t))return r}},{key:"getWindowsVersionName",value:function(e){switch(e){case"NT":return "NT";case"XP":return "XP";case"NT 5.0":return "2000";case"NT 5.1":return "XP";case"NT 5.2":return "2003";case"NT 6.0":return "Vista";case"NT 6.1":return "7";case"NT 6.2":return "8";case"NT 6.3":return "8.1";case"NT 10.0":return "10";default:return}}},{key:"getVersionPrecision",value:function(e){return e.split(".").length}},{key:"compareVersions",value:function(t,r){var n=arguments.length>2&&void 0!==arguments[2]&&arguments[2],i=e.getVersionPrecision(t),s=e.getVersionPrecision(r),o=Math.max(i,s),a=0,u=e.map([t,r],function(t){var r=o-e.getVersionPrecision(t),n=t+new Array(r+1).join(".0");return e.map(n.split("."),function(e){return new Array(20-e.length).join("0")+e}).reverse()});for(n&&(a=o-Math.min(i,s)),o-=1;o>=a;){if(u[0][o]>u[1][o])return 1;if(u[0][o]===u[1][o]){if(o===a)return 0;o-=1;}else if(u[0][o]<u[1][o])return -1}}},{key:"map",value:function(e,t){var r=[],n=void 0;if(Array.prototype.map)return Array.prototype.map.call(e,t);for(n=0;n<e.length;n+=1)r.push(t(e[n]));return r}}]),e}();e.exports=r;})?n.apply(t,i):n)||(e.exports=s);},65:function(e,t,r){var n,i,s;i=[t,r(18)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0}),t.default=[{test:function(e){return "microsoft edge"===e.getBrowserName(!0)},describe:function(e){var t=(0, r.getFirstMatch)(/edge\/(\d+(\.?_?\d+)+)/i,e);return {name:"EdgeHTML",version:t}}},{test:[/trident/i],describe:function(e){var t={name:"Trident"},n=(0, r.getFirstMatch)(/trident\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:function(e){return e.test(/presto/i)},describe:function(e){var t={name:"Presto"},n=(0, r.getFirstMatch)(/presto\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:function(e){var t=e.test(/gecko/i),r=e.test(/like gecko/i);return t&&!r},describe:function(e){var t={name:"Gecko"},n=(0, r.getFirstMatch)(/gecko\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/(apple)?webkit\/537\.36/i],describe:function(){return {name:"Blink"}}},{test:[/(apple)?webkit/i],describe:function(e){var t={name:"WebKit"},n=(0, r.getFirstMatch)(/webkit\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}}],e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},66:function(e,t,r){var n,i,s;i=[t,r(18)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0});var n={tablet:"tablet",mobile:"mobile",desktop:"desktop"};t.default=[{test:[/nexus\s*(?:7|8|9|10).*/i],describe:function(){return {type:n.tablet,vendor:"Nexus"}}},{test:[/ipad/i],describe:function(){return {type:n.tablet,vendor:"Apple",model:"iPad"}}},{test:[/kftt build/i],describe:function(){return {type:n.tablet,vendor:"Amazon",model:"Kindle Fire HD 7"}}},{test:[/silk/i],describe:function(){return {type:n.tablet,vendor:"Amazon"}}},{test:[/tablet/i],describe:function(){return {type:n.tablet}}},{test:function(e){var t=e.test(/ipod|iphone/i),r=e.test(/like (ipod|iphone)/i);return t&&!r},describe:function(e){var t=(0, r.getFirstMatch)(/(ipod|iphone)/i,e);return {type:n.mobile,vendor:"Apple",model:t}}},{test:[/nexus\s*[0-6].*/i,/galaxy nexus/i],describe:function(){return {type:n.mobile,vendor:"Nexus"}}},{test:[/[^-]mobi/i],describe:function(){return {type:n.mobile}}},{test:function(e){return "blackberry"===e.getBrowserName(!0)},describe:function(){return {type:n.mobile,vendor:"BlackBerry"}}},{test:function(e){return "bada"===e.getBrowserName(!0)},describe:function(){return {type:n.mobile}}},{test:function(e){return "windows phone"===e.getBrowserName()},describe:function(){return {type:n.mobile,vendor:"Microsoft"}}},{test:function(e){var t=Number(String(e.getOSVersion()).split(".")[0]);return "android"===e.getOSName(!0)&&t>=3},describe:function(){return {type:n.tablet}}},{test:function(e){return "android"===e.getOSName(!0)},describe:function(){return {type:n.mobile}}},{test:function(e){return "macos"===e.getOSName(!0)},describe:function(){return {type:n.desktop,vendor:"Apple"}}},{test:function(e){return "windows"===e.getOSName(!0)},describe:function(){return {type:n.desktop}}},{test:function(e){return "linux"===e.getOSName(!0)},describe:function(){return {type:n.desktop}}}],e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},67:function(e,t,r){var n,i,s;i=[t,r(18)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0}),t.default=[{test:[/windows phone/i],describe:function(e){var t=(0, r.getFirstMatch)(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i,e);return {name:"Windows Phone",version:t}}},{test:[/windows/i],describe:function(e){var t=(0, r.getFirstMatch)(/Windows ((NT|XP)( \d\d?.\d)?)/i,e),n=(0, r.getWindowsVersionName)(t);return {name:"Windows",version:t,versionName:n}}},{test:[/macintosh/i],describe:function(e){var t=(0, r.getFirstMatch)(/mac os x (\d+(\.?_?\d+)+)/i,e).replace(/[_\s]/g,".");return {name:"macOS",version:t}}},{test:[/(ipod|iphone|ipad)/i],describe:function(e){var t=(0, r.getFirstMatch)(/os (\d+([_\s]\d+)*) like mac os x/i,e).replace(/[_\s]/g,".");return {name:"iOS",version:t}}},{test:function(e){var t=!e.test(/like android/i),r=e.test(/android/i);return t&&r},describe:function(e){var t=(0, r.getFirstMatch)(/android[\s/-](\d+(\.\d+)*)/i,e);return {name:"Android",version:t}}},{test:[/(web|hpw)[o0]s/i],describe:function(e){var t=(0, r.getFirstMatch)(/(?:web|hpw)[o0]s\/(\d+(\.\d+)*)/i,e),n={name:"WebOS"};return t&&t.length&&(n.version=t),n}},{test:[/blackberry|\bbb\d+/i,/rim\stablet/i],describe:function(e){var t=(0, r.getFirstMatch)(/rim\stablet\sos\s(\d+(\.\d+)*)/i,e)||(0, r.getFirstMatch)(/blackberry\d+\/(\d+([_\s]\d+)*)/i,e)||(0, r.getFirstMatch)(/\bbb(\d+)/i,e);return {name:"BlackBerry",version:t}}},{test:[/bada/i],describe:function(e){var t=(0, r.getFirstMatch)(/bada\/(\d+(\.\d+)*)/i,e);return {name:"Bada",version:t}}},{test:[/tizen/i],describe:function(e){var t=(0, r.getFirstMatch)(/tizen[/\s](\d+(\.\d+)*)/i,e);return {name:"Tizen",version:t}}},{test:[/linux/i],describe:function(){return {name:"Linux"}}}],e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},68:function(e,t,r){var n,i,s;i=[t,r(18)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0});var n=/version\/(\d+(\.?_?\d+)+)/i,i=[{test:[/opera/i],describe:function(e){var t={name:"Opera"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:opera)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/opr\/|opios/i],describe:function(e){var t={name:"Opera"},i=(0, r.getFirstMatch)(/(?:opr|opios)[\s/](\S+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/SamsungBrowser/i],describe:function(e){var t={name:"Samsung Internet for Android"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:SamsungBrowser)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/Whale/i],describe:function(e){var t={name:"NAVER Whale Browser"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:whale)[\s/](\d+(?:\.\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/MZBrowser/i],describe:function(e){var t={name:"MZ Browser"},i=(0, r.getFirstMatch)(/(?:MZBrowser)[\s/](\d+(?:\.\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/focus/i],describe:function(e){var t={name:"Focus"},i=(0, r.getFirstMatch)(/(?:focus)[\s/](\d+(?:\.\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/swing/i],describe:function(e){var t={name:"Swing"},i=(0, r.getFirstMatch)(/(?:swing)[\s/](\d+(?:\.\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/coast/i],describe:function(e){var t={name:"Opera Coast"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:coast)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/yabrowser/i],describe:function(e){var t={name:"Yandex Browser"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:yabrowser)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/ucbrowser/i],describe:function(e){var t={name:"UC Browser"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:ucbrowser)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/Maxthon|mxios/i],describe:function(e){var t={name:"Maxthon"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:Maxthon|mxios)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/epiphany/i],describe:function(e){var t={name:"Epiphany"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:epiphany)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/puffin/i],describe:function(e){var t={name:"Puffin"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:puffin)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/sleipnir/i],describe:function(e){var t={name:"Sleipnir"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:sleipnir)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/k-meleon/i],describe:function(e){var t={name:"K-Meleon"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:k-meleon)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/msie|trident/i],describe:function(e){var t={name:"Internet Explorer"},n=(0, r.getFirstMatch)(/(?:msie |rv:)(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/edg([ea]|ios)/i],describe:function(e){var t={name:"Microsoft Edge"},n=(0, r.getSecondMatch)(/edg([ea]|ios)\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/vivaldi/i],describe:function(e){var t={name:"Vivaldi"},n=(0, r.getFirstMatch)(/vivaldi\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/seamonkey/i],describe:function(e){var t={name:"SeaMonkey"},n=(0, r.getFirstMatch)(/seamonkey\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/sailfish/i],describe:function(e){var t={name:"Sailfish"},n=(0, r.getFirstMatch)(/sailfish\s?browser\/(\d+(\.\d+)?)/i,e);return n&&(t.version=n),t}},{test:[/silk/i],describe:function(e){var t={name:"Amazon Silk"},n=(0, r.getFirstMatch)(/silk\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/phantom/i],describe:function(e){var t={name:"PhantomJS"},n=(0, r.getFirstMatch)(/phantomjs\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/slimerjs/i],describe:function(e){var t={name:"SlimerJS"},n=(0, r.getFirstMatch)(/slimerjs\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/blackberry|\bbb\d+/i,/rim\stablet/i],describe:function(e){var t={name:"BlackBerry"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/blackberry[\d]+\/(\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/(web|hpw)[o0]s/i],describe:function(e){var t={name:"WebOS Browser"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/w(?:eb)?[o0]sbrowser\/(\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/bada/i],describe:function(e){var t={name:"Bada"},n=(0, r.getFirstMatch)(/dolfin\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/tizen/i],describe:function(e){var t={name:"Tizen"},i=(0, r.getFirstMatch)(/(?:tizen\s?)?browser\/(\d+(\.?_?\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/qupzilla/i],describe:function(e){var t={name:"QupZilla"},i=(0, r.getFirstMatch)(/(?:qupzilla)[\s/](\d+(\.?_?\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/firefox|iceweasel|fxios/i],describe:function(e){var t={name:"Firefox"},n=(0, r.getFirstMatch)(/(?:firefox|iceweasel|fxios)[\s/](\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/chromium/i],describe:function(e){var t={name:"Chromium"},i=(0, r.getFirstMatch)(/(?:chromium)[\s/](\d+(\.?_?\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/chrome|crios|crmo/i],describe:function(e){var t={name:"Chrome"},n=(0, r.getFirstMatch)(/(?:chrome|crios|crmo)\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:function(e){var t=!e.test(/like android/i),r=e.test(/android/i);return t&&r},describe:function(e){var t={name:"Android Browser"},i=(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/safari|applewebkit/i],describe:function(e){var t={name:"Safari"},i=(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/googlebot/i],describe:function(e){var t={name:"Googlebot"},i=(0, r.getFirstMatch)(/googlebot\/(\d+(\.\d+))/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/.*/i],describe:function(e){return {name:(0, r.getFirstMatch)(/^(.*)\/(.*) /,e),version:(0, r.getSecondMatch)(/^(.*)\/(.*) /,e)}}}];t.default=i,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},69:function(e,t,r){var n,i,s;i=[t,r(68),r(67),r(66),r(65),r(18)],void 0===(s="function"==typeof(n=function(t,r,n,i,s,o){Object.defineProperty(t,"__esModule",{value:!0});var a=f(r),u=f(n),c=f(i),d=f(s);function f(e){return e&&e.__esModule?e:{default:e}}var l="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},v=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),p=function(){function e(t){var r=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if(function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),void 0===t||null===t||""===t)throw new Error("UserAgent parameter can't be empty");this._ua=t,this.parsedResult={},!0!==r&&this.parse();}return v(e,[{key:"getUA",value:function(){return this._ua}},{key:"test",value:function(e){return e.test(this._ua)}},{key:"parseBrowser",value:function(){var e=this;this.parsedResult.browser={};var t=a.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.browser=t.describe(this.getUA())),this.parsedResult.browser}},{key:"getBrowser",value:function(){return this.parsedResult.browser?this.parsedResult.browser:this.parseBrowser()}},{key:"getBrowserName",value:function(e){return e?String(this.getBrowser().name).toLowerCase()||"":this.getBrowser().name||""}},{key:"getBrowserVersion",value:function(){return this.getBrowser().version}},{key:"getOS",value:function(){return this.parsedResult.os?this.parsedResult.os:this.parseOS()}},{key:"parseOS",value:function(){var e=this;this.parsedResult.os={};var t=u.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.os=t.describe(this.getUA())),this.parsedResult.os}},{key:"getOSName",value:function(e){var t=this.getOS(),r=t.name;return e?String(r).toLowerCase()||"":r||""}},{key:"getOSVersion",value:function(){return this.getOS().version}},{key:"getPlatform",value:function(){return this.parsedResult.platform?this.parsedResult.platform:this.parsePlatform()}},{key:"getPlatformType",value:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0],t=this.getPlatform(),r=t.type;return e?String(r).toLowerCase()||"":r||""}},{key:"parsePlatform",value:function(){var e=this;this.parsedResult.platform={};var t=c.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.platform=t.describe(this.getUA())),this.parsedResult.platform}},{key:"getEngine",value:function(){return this.parsedResult.engine?this.parsedResult.engine:this.parseEngine()}},{key:"parseEngine",value:function(){var e=this;this.parsedResult.engine={};var t=d.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.engine=t.describe(this.getUA())),this.parsedResult.engine}},{key:"parse",value:function(){return this.parseBrowser(),this.parseOS(),this.parsePlatform(),this.parseEngine(),this}},{key:"getResult",value:function(){return this.parsedResult}},{key:"satisfies",value:function(e){var t=this,r={},n=0,i={},s=0,o=Object.keys(e);if(o.forEach(function(t){var o=e[t];"string"==typeof o?(i[t]=o,s+=1):"object"===(void 0===o?"undefined":l(o))&&(r[t]=o,n+=1);}),n>0){var a=Object.keys(r),u=a.find(function(e){return t.isOS(e)});if(u){var c=this.satisfies(r[u]);if(void 0!==c)return c}var d=a.find(function(e){return t.isPlatform(e)});if(d){var f=this.satisfies(r[d]);if(void 0!==f)return f}}if(s>0){var v=Object.keys(i),p=v.find(function(e){return t.isBrowser(e)});if(void 0!==p)return this.compareVersion(i[p])}}},{key:"isBrowser",value:function(e){return this.getBrowserName(!0)===String(e).toLowerCase()}},{key:"compareVersion",value:function(e){var t=0,r=e,n=!1,i=this.getBrowserVersion();if("string"==typeof i)return ">"===e[0]?(t=1,r=e.substr(1)):"<"===e[0]?(t=-1,r=e.substr(1)):"="===e[0]?r=e.substr(1):"~"===e[0]&&(n=!0,r=e.substr(1)),(0, o.compareVersions)(i,r,n)===t}},{key:"isOS",value:function(e){return this.getOSName(!0)===String(e).toLowerCase()}},{key:"isPlatform",value:function(e){return this.getPlatformType(!0)===String(e).toLowerCase()}},{key:"is",value:function(e){return this.isBrowser(e)||this.isOS(e)||this.isPlatform(e)}},{key:"some",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return t.some(function(t){return e.is(t)})}}]),e}();t.default=p,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},70:function(e,t,r){var n,i,s;i=[t,r(69)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0});var n=function(e){return e&&e.__esModule?e:{default:e}}(r),i=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),s=function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e);}return i(e,null,[{key:"getParser",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if("string"!=typeof e)throw new Error("UserAgent should be a string");return new n.default(e,t)}},{key:"parse",value:function(e){return new n.default(e).getResult()}}]),e}();t.default=s,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);}})});
 });
-});
+
+var bowser = unwrapExports(es5);
+var es5_1 = es5.bowser;
 
 var ua = window.navigator.userAgent.toLowerCase();
 var bots = ['facebookexternalhit', 'linkedinbot', 'google (+https://developers.google.com/+/web/snippet/)', 'facebot', 'https://developers.google.com/+/web/snippet/', 'twitterbot', 'tumblr', 'googlebot'];
@@ -4656,7 +4050,7 @@ function (_PureComponent) {
 
   return RotateScreen;
 }(React.PureComponent);
-RotateScreen.propTypes = checkProps({
+RotateScreen.propTypes = src({
   copy: propTypes.string,
   iconSrc: propTypes.string,
   iconAlt: propTypes.string
@@ -5728,7 +5122,7 @@ function (_React$PureComponent) {
 
   return VideoTimeline;
 }(React__default.PureComponent);
-VideoTimeline.propTypes = checkProps({
+VideoTimeline.propTypes = src({
   className: propTypes.string,
   style: propTypes.object,
   duration: propTypes.number.isRequired,
@@ -5796,7 +5190,7 @@ var VideoControls = function VideoControls(props) {
   })));
 };
 
-VideoControls.propTypes = checkProps({
+VideoControls.propTypes = src({
   className: propTypes.string,
   captions: propTypes.bool,
   isFullScreen: propTypes.bool,
@@ -6194,7 +5588,7 @@ function (_React$PureComponent) {
 
   return VideoPlayer;
 }(React__default.PureComponent);
-VideoPlayer.propTypes = checkProps({
+VideoPlayer.propTypes = src({
   className: propTypes.string,
   style: propTypes.object,
   src: propTypes.string.isRequired,
@@ -6289,7 +5683,7 @@ function (_React$PureComponent) {
   return PageOverlay;
 }(React__default.PureComponent);
 
-PageOverlay.propTypes = checkProps({
+PageOverlay.propTypes = src({
   className: propTypes.string,
   isShowing: propTypes.bool,
   hideOnRouteChange: propTypes.bool,

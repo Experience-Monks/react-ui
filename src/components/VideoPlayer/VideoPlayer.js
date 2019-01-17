@@ -4,12 +4,11 @@ import BackgroundVideo from 'react-background-video-player';
 import fullScreen from 'fullscreen-handler';
 import classnames from 'classnames';
 import noop from 'no-op';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './VideoPlayer.css';
 
 import VideoControls from './VideoControls/VideoControls';
-
-import checkProps from '../../util/check-props';
 
 export default class VideoPlayer extends React.PureComponent {
   static getDerivedStateFromProps(nextProps, prevState) {
