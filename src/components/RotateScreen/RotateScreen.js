@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import 'default-passive-events';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './RotateScreen.css';
 
-import checkProps from '../../util/check-props';
 import detect from '../../util/detect';
 
 export default class RotateScreen extends PureComponent {

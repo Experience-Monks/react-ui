@@ -4,12 +4,11 @@ import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import noop from 'no-op';
 import cleanPath from 'remove-trailing-separator';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './HamburgerMenu.css';
 
 import BaseLink from '../BaseLink/BaseLink';
-
-import checkProps from '../../util/check-props';
 
 class HamburgerMenu extends React.PureComponent {
   componentDidUpdate(prevProps, prevState) {

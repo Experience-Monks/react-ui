@@ -2,12 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from 'no-op';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './HamburgerButton.css';
 
 import BaseButton from '../BaseButton/BaseButton';
-
-import checkProps from '../../util/check-props';
 
 export const STATES = {
   idle: 'idle',

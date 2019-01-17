@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from 'no-op';
 import cleanPath from 'remove-trailing-separator';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './MainTopNav.css';
 
 import BaseLink from '../BaseLink/BaseLink';
 import HamburgerButton, { STATES } from '../HamburgerButton/HamburgerButton';
-
-import checkProps from '../../util/check-props';
 
 const getButtonState = isMenuOpen => (isMenuOpen ? STATES.close : STATES.idle);
 

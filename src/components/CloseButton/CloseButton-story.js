@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { CloseButton } from '../../../dist/index.js';
+
+import CloseButton from './CloseButton';
 
 function handleClick() {
   console.log('Click');

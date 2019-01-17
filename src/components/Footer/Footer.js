@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './Footer.css';
 
 import BaseLink from '../BaseLink/BaseLink';
-
-import checkProps from '../../util/check-props';
 
 const Footer = React.forwardRef((props, ref) => (
   <footer className={classnames('Footer', props.className)} ref={ref}>

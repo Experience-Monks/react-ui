@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from 'no-op';
+import checkProps from '@jam3/react-check-extra-props';
 
 import './VideoControls.css';
 
@@ -16,8 +17,6 @@ import CaptionsOffIcon from './assets/captions-off.svg';
 
 import VideoTimeline from '../VideoTimeline/VideoTimeline';
 import BaseButton from '../../BaseButton/BaseButton';
-
-import checkProps from '../../../util/check-props';
 
 const VideoControls = props => {
   function formatTime(totalSeconds) {

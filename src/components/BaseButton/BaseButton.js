@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import checkProps from '../../util/check-props';
+import checkProps from '@jam3/react-check-extra-props';
 
 export default class BaseButton extends React.PureComponent {
   render() {
