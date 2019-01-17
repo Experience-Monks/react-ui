@@ -7,30 +7,32 @@ import './Footer.css';
 
 import BaseLink from '../BaseLink/BaseLink';
 
-const Footer = React.forwardRef((props, ref) => (
-  <footer className={classnames('Footer', props.className)} ref={ref}>
-    {props.links && (
-      <nav className="footer-nav" aria-label={props.ariaNavLabel}>
-        <ul className="nav-list">
-          {props.links.map((link, index) => (
-            <li key={index} className="nav-item">
-              <BaseLink link={link.path}>{link.text}</BaseLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    )}
-    {props.children}
-    {props.copyright && <p className="footer-copyright">{props.copyright}</p>}
-  </footer>
-));
+const Footer = React.memo(
+  React.forwardRef((props, ref) => (
+    <footer className={classnames('Footer', props.className)} ref={ref}>
+      {props.links && (
+        <nav className="footer-nav" aria-label={props.ariaNavLabel}>
+          <ul className="nav-list">
+            {props.links.map((link, index) => (
+              <li key={index} className="nav-item">
+                <BaseLink link={link.path}>{link.text}</BaseLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+      {props.children}
+      {props.copyright && <p className="footer-copyright">{props.copyright}</p>}
+    </footer>
+  ))
+);
 
 Footer.propTypes = checkProps({
   className: PropTypes.string,
   links: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,
-      path: PropTypes.string,
+      path: PropTypes.string
     })
   ),
   ariaNavLabel: PropTypes.string,

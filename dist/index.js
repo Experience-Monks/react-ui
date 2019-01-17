@@ -3209,7 +3209,7 @@ styleInject(css);
 var excludes = ['children', 'download', 'target', 'rel', 'link'];
 var externalLinkRegex = /^(https:\/\/|http:\/\/|www\.|tel:|mailto:)/;
 var externalSiteRegex = /^(https:\/\/|http:\/\/|www\.)/;
-var BaseLink = React__default.forwardRef(function (props, ref) {
+var BaseLink = React__default.memo(React__default.forwardRef(function (props, ref) {
   var Tag = externalLinkRegex.test(props.link) || props.download ? 'a' : Link; // clean props
 
   var componentProps = Object.keys(props).reduce(function (acc, key) {
@@ -3236,7 +3236,7 @@ var BaseLink = React__default.forwardRef(function (props, ref) {
     ref: ref,
     className: classnames('BaseLink', props.className)
   }, componentProps), props.children);
-});
+}));
 BaseLink.propTypes = src({
   className: propTypes.string,
   rel: propTypes.string,
@@ -3266,41 +3266,22 @@ BaseLink.defaultProps = {
   target: '_blank'
 };
 
-var BaseButton =
-/*#__PURE__*/
-function (_React$PureComponent) {
-  _inherits(BaseButton, _React$PureComponent);
+var BaseButton = React__default.memo(React__default.forwardRef(function (props, ref) {
+  var Component = props.component,
+      children = props.children,
+      buttonRole = props.role,
+      buttonProps = _objectWithoutProperties(props, ["component", "children", "role"]);
 
-  function BaseButton() {
-    _classCallCheck(this, BaseButton);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(BaseButton).apply(this, arguments));
-  }
-
-  _createClass(BaseButton, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          ref = _this$props.nodeRef,
-          Component = _this$props.component,
-          children = _this$props.children,
-          buttonRole = _this$props.role,
-          buttonProps = _objectWithoutProperties(_this$props, ["nodeRef", "component", "children", "role"]);
-
-      var role = Component === 'button' ? buttonRole : 'button';
-      return React__default.createElement(Component, _extends({
-        ref: ref,
-        role: role
-      }, buttonProps), children);
-    }
-  }]);
-
-  return BaseButton;
-}(React__default.PureComponent);
+  var role = Component === 'button' ? buttonRole : 'button';
+  return React__default.createElement(Component, _extends({
+    className: classnames('BaseButton', props.className),
+    ref: ref,
+    role: role
+  }, buttonProps), children);
+}));
 BaseButton.propTypes = src({
   style: propTypes.object,
   className: propTypes.string,
-  nodeRef: propTypes.func,
   component: propTypes.oneOfType([propTypes.string, propTypes.func]),
   children: propTypes.node,
   onClick: propTypes.func,
@@ -3388,7 +3369,7 @@ CloseButton.defaultProps = {
 var css$2 = ".Footer {\n  display: inline-block;\n  width: 100%;\n  padding: 0 4rem;\n  background: #000;\n  box-sizing: border-box; }\n  .Footer .footer-nav .nav-list {\n    display: inline-block;\n    padding-left: 0; }\n    .Footer .footer-nav .nav-list .nav-item {\n      display: inline-block;\n      margin-right: 1.6rem;\n      font-size: 1.6rem; }\n      .Footer .footer-nav .nav-list .nav-item:last-of-type {\n        margin-right: 0; }\n    .Footer .footer-nav .nav-list a {\n      color: #fff; }\n  .Footer .footer-copyright {\n    font-size: 1.6rem;\n    color: #fff; }\n";
 styleInject(css$2);
 
-var Footer = React__default.forwardRef(function (props, ref) {
+var Footer = React__default.memo(React__default.forwardRef(function (props, ref) {
   return React__default.createElement("footer", {
     className: classnames('Footer', props.className),
     ref: ref
@@ -3407,7 +3388,7 @@ var Footer = React__default.forwardRef(function (props, ref) {
   }))), props.children, props.copyright && React__default.createElement("p", {
     className: "footer-copyright"
   }, props.copyright));
-});
+}));
 Footer.propTypes = src({
   className: propTypes.string,
   links: propTypes.arrayOf(propTypes.shape({
@@ -5031,7 +5012,7 @@ var CaptionsOnIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53
 
 var CaptionsOffIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0yMiAzdjEzaC0xMS42NDNsLTQuMzU3IDMuMTA1di0zLjEwNWgtNHYtMTNoMjB6bTItMmgtMjR2MTYuOTgxaDR2NS4wMTlsNy01LjAxOWgxM3YtMTYuOTgxeiIvPgo8L3N2Zz4=';
 
-var css$9 = ".VideoTimeline {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 3px;\n  flex-grow: 1; }\n  .VideoTimeline-progress {\n    position: absolute;\n    height: 3px;\n    background-color: red; }\n  .VideoTimeline input {\n    margin: 0; }\n  .VideoTimeline input[type=range]::-webkit-slider-thumb {\n    -webkit-appearance: none;\n    -moz-appearance: none; }\n  .VideoTimeline input[type='range']::-moz-focus-outer {\n    border: 0; }\n  .VideoTimeline input[type=range]:focus {\n    border: none; }\n  .VideoTimeline input[type=range] {\n    -webkit-appearance: none;\n    position: absolute;\n    width: 100%;\n    height: 3px;\n    background: transparent;\n    border-color: transparent;\n    color: transparent;\n    cursor: pointer;\n    padding: 0;\n    outline: none; }\n    .VideoTimeline input[type=range]::-webkit-slider-runnable-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-moz-range-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-ms-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-ms-tooltip {\n      display: none; }\n    .VideoTimeline input[type=range]::-ms-fill-lower {\n      background: transparent; }\n    .VideoTimeline input[type=range]::-ms-fill-upper {\n      background: transparent; }\n    .VideoTimeline input[type=range]::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none; }\n    .VideoTimeline input[type=range]::-moz-range-thumb {\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none; }\n    .VideoTimeline input[type=range]::-ms-thumb {\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none; }\n";
+var css$9 = ".VideoTimeline {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 3px;\n  flex-grow: 1; }\n  .VideoTimeline-progress {\n    position: absolute;\n    height: 3px;\n    background-color: red; }\n  .VideoTimeline input {\n    margin: 0; }\n  .VideoTimeline input[type=range]::-webkit-slider-thumb {\n    -webkit-appearance: none;\n    -moz-appearance: none; }\n  .VideoTimeline input[type='range']::-moz-focus-outer {\n    border: 0; }\n  .VideoTimeline input[type=range]:focus {\n    border: none; }\n  .VideoTimeline input[type=range] {\n    -webkit-appearance: none;\n    position: absolute;\n    width: 100%;\n    height: 3px;\n    background: transparent;\n    border-color: transparent;\n    color: transparent;\n    cursor: pointer;\n    padding: 0;\n    outline: none; }\n    .VideoTimeline input[type=range]::-webkit-slider-runnable-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-moz-range-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-ms-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-ms-tooltip {\n      display: none; }\n    .VideoTimeline input[type=range]::-ms-fill-lower {\n      background: transparent; }\n    .VideoTimeline input[type=range]::-ms-fill-upper {\n      background: transparent; }\n    .VideoTimeline input[type=range]::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none;\n      margin-top: -0.25rem; }\n    .VideoTimeline input[type=range]::-moz-range-thumb {\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none; }\n    .VideoTimeline input[type=range]::-ms-thumb {\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none; }\n";
 styleInject(css$9);
 
 var VideoTimeline =
@@ -5135,7 +5116,7 @@ VideoTimeline.defaultProps = {
   onTimeUpdate: noOp
 };
 
-var VideoControls = function VideoControls(props) {
+var VideoControls = React__default.memo(function (props) {
   function formatTime(totalSeconds) {
     var totalSecondsFloat = totalSeconds;
     var minutes = Math.floor(totalSecondsFloat / 60);
@@ -5188,8 +5169,7 @@ var VideoControls = function VideoControls(props) {
     src: props.isFullScreen ? props.exitFullscreenIcon : props.enterFullscreenIcon,
     alt: props.isFullScreen ? 'Fullscreen Mode Icon' : 'Normal Mode Icon'
   })));
-};
-
+});
 VideoControls.propTypes = src({
   className: propTypes.string,
   captions: propTypes.bool,

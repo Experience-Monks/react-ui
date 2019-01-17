@@ -18,7 +18,7 @@ import CaptionsOffIcon from './assets/captions-off.svg';
 import VideoTimeline from '../VideoTimeline/VideoTimeline';
 import BaseButton from '../../BaseButton/BaseButton';
 
-const VideoControls = props => {
+const VideoControls = React.memo(props => {
   function formatTime(totalSeconds) {
     const totalSecondsFloat = totalSeconds;
     let minutes = Math.floor(totalSecondsFloat / 60);
@@ -92,7 +92,7 @@ const VideoControls = props => {
       </BaseButton>
     </nav>
   );
-};
+});
 
 VideoControls.propTypes = checkProps({
   className: PropTypes.string,

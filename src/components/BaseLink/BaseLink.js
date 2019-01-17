@@ -11,37 +11,39 @@ const excludes = ['children', 'download', 'target', 'rel', 'link'];
 const externalLinkRegex = /^(https:\/\/|http:\/\/|www\.|tel:|mailto:)/;
 const externalSiteRegex = /^(https:\/\/|http:\/\/|www\.)/;
 
-const BaseLink = React.forwardRef((props, ref) => {
-  const Tag = externalLinkRegex.test(props.link) || props.download ? 'a' : Link;
+const BaseLink = React.memo(
+  React.forwardRef((props, ref) => {
+    const Tag = externalLinkRegex.test(props.link) || props.download ? 'a' : Link;
 
-  // clean props
-  let componentProps = Object.keys(props).reduce(
-    (acc, key) => ([...excludes].indexOf(key) > -1 ? acc : { ...acc, [key]: props[key] }),
-    {}
-  );
+    // clean props
+    let componentProps = Object.keys(props).reduce(
+      (acc, key) => ([...excludes].indexOf(key) > -1 ? acc : { ...acc, [key]: props[key] }),
+      {}
+    );
 
-  if (Tag === 'a') {
-    componentProps.href = props.link;
-    componentProps.download = props.download;
+    if (Tag === 'a') {
+      componentProps.href = props.link;
+      componentProps.download = props.download;
 
-    // set external link attributes
-    if (externalSiteRegex.test(props.link) && !props.download) {
-      componentProps.target = props.target;
-      if (props.target === '_blank') {
-        componentProps.rel = props.rel || 'noopener';
+      // set external link attributes
+      if (externalSiteRegex.test(props.link) && !props.download) {
+        componentProps.target = props.target;
+        if (props.target === '_blank') {
+          componentProps.rel = props.rel || 'noopener';
+        }
       }
+    } else {
+      // react router Link
+      componentProps.to = props.link;
     }
-  } else {
-    // react router Link
-    componentProps.to = props.link;
-  }
 
-  return (
-    <Tag ref={ref} className={classnames('BaseLink', props.className)} {...componentProps}>
-      {props.children}
-    </Tag>
-  );
-});
+    return (
+      <Tag ref={ref} className={classnames('BaseLink', props.className)} {...componentProps}>
+        {props.children}
+      </Tag>
+    );
+  })
+);
 
 BaseLink.propTypes = checkProps({
   className: PropTypes.string,
