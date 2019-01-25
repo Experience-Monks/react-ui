@@ -5684,4 +5684,5 @@ exports.HamburgerMenu = HamburgerMenu$1;
 exports.MainTopNav = MainTopNav$1;
 exports.RotateScreen = RotateScreen;
 exports.PageOverlay = PageOverlay$1;
+exports.VideoPlayer = VideoPlayer;
 //# sourceMappingURL=index.js.map
