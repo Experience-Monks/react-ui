@@ -5668,5 +5668,5 @@ PageOverlay.defaultProps = {
 };
 var PageOverlay$1 = withRouter(PageOverlay);
 
-export { BaseLink, BaseButton, CloseButton, Footer, HamburgerButton, HamburgerMenu$1 as HamburgerMenu, MainTopNav$1 as MainTopNav, RotateScreen, PageOverlay$1 as PageOverlay };
+export { BaseLink, BaseButton, CloseButton, Footer, HamburgerButton, HamburgerMenu$1 as HamburgerMenu, MainTopNav$1 as MainTopNav, RotateScreen, PageOverlay$1 as PageOverlay, VideoPlayer };
 //# sourceMappingURL=index.module.js.map
