@@ -1,19 +1,5 @@
 import React, { PureComponent } from 'react';
 
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -181,8 +167,6 @@ function _possibleConstructorReturn(self, call) {
 var warning = function() {};
 
 var warning_1 = warning;
-
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function unwrapExports (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
@@ -3666,265 +3650,306 @@ var MainTopNav$1 = withRouter(MainTopNav);
 
 !function(e){function t(n){if(o[n])return o[n].exports;var r=o[n]={i:n,l:!1,exports:{}};return e[n].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var o={};t.m=e,t.c=o,t.d=function(e,o,n){t.o(e,o)||Object.defineProperty(e,o,{configurable:!1,enumerable:!0,get:n});},t.n=function(e){var o=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(o,"a",o),o},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0);}([function(e,t,o){var n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},r=o(1),u={passive:!0,capture:!1},i=["scroll","wheel","touchstart","touchmove","touchenter","touchend","touchleave","mouseout","mouseleave","mouseup","mousedown","mousemove","mouseenter","mousewheel","mouseover"],s=function(e,t){return void 0!==e?e:-1!==i.indexOf(t)&&u.passive},c=function(e){var t=Object.getOwnPropertyDescriptor(e,"passive");return t&&!0!==t.writable&&void 0===t.set?Object.assign({},e):e};if((0, r.eventListenerOptionsSupported)()){var p=EventTarget.prototype.addEventListener;!function(e){EventTarget.prototype.addEventListener=function(t,o,r){var i="object"===(void 0===r?"undefined":n(r))&&null!==r,p=i?r.capture:r;r=i?c(r):{},r.passive=s(r.passive,t),r.capture=void 0===p?u.capture:p,e.call(this,t,o,r);},EventTarget.prototype.addEventListener._original=e;}(p);}},function(e,t,o){Object.defineProperty(t,"__esModule",{value:!0});t.eventListenerOptionsSupported=function(){var e=!1;try{var t=Object.defineProperty({},"passive",{get:function(){e=!0;}});window.addEventListener("test",null,t),window.removeEventListener("test",null,t);}catch(e){}return e};}]);
 
-var css$6 = ".RotateScreen {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #000; }\n  .RotateScreen .container {\n    text-align: center; }\n    .RotateScreen .container .rotate-text {\n      color: #fff;\n      font-size: 1.6rem; }\n    .RotateScreen .container .rotate-icon {\n      width: 10rem; }\n";
-styleInject(css$6);
+var commonjsGlobal$1 = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-var es5 = createCommonjsModule(function (module, exports) {
-!function(e,t){module.exports=t();}(commonjsGlobal,function(){return function(e){var t={};function r(n){if(t[n])return t[n].exports;var i=t[n]={i:n,l:!1,exports:{}};return e[n].call(i.exports,i,i.exports,r),i.l=!0,i.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)r.d(n,i,function(t){return e[t]}.bind(null,i));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=70)}({18:function(e,t,r){var n,i,s;i=[e],void 0===(s="function"==typeof(n=function(e){var t=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),r=function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e);}return t(e,null,[{key:"getFirstMatch",value:function(e,t){var r=t.match(e);return r&&r.length>0&&r[1]||""}},{key:"getSecondMatch",value:function(e,t){var r=t.match(e);return r&&r.length>1&&r[2]||""}},{key:"matchAndReturnConst",value:function(e,t,r){if(e.test(t))return r}},{key:"getWindowsVersionName",value:function(e){switch(e){case"NT":return "NT";case"XP":return "XP";case"NT 5.0":return "2000";case"NT 5.1":return "XP";case"NT 5.2":return "2003";case"NT 6.0":return "Vista";case"NT 6.1":return "7";case"NT 6.2":return "8";case"NT 6.3":return "8.1";case"NT 10.0":return "10";default:return}}},{key:"getVersionPrecision",value:function(e){return e.split(".").length}},{key:"compareVersions",value:function(t,r){var n=arguments.length>2&&void 0!==arguments[2]&&arguments[2],i=e.getVersionPrecision(t),s=e.getVersionPrecision(r),o=Math.max(i,s),a=0,u=e.map([t,r],function(t){var r=o-e.getVersionPrecision(t),n=t+new Array(r+1).join(".0");return e.map(n.split("."),function(e){return new Array(20-e.length).join("0")+e}).reverse()});for(n&&(a=o-Math.min(i,s)),o-=1;o>=a;){if(u[0][o]>u[1][o])return 1;if(u[0][o]===u[1][o]){if(o===a)return 0;o-=1;}else if(u[0][o]<u[1][o])return -1}}},{key:"map",value:function(e,t){var r=[],n=void 0;if(Array.prototype.map)return Array.prototype.map.call(e,t);for(n=0;n<e.length;n+=1)r.push(t(e[n]));return r}}]),e}();e.exports=r;})?n.apply(t,i):n)||(e.exports=s);},65:function(e,t,r){var n,i,s;i=[t,r(18)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0}),t.default=[{test:function(e){return "microsoft edge"===e.getBrowserName(!0)},describe:function(e){var t=(0, r.getFirstMatch)(/edge\/(\d+(\.?_?\d+)+)/i,e);return {name:"EdgeHTML",version:t}}},{test:[/trident/i],describe:function(e){var t={name:"Trident"},n=(0, r.getFirstMatch)(/trident\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:function(e){return e.test(/presto/i)},describe:function(e){var t={name:"Presto"},n=(0, r.getFirstMatch)(/presto\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:function(e){var t=e.test(/gecko/i),r=e.test(/like gecko/i);return t&&!r},describe:function(e){var t={name:"Gecko"},n=(0, r.getFirstMatch)(/gecko\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/(apple)?webkit\/537\.36/i],describe:function(){return {name:"Blink"}}},{test:[/(apple)?webkit/i],describe:function(e){var t={name:"WebKit"},n=(0, r.getFirstMatch)(/webkit\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}}],e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},66:function(e,t,r){var n,i,s;i=[t,r(18)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0});var n={tablet:"tablet",mobile:"mobile",desktop:"desktop"};t.default=[{test:[/nexus\s*(?:7|8|9|10).*/i],describe:function(){return {type:n.tablet,vendor:"Nexus"}}},{test:[/ipad/i],describe:function(){return {type:n.tablet,vendor:"Apple",model:"iPad"}}},{test:[/kftt build/i],describe:function(){return {type:n.tablet,vendor:"Amazon",model:"Kindle Fire HD 7"}}},{test:[/silk/i],describe:function(){return {type:n.tablet,vendor:"Amazon"}}},{test:[/tablet/i],describe:function(){return {type:n.tablet}}},{test:function(e){var t=e.test(/ipod|iphone/i),r=e.test(/like (ipod|iphone)/i);return t&&!r},describe:function(e){var t=(0, r.getFirstMatch)(/(ipod|iphone)/i,e);return {type:n.mobile,vendor:"Apple",model:t}}},{test:[/nexus\s*[0-6].*/i,/galaxy nexus/i],describe:function(){return {type:n.mobile,vendor:"Nexus"}}},{test:[/[^-]mobi/i],describe:function(){return {type:n.mobile}}},{test:function(e){return "blackberry"===e.getBrowserName(!0)},describe:function(){return {type:n.mobile,vendor:"BlackBerry"}}},{test:function(e){return "bada"===e.getBrowserName(!0)},describe:function(){return {type:n.mobile}}},{test:function(e){return "windows phone"===e.getBrowserName()},describe:function(){return {type:n.mobile,vendor:"Microsoft"}}},{test:function(e){var t=Number(String(e.getOSVersion()).split(".")[0]);return "android"===e.getOSName(!0)&&t>=3},describe:function(){return {type:n.tablet}}},{test:function(e){return "android"===e.getOSName(!0)},describe:function(){return {type:n.mobile}}},{test:function(e){return "macos"===e.getOSName(!0)},describe:function(){return {type:n.desktop,vendor:"Apple"}}},{test:function(e){return "windows"===e.getOSName(!0)},describe:function(){return {type:n.desktop}}},{test:function(e){return "linux"===e.getOSName(!0)},describe:function(){return {type:n.desktop}}}],e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},67:function(e,t,r){var n,i,s;i=[t,r(18)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0}),t.default=[{test:[/windows phone/i],describe:function(e){var t=(0, r.getFirstMatch)(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i,e);return {name:"Windows Phone",version:t}}},{test:[/windows/i],describe:function(e){var t=(0, r.getFirstMatch)(/Windows ((NT|XP)( \d\d?.\d)?)/i,e),n=(0, r.getWindowsVersionName)(t);return {name:"Windows",version:t,versionName:n}}},{test:[/macintosh/i],describe:function(e){var t=(0, r.getFirstMatch)(/mac os x (\d+(\.?_?\d+)+)/i,e).replace(/[_\s]/g,".");return {name:"macOS",version:t}}},{test:[/(ipod|iphone|ipad)/i],describe:function(e){var t=(0, r.getFirstMatch)(/os (\d+([_\s]\d+)*) like mac os x/i,e).replace(/[_\s]/g,".");return {name:"iOS",version:t}}},{test:function(e){var t=!e.test(/like android/i),r=e.test(/android/i);return t&&r},describe:function(e){var t=(0, r.getFirstMatch)(/android[\s/-](\d+(\.\d+)*)/i,e);return {name:"Android",version:t}}},{test:[/(web|hpw)[o0]s/i],describe:function(e){var t=(0, r.getFirstMatch)(/(?:web|hpw)[o0]s\/(\d+(\.\d+)*)/i,e),n={name:"WebOS"};return t&&t.length&&(n.version=t),n}},{test:[/blackberry|\bbb\d+/i,/rim\stablet/i],describe:function(e){var t=(0, r.getFirstMatch)(/rim\stablet\sos\s(\d+(\.\d+)*)/i,e)||(0, r.getFirstMatch)(/blackberry\d+\/(\d+([_\s]\d+)*)/i,e)||(0, r.getFirstMatch)(/\bbb(\d+)/i,e);return {name:"BlackBerry",version:t}}},{test:[/bada/i],describe:function(e){var t=(0, r.getFirstMatch)(/bada\/(\d+(\.\d+)*)/i,e);return {name:"Bada",version:t}}},{test:[/tizen/i],describe:function(e){var t=(0, r.getFirstMatch)(/tizen[/\s](\d+(\.\d+)*)/i,e);return {name:"Tizen",version:t}}},{test:[/linux/i],describe:function(){return {name:"Linux"}}}],e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},68:function(e,t,r){var n,i,s;i=[t,r(18)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0});var n=/version\/(\d+(\.?_?\d+)+)/i,i=[{test:[/opera/i],describe:function(e){var t={name:"Opera"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:opera)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/opr\/|opios/i],describe:function(e){var t={name:"Opera"},i=(0, r.getFirstMatch)(/(?:opr|opios)[\s/](\S+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/SamsungBrowser/i],describe:function(e){var t={name:"Samsung Internet for Android"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:SamsungBrowser)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/Whale/i],describe:function(e){var t={name:"NAVER Whale Browser"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:whale)[\s/](\d+(?:\.\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/MZBrowser/i],describe:function(e){var t={name:"MZ Browser"},i=(0, r.getFirstMatch)(/(?:MZBrowser)[\s/](\d+(?:\.\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/focus/i],describe:function(e){var t={name:"Focus"},i=(0, r.getFirstMatch)(/(?:focus)[\s/](\d+(?:\.\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/swing/i],describe:function(e){var t={name:"Swing"},i=(0, r.getFirstMatch)(/(?:swing)[\s/](\d+(?:\.\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/coast/i],describe:function(e){var t={name:"Opera Coast"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:coast)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/yabrowser/i],describe:function(e){var t={name:"Yandex Browser"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:yabrowser)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/ucbrowser/i],describe:function(e){var t={name:"UC Browser"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:ucbrowser)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/Maxthon|mxios/i],describe:function(e){var t={name:"Maxthon"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:Maxthon|mxios)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/epiphany/i],describe:function(e){var t={name:"Epiphany"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:epiphany)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/puffin/i],describe:function(e){var t={name:"Puffin"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:puffin)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/sleipnir/i],describe:function(e){var t={name:"Sleipnir"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:sleipnir)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/k-meleon/i],describe:function(e){var t={name:"K-Meleon"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/(?:k-meleon)[\s/](\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/msie|trident/i],describe:function(e){var t={name:"Internet Explorer"},n=(0, r.getFirstMatch)(/(?:msie |rv:)(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/edg([ea]|ios)/i],describe:function(e){var t={name:"Microsoft Edge"},n=(0, r.getSecondMatch)(/edg([ea]|ios)\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/vivaldi/i],describe:function(e){var t={name:"Vivaldi"},n=(0, r.getFirstMatch)(/vivaldi\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/seamonkey/i],describe:function(e){var t={name:"SeaMonkey"},n=(0, r.getFirstMatch)(/seamonkey\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/sailfish/i],describe:function(e){var t={name:"Sailfish"},n=(0, r.getFirstMatch)(/sailfish\s?browser\/(\d+(\.\d+)?)/i,e);return n&&(t.version=n),t}},{test:[/silk/i],describe:function(e){var t={name:"Amazon Silk"},n=(0, r.getFirstMatch)(/silk\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/phantom/i],describe:function(e){var t={name:"PhantomJS"},n=(0, r.getFirstMatch)(/phantomjs\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/slimerjs/i],describe:function(e){var t={name:"SlimerJS"},n=(0, r.getFirstMatch)(/slimerjs\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/blackberry|\bbb\d+/i,/rim\stablet/i],describe:function(e){var t={name:"BlackBerry"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/blackberry[\d]+\/(\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/(web|hpw)[o0]s/i],describe:function(e){var t={name:"WebOS Browser"},i=(0, r.getFirstMatch)(n,e)||(0, r.getFirstMatch)(/w(?:eb)?[o0]sbrowser\/(\d+(\.?_?\d+)+)/i,e);return i&&(t.version=i),t}},{test:[/bada/i],describe:function(e){var t={name:"Bada"},n=(0, r.getFirstMatch)(/dolfin\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/tizen/i],describe:function(e){var t={name:"Tizen"},i=(0, r.getFirstMatch)(/(?:tizen\s?)?browser\/(\d+(\.?_?\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/qupzilla/i],describe:function(e){var t={name:"QupZilla"},i=(0, r.getFirstMatch)(/(?:qupzilla)[\s/](\d+(\.?_?\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/firefox|iceweasel|fxios/i],describe:function(e){var t={name:"Firefox"},n=(0, r.getFirstMatch)(/(?:firefox|iceweasel|fxios)[\s/](\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:[/chromium/i],describe:function(e){var t={name:"Chromium"},i=(0, r.getFirstMatch)(/(?:chromium)[\s/](\d+(\.?_?\d+)+)/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/chrome|crios|crmo/i],describe:function(e){var t={name:"Chrome"},n=(0, r.getFirstMatch)(/(?:chrome|crios|crmo)\/(\d+(\.?_?\d+)+)/i,e);return n&&(t.version=n),t}},{test:function(e){var t=!e.test(/like android/i),r=e.test(/android/i);return t&&r},describe:function(e){var t={name:"Android Browser"},i=(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/safari|applewebkit/i],describe:function(e){var t={name:"Safari"},i=(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/googlebot/i],describe:function(e){var t={name:"Googlebot"},i=(0, r.getFirstMatch)(/googlebot\/(\d+(\.\d+))/i,e)||(0, r.getFirstMatch)(n,e);return i&&(t.version=i),t}},{test:[/.*/i],describe:function(e){return {name:(0, r.getFirstMatch)(/^(.*)\/(.*) /,e),version:(0, r.getSecondMatch)(/^(.*)\/(.*) /,e)}}}];t.default=i,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},69:function(e,t,r){var n,i,s;i=[t,r(68),r(67),r(66),r(65),r(18)],void 0===(s="function"==typeof(n=function(t,r,n,i,s,o){Object.defineProperty(t,"__esModule",{value:!0});var a=f(r),u=f(n),c=f(i),d=f(s);function f(e){return e&&e.__esModule?e:{default:e}}var l="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},v=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),p=function(){function e(t){var r=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if(function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),void 0===t||null===t||""===t)throw new Error("UserAgent parameter can't be empty");this._ua=t,this.parsedResult={},!0!==r&&this.parse();}return v(e,[{key:"getUA",value:function(){return this._ua}},{key:"test",value:function(e){return e.test(this._ua)}},{key:"parseBrowser",value:function(){var e=this;this.parsedResult.browser={};var t=a.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.browser=t.describe(this.getUA())),this.parsedResult.browser}},{key:"getBrowser",value:function(){return this.parsedResult.browser?this.parsedResult.browser:this.parseBrowser()}},{key:"getBrowserName",value:function(e){return e?String(this.getBrowser().name).toLowerCase()||"":this.getBrowser().name||""}},{key:"getBrowserVersion",value:function(){return this.getBrowser().version}},{key:"getOS",value:function(){return this.parsedResult.os?this.parsedResult.os:this.parseOS()}},{key:"parseOS",value:function(){var e=this;this.parsedResult.os={};var t=u.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.os=t.describe(this.getUA())),this.parsedResult.os}},{key:"getOSName",value:function(e){var t=this.getOS(),r=t.name;return e?String(r).toLowerCase()||"":r||""}},{key:"getOSVersion",value:function(){return this.getOS().version}},{key:"getPlatform",value:function(){return this.parsedResult.platform?this.parsedResult.platform:this.parsePlatform()}},{key:"getPlatformType",value:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0],t=this.getPlatform(),r=t.type;return e?String(r).toLowerCase()||"":r||""}},{key:"parsePlatform",value:function(){var e=this;this.parsedResult.platform={};var t=c.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.platform=t.describe(this.getUA())),this.parsedResult.platform}},{key:"getEngine",value:function(){return this.parsedResult.engine?this.parsedResult.engine:this.parseEngine()}},{key:"parseEngine",value:function(){var e=this;this.parsedResult.engine={};var t=d.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.engine=t.describe(this.getUA())),this.parsedResult.engine}},{key:"parse",value:function(){return this.parseBrowser(),this.parseOS(),this.parsePlatform(),this.parseEngine(),this}},{key:"getResult",value:function(){return this.parsedResult}},{key:"satisfies",value:function(e){var t=this,r={},n=0,i={},s=0,o=Object.keys(e);if(o.forEach(function(t){var o=e[t];"string"==typeof o?(i[t]=o,s+=1):"object"===(void 0===o?"undefined":l(o))&&(r[t]=o,n+=1);}),n>0){var a=Object.keys(r),u=a.find(function(e){return t.isOS(e)});if(u){var c=this.satisfies(r[u]);if(void 0!==c)return c}var d=a.find(function(e){return t.isPlatform(e)});if(d){var f=this.satisfies(r[d]);if(void 0!==f)return f}}if(s>0){var v=Object.keys(i),p=v.find(function(e){return t.isBrowser(e)});if(void 0!==p)return this.compareVersion(i[p])}}},{key:"isBrowser",value:function(e){return this.getBrowserName(!0)===String(e).toLowerCase()}},{key:"compareVersion",value:function(e){var t=0,r=e,n=!1,i=this.getBrowserVersion();if("string"==typeof i)return ">"===e[0]?(t=1,r=e.substr(1)):"<"===e[0]?(t=-1,r=e.substr(1)):"="===e[0]?r=e.substr(1):"~"===e[0]&&(n=!0,r=e.substr(1)),(0, o.compareVersions)(i,r,n)===t}},{key:"isOS",value:function(e){return this.getOSName(!0)===String(e).toLowerCase()}},{key:"isPlatform",value:function(e){return this.getPlatformType(!0)===String(e).toLowerCase()}},{key:"is",value:function(e){return this.isBrowser(e)||this.isOS(e)||this.isPlatform(e)}},{key:"some",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return t.some(function(t){return e.is(t)})}}]),e}();t.default=p,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},70:function(e,t,r){var n,i,s;i=[t,r(69)],void 0===(s="function"==typeof(n=function(t,r){Object.defineProperty(t,"__esModule",{value:!0});var n=function(e){return e&&e.__esModule?e:{default:e}}(r),i=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),s=function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e);}return i(e,null,[{key:"getParser",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if("string"!=typeof e)throw new Error("UserAgent should be a string");return new n.default(e,t)}},{key:"parse",value:function(e){return new n.default(e).getResult()}}]),e}();t.default=s,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);}})});
+function unwrapExports$1 (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
+}
+
+function createCommonjsModule$1(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var es5 = createCommonjsModule$1(function (module, exports) {
+!function(e,t){module.exports=t();}(commonjsGlobal$1,function(){return function(e){var t={};function r(n){if(t[n])return t[n].exports;var i=t[n]={i:n,l:!1,exports:{}};return e[n].call(i.exports,i,i.exports,r),i.l=!0,i.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)r.d(n,i,function(t){return e[t]}.bind(null,i));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=86)}({17:function(e,t,r){var n,i,s;i=[],void 0===(s="function"==typeof(n=function(){function t(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}var r=function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e);}return r=e,i=[{key:"getFirstMatch",value:function(e,t){var r=t.match(e);return r&&r.length>0&&r[1]||""}},{key:"getSecondMatch",value:function(e,t){var r=t.match(e);return r&&r.length>1&&r[2]||""}},{key:"matchAndReturnConst",value:function(e,t,r){if(e.test(t))return r}},{key:"getWindowsVersionName",value:function(e){switch(e){case"NT":return "NT";case"XP":return "XP";case"NT 5.0":return "2000";case"NT 5.1":return "XP";case"NT 5.2":return "2003";case"NT 6.0":return "Vista";case"NT 6.1":return "7";case"NT 6.2":return "8";case"NT 6.3":return "8.1";case"NT 10.0":return "10";default:return}}},{key:"getAndroidVersionName",value:function(e){var t=e.split(".").splice(0,2).map(function(e){return parseInt(e,10)||0});if(t.push(0),!(1===t[0]&&t[1]<5))return 1===t[0]&&t[1]<6?"Cupcake":1===t[0]&&t[1]>=6?"Donut":2===t[0]&&t[1]<2?"Eclair":2===t[0]&&2===t[1]?"Froyo":2===t[0]&&t[1]>2?"Gingerbread":3===t[0]?"Honeycomb":4===t[0]&&t[1]<1?"Ice Cream Sandwich":4===t[0]&&t[1]<4?"Jelly Bean":4===t[0]&&t[1]>=4?"KitKat":5===t[0]?"Lollipop":6===t[0]?"Marshmallow":7===t[0]?"Nougat":8===t[0]?"Oreo":void 0}},{key:"getVersionPrecision",value:function(e){return e.split(".").length}},{key:"compareVersions",value:function(t,r){var n=arguments.length>2&&void 0!==arguments[2]&&arguments[2],i=e.getVersionPrecision(t),s=e.getVersionPrecision(r),o=Math.max(i,s),a=0,u=e.map([t,r],function(t){var r=o-e.getVersionPrecision(t),n=t+new Array(r+1).join(".0");return e.map(n.split("."),function(e){return new Array(20-e.length).join("0")+e}).reverse()});for(n&&(a=o-Math.min(i,s)),o-=1;o>=a;){if(u[0][o]>u[1][o])return 1;if(u[0][o]===u[1][o]){if(o===a)return 0;o-=1;}else if(u[0][o]<u[1][o])return -1}}},{key:"map",value:function(e,t){var r,n=[];if(Array.prototype.map)return Array.prototype.map.call(e,t);for(r=0;r<e.length;r+=1)n.push(t(e[r]));return n}}],(n=null)&&t(r.prototype,n),i&&t(r,i),e;var r,n,i;}();e.exports=r;})?n.apply(t,i):n)||(e.exports=s);},86:function(e,t,r){var n,i,s;i=[t,r(87)],void 0===(s="function"==typeof(n=function(r,n){function i(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}var s;Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0,n=(s=n)&&s.__esModule?s:{default:s};var o=function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e);}return t=e,s=[{key:"getParser",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if("string"!=typeof e)throw new Error("UserAgent should be a string");return new n.default(e,t)}},{key:"parse",value:function(e){return new n.default(e).getResult()}}],(r=null)&&i(t.prototype,r),s&&i(t,s),e;var t,r,s;}();r.default=o,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},87:function(e,t,r){var n,i,s;i=[t,r(88),r(89),r(90),r(91),r(17)],void 0===(s="function"==typeof(n=function(r,n,i,s,o,a){function u(e){return e&&e.__esModule?e:{default:e}}function c(e){return (c="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function d(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0,n=u(n),i=u(i),s=u(s),o=u(o);var f=function(){function e(t){var r=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if(function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),null==t||""===t)throw new Error("UserAgent parameter can't be empty");this._ua=t,this.parsedResult={},!0!==r&&this.parse();}return t=e,(r=[{key:"getUA",value:function(){return this._ua}},{key:"test",value:function(e){return e.test(this._ua)}},{key:"parseBrowser",value:function(){var e=this;this.parsedResult.browser={};var t=n.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.browser=t.describe(this.getUA())),this.parsedResult.browser}},{key:"getBrowser",value:function(){return this.parsedResult.browser?this.parsedResult.browser:this.parseBrowser()}},{key:"getBrowserName",value:function(e){return e?String(this.getBrowser().name).toLowerCase()||"":this.getBrowser().name||""}},{key:"getBrowserVersion",value:function(){return this.getBrowser().version}},{key:"getOS",value:function(){return this.parsedResult.os?this.parsedResult.os:this.parseOS()}},{key:"parseOS",value:function(){var e=this;this.parsedResult.os={};var t=i.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.os=t.describe(this.getUA())),this.parsedResult.os}},{key:"getOSName",value:function(e){var t=this.getOS(),r=t.name;return e?String(r).toLowerCase()||"":r||""}},{key:"getOSVersion",value:function(){return this.getOS().version}},{key:"getPlatform",value:function(){return this.parsedResult.platform?this.parsedResult.platform:this.parsePlatform()}},{key:"getPlatformType",value:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0],t=this.getPlatform(),r=t.type;return e?String(r).toLowerCase()||"":r||""}},{key:"parsePlatform",value:function(){var e=this;this.parsedResult.platform={};var t=s.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.platform=t.describe(this.getUA())),this.parsedResult.platform}},{key:"getEngine",value:function(){return this.parsedResult.engine?this.parsedResult.engine:this.parseEngine()}},{key:"getEngineName",value:function(e){return e?String(this.getEngine().name).toLowerCase()||"":this.getEngine().name||""}},{key:"parseEngine",value:function(){var e=this;this.parsedResult.engine={};var t=o.default.find(function(t){if("function"==typeof t.test)return t.test(e);if(t.test instanceof Array)return t.test.some(function(t){return e.test(t)});throw new Error("Browser's test function is not valid")});return t&&(this.parsedResult.engine=t.describe(this.getUA())),this.parsedResult.engine}},{key:"parse",value:function(){return this.parseBrowser(),this.parseOS(),this.parsePlatform(),this.parseEngine(),this}},{key:"getResult",value:function(){return Object.assign({},this.parsedResult)}},{key:"satisfies",value:function(e){var t=this,r={},n=0,i={},s=0,o=Object.keys(e);if(o.forEach(function(t){var o=e[t];"string"==typeof o?(i[t]=o,s+=1):"object"===c(o)&&(r[t]=o,n+=1);}),n>0){var a=Object.keys(r),u=a.find(function(e){return t.isOS(e)});if(u){var d=this.satisfies(r[u]);if(void 0!==d)return d}var f=a.find(function(e){return t.isPlatform(e)});if(f){var l=this.satisfies(r[f]);if(void 0!==l)return l}}if(s>0){var v=Object.keys(i),p=v.find(function(e){return t.isBrowser(e)});if(void 0!==p)return this.compareVersion(i[p])}}},{key:"isBrowser",value:function(e){return this.getBrowserName(!0)===String(e).toLowerCase()}},{key:"compareVersion",value:function(e){var t=[0],r=e,n=!1,i=this.getBrowserVersion();if("string"==typeof i)return ">"===e[0]||"<"===e[0]?(r=e.substr(1),"="===e[1]?(n=!0,r=e.substr(2)):t=[],">"===e[0]?t.push(1):t.push(-1)):"="===e[0]?r=e.substr(1):"~"===e[0]&&(n=!0,r=e.substr(1)),t.indexOf((0, a.compareVersions)(i,r,n))>-1}},{key:"isOS",value:function(e){return this.getOSName(!0)===String(e).toLowerCase()}},{key:"isPlatform",value:function(e){return this.getPlatformType(!0)===String(e).toLowerCase()}},{key:"isEngine",value:function(e){return this.getEngineName(!0)===String(e).toLowerCase()}},{key:"is",value:function(e){return this.isBrowser(e)||this.isOS(e)||this.isPlatform(e)}},{key:"some",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return t.some(function(t){return e.is(t)})}}])&&d(t.prototype,r),e;var t,r;}();r.default=f,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},88:function(e,t,r){var n,i,s;i=[t,r(17)],void 0===(s="function"==typeof(n=function(r,n){Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0;var i=/version\/(\d+(\.?_?\d+)+)/i,s=[{test:[/googlebot/i],describe:function(e){var t={name:"Googlebot"},r=(0, n.getFirstMatch)(/googlebot\/(\d+(\.\d+))/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/opera/i],describe:function(e){var t={name:"Opera"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:opera)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/opr\/|opios/i],describe:function(e){var t={name:"Opera"},r=(0, n.getFirstMatch)(/(?:opr|opios)[\s\/](\S+)/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/SamsungBrowser/i],describe:function(e){var t={name:"Samsung Internet for Android"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:SamsungBrowser)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/Whale/i],describe:function(e){var t={name:"NAVER Whale Browser"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:whale)[\s\/](\d+(?:\.\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/MZBrowser/i],describe:function(e){var t={name:"MZ Browser"},r=(0, n.getFirstMatch)(/(?:MZBrowser)[\s\/](\d+(?:\.\d+)+)/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/focus/i],describe:function(e){var t={name:"Focus"},r=(0, n.getFirstMatch)(/(?:focus)[\s\/](\d+(?:\.\d+)+)/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/swing/i],describe:function(e){var t={name:"Swing"},r=(0, n.getFirstMatch)(/(?:swing)[\s\/](\d+(?:\.\d+)+)/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/coast/i],describe:function(e){var t={name:"Opera Coast"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:coast)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/yabrowser/i],describe:function(e){var t={name:"Yandex Browser"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:yabrowser)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/ucbrowser/i],describe:function(e){var t={name:"UC Browser"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:ucbrowser)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/Maxthon|mxios/i],describe:function(e){var t={name:"Maxthon"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:Maxthon|mxios)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/epiphany/i],describe:function(e){var t={name:"Epiphany"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:epiphany)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/puffin/i],describe:function(e){var t={name:"Puffin"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:puffin)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/sleipnir/i],describe:function(e){var t={name:"Sleipnir"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:sleipnir)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/k-meleon/i],describe:function(e){var t={name:"K-Meleon"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/(?:k-meleon)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/micromessenger/i],describe:function(e){var t={name:"WeChat"},r=(0, n.getFirstMatch)(/(?:micromessenger)[\s\/](\d+(\.?_?\d+)+)/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/msie|trident/i],describe:function(e){var t={name:"Internet Explorer"},r=(0, n.getFirstMatch)(/(?:msie |rv:)(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/edg([ea]|ios)/i],describe:function(e){var t={name:"Microsoft Edge"},r=(0, n.getSecondMatch)(/edg([ea]|ios)\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/vivaldi/i],describe:function(e){var t={name:"Vivaldi"},r=(0, n.getFirstMatch)(/vivaldi\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/seamonkey/i],describe:function(e){var t={name:"SeaMonkey"},r=(0, n.getFirstMatch)(/seamonkey\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/sailfish/i],describe:function(e){var t={name:"Sailfish"},r=(0, n.getFirstMatch)(/sailfish\s?browser\/(\d+(\.\d+)?)/i,e);return r&&(t.version=r),t}},{test:[/silk/i],describe:function(e){var t={name:"Amazon Silk"},r=(0, n.getFirstMatch)(/silk\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/phantom/i],describe:function(e){var t={name:"PhantomJS"},r=(0, n.getFirstMatch)(/phantomjs\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/slimerjs/i],describe:function(e){var t={name:"SlimerJS"},r=(0, n.getFirstMatch)(/slimerjs\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/blackberry|\bbb\d+/i,/rim\stablet/i],describe:function(e){var t={name:"BlackBerry"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/blackberry[\d]+\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/(web|hpw)[o0]s/i],describe:function(e){var t={name:"WebOS Browser"},r=(0, n.getFirstMatch)(i,e)||(0, n.getFirstMatch)(/w(?:eb)?[o0]sbrowser\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/bada/i],describe:function(e){var t={name:"Bada"},r=(0, n.getFirstMatch)(/dolfin\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/tizen/i],describe:function(e){var t={name:"Tizen"},r=(0, n.getFirstMatch)(/(?:tizen\s?)?browser\/(\d+(\.?_?\d+)+)/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/qupzilla/i],describe:function(e){var t={name:"QupZilla"},r=(0, n.getFirstMatch)(/(?:qupzilla)[\s\/](\d+(\.?_?\d+)+)/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/firefox|iceweasel|fxios/i],describe:function(e){var t={name:"Firefox"},r=(0, n.getFirstMatch)(/(?:firefox|iceweasel|fxios)[\s\/](\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/chromium/i],describe:function(e){var t={name:"Chromium"},r=(0, n.getFirstMatch)(/(?:chromium)[\s\/](\d+(\.?_?\d+)+)/i,e)||(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/chrome|crios|crmo/i],describe:function(e){var t={name:"Chrome"},r=(0, n.getFirstMatch)(/(?:chrome|crios|crmo)\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:function(e){var t=!e.test(/like android/i),r=e.test(/android/i);return t&&r},describe:function(e){var t={name:"Android Browser"},r=(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/safari|applewebkit/i],describe:function(e){var t={name:"Safari"},r=(0, n.getFirstMatch)(i,e);return r&&(t.version=r),t}},{test:[/.*/i],describe:function(e){return {name:(0, n.getFirstMatch)(/^(.*)\/(.*) /,e),version:(0, n.getSecondMatch)(/^(.*)\/(.*) /,e)}}}];r.default=s,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},89:function(e,t,r){var n,i,s;i=[t,r(17)],void 0===(s="function"==typeof(n=function(r,n){Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0;var i=[{test:[/windows phone/i],describe:function(e){var t=(0, n.getFirstMatch)(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i,e);return {name:"Windows Phone",version:t}}},{test:[/windows/i],describe:function(e){var t=(0, n.getFirstMatch)(/Windows ((NT|XP)( \d\d?.\d)?)/i,e),r=(0, n.getWindowsVersionName)(t);return {name:"Windows",version:t,versionName:r}}},{test:[/macintosh/i],describe:function(e){var t=(0, n.getFirstMatch)(/mac os x (\d+(\.?_?\d+)+)/i,e).replace(/[_\s]/g,".");return {name:"macOS",version:t}}},{test:[/(ipod|iphone|ipad)/i],describe:function(e){var t=(0, n.getFirstMatch)(/os (\d+([_\s]\d+)*) like mac os x/i,e).replace(/[_\s]/g,".");return {name:"iOS",version:t}}},{test:function(e){var t=!e.test(/like android/i),r=e.test(/android/i);return t&&r},describe:function(e){var t=(0, n.getFirstMatch)(/android[\s\/-](\d+(\.\d+)*)/i,e),r=(0, n.getAndroidVersionName)(t),i={name:"Android",version:t};return r&&(i.versionName=r),i}},{test:[/(web|hpw)[o0]s/i],describe:function(e){var t=(0, n.getFirstMatch)(/(?:web|hpw)[o0]s\/(\d+(\.\d+)*)/i,e),r={name:"WebOS"};return t&&t.length&&(r.version=t),r}},{test:[/blackberry|\bbb\d+/i,/rim\stablet/i],describe:function(e){var t=(0, n.getFirstMatch)(/rim\stablet\sos\s(\d+(\.\d+)*)/i,e)||(0, n.getFirstMatch)(/blackberry\d+\/(\d+([_\s]\d+)*)/i,e)||(0, n.getFirstMatch)(/\bbb(\d+)/i,e);return {name:"BlackBerry",version:t}}},{test:[/bada/i],describe:function(e){var t=(0, n.getFirstMatch)(/bada\/(\d+(\.\d+)*)/i,e);return {name:"Bada",version:t}}},{test:[/tizen/i],describe:function(e){var t=(0, n.getFirstMatch)(/tizen[\/\s](\d+(\.\d+)*)/i,e);return {name:"Tizen",version:t}}},{test:[/linux/i],describe:function(){return {name:"Linux"}}},{test:[/CrOS/],describe:function(){return {name:"Chrome OS"}}}];r.default=i,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},90:function(e,t,r){var n,i,s;i=[t,r(17)],void 0===(s="function"==typeof(n=function(r,n){Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0;var i={tablet:"tablet",mobile:"mobile",desktop:"desktop"},s=[{test:[/googlebot/i],describe:function(){return {type:"bot",vendor:"Google"}}},{test:[/huawei/i],describe:function(e){var t=(0, n.getFirstMatch)(/(can-l01)/i,e)&&"Nova",r={type:i.mobile,vendor:"Huawei"};return t&&(r.model=t),r}},{test:[/nexus\s*(?:7|8|9|10).*/i],describe:function(){return {type:i.tablet,vendor:"Nexus"}}},{test:[/ipad/i],describe:function(){return {type:i.tablet,vendor:"Apple",model:"iPad"}}},{test:[/kftt build/i],describe:function(){return {type:i.tablet,vendor:"Amazon",model:"Kindle Fire HD 7"}}},{test:[/silk/i],describe:function(){return {type:i.tablet,vendor:"Amazon"}}},{test:[/tablet/i],describe:function(){return {type:i.tablet}}},{test:function(e){var t=e.test(/ipod|iphone/i),r=e.test(/like (ipod|iphone)/i);return t&&!r},describe:function(e){var t=(0, n.getFirstMatch)(/(ipod|iphone)/i,e);return {type:i.mobile,vendor:"Apple",model:t}}},{test:[/nexus\s*[0-6].*/i,/galaxy nexus/i],describe:function(){return {type:i.mobile,vendor:"Nexus"}}},{test:[/[^-]mobi/i],describe:function(){return {type:i.mobile}}},{test:function(e){return "blackberry"===e.getBrowserName(!0)},describe:function(){return {type:i.mobile,vendor:"BlackBerry"}}},{test:function(e){return "bada"===e.getBrowserName(!0)},describe:function(){return {type:i.mobile}}},{test:function(e){return "windows phone"===e.getBrowserName()},describe:function(){return {type:i.mobile,vendor:"Microsoft"}}},{test:function(e){var t=Number(String(e.getOSVersion()).split(".")[0]);return "android"===e.getOSName(!0)&&t>=3},describe:function(){return {type:i.tablet}}},{test:function(e){return "android"===e.getOSName(!0)},describe:function(){return {type:i.mobile}}},{test:function(e){return "macos"===e.getOSName(!0)},describe:function(){return {type:i.desktop,vendor:"Apple"}}},{test:function(e){return "windows"===e.getOSName(!0)},describe:function(){return {type:i.desktop}}},{test:function(e){return "linux"===e.getOSName(!0)},describe:function(){return {type:i.desktop}}}];r.default=s,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);},91:function(e,t,r){var n,i,s;i=[t,r(17)],void 0===(s="function"==typeof(n=function(r,n){Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0;var i=[{test:function(e){return "microsoft edge"===e.getBrowserName(!0)},describe:function(e){var t=(0, n.getFirstMatch)(/edge\/(\d+(\.?_?\d+)+)/i,e);return {name:"EdgeHTML",version:t}}},{test:[/trident/i],describe:function(e){var t={name:"Trident"},r=(0, n.getFirstMatch)(/trident\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:function(e){return e.test(/presto/i)},describe:function(e){var t={name:"Presto"},r=(0, n.getFirstMatch)(/presto\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:function(e){var t=e.test(/gecko/i),r=e.test(/like gecko/i);return t&&!r},describe:function(e){var t={name:"Gecko"},r=(0, n.getFirstMatch)(/gecko\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}},{test:[/(apple)?webkit\/537\.36/i],describe:function(){return {name:"Blink"}}},{test:[/(apple)?webkit/i],describe:function(e){var t={name:"WebKit"},r=(0, n.getFirstMatch)(/webkit\/(\d+(\.?_?\d+)+)/i,e);return r&&(t.version=r),t}}];r.default=i,e.exports=t.default;})?n.apply(t,i):n)||(e.exports=s);}})});
 });
 
-var bowser = unwrapExports(es5);
+var bowser = unwrapExports$1(es5);
 var es5_1 = es5.bowser;
 
-var ua = window.navigator.userAgent.toLowerCase();
-var bots = ['facebookexternalhit', 'linkedinbot', 'google (+https://developers.google.com/+/web/snippet/)', 'facebot', 'https://developers.google.com/+/web/snippet/', 'twitterbot', 'tumblr', 'googlebot'];
+let _window = window;
 
-var checkBot = function checkBot() {
-  return Boolean(bots.filter(function (bot) {
-    return ua.indexOf(bot.toLowerCase()) !== -1;
-  }).length);
+let _ua = window.navigator.userAgent.toLowerCase();
+
+const _browser = bowser.getParser(window.navigator.userAgent);
+
+var detector = {
+  base: _browser,
+  window: _window,
+  ua: _ua
 };
 
-var checkVendor = function checkVendor() {
-  return window.navigator.vendor ? window.navigator.vendor.toLowerCase() : '';
-};
+/**
+ * Contains methods and utils to test everything related to the user's browser
+ *
+ * @class Browser
+ */
 
-var checkOSVersion = function checkOSVersion() {
-  return bowser.osversion;
-};
-
-var checkOSMajorVersion = function checkOSMajorVersion() {
-  return parseInt(bowser.osversion, 10);
-};
-
-var checkBrowserVersion = function checkBrowserVersion() {
-  return bowser.version;
-};
-
-var checkBrowserMajorVersion = function checkBrowserMajorVersion() {
-  return parseInt(bowser.version, 10);
-};
-
-var checkDevicePixelRatio = function checkDevicePixelRatio() {
-  return window.devicePixelRatio;
-};
-
-var checkFacebook = function checkFacebook() {
-  return /fban|fbav/.test(ua);
-};
-
-var checkTwitter = function checkTwitter() {
-  return /twitter/.test(ua);
-};
-
-var checkInstagram = function checkInstagram() {
-  return /instagram/.test(ua);
-};
-
-var checkPinterest = function checkPinterest() {
-  return /pinterest/.test(ua);
-}; // Bot flags
+class Browser {
+  constructor() {
+    this._parsedBrowserName = detector.base.getBrowserName();
+    this.isChrome = this._parsedBrowserName === 'Chrome';
+    this.isFirefox = this._parsedBrowserName === 'Firefox';
+    this.isSafari = this._parsedBrowserName === 'Safari';
+    this.isEdge = this._parsedBrowserName === 'Microsoft Edge';
+    this.isIE = this._parsedBrowserName === 'Internet Explorer';
+    this.isOpera = this._parsedBrowserName === 'Opera';
+  }
+  /**
+   * Returns the browser's name
+   *
+   * @returns {String} 'chrome', 'ie', 'firefox', 'safari', 'edge', 'opera', etc
+   * @memberof Browser
+   */
 
 
-var isBot = checkBot(); // OS flags
-
-var isiOS = bowser.ios === true;
-var isAndroid = bowser.android === true;
-var isFirefoxOS = bowser.firefoxos === true;
-var isWindowsPhone = bowser.windowsphone === true;
-var isBlackberry = bowser.blackberry === true;
-var isMac = bowser.mac === true;
-var isWindows = bowser.windows === true;
-var isLinux = bowser.linux === true;
-var isChromeOS = bowser.chromeos === true; // Device flags
-
-var isPhone = bowser.mobile === true;
-var isTablet = bowser.tablet === true;
-var isMobile = isPhone || isTablet;
-var isDesktop = !isMobile;
-var isiPhone = isiOS && bowser.iphone === true;
-var isiPad = isiOS && bowser.ipad === true;
-var isiPod = isiOS && bowser.ipod === true; // Browser flags
-
-var isChrome = bowser.chrome === true;
-var isFirefox = bowser.firefox === true;
-var isSafari = bowser.safari === true;
-var isEdge = bowser.msedge === true;
-var isIE = bowser.msie === true;
-var isOpera = bowser.opera === true;
-
-var checkDevice = function checkDevice() {
-  if (isPhone) return 'phone';
-  if (isTablet) return 'tablet';
-  if (isDesktop) return 'desktop';
-  return '';
-};
-
-var checkOSName = function checkOSName() {
-  if (isiOS) return 'ios';
-  if (isAndroid) return 'android';
-  if (isFirefoxOS) return 'firefoxos';
-  if (isWindowsPhone) return 'windowsphone';
-  if (isBlackberry) return 'blackberry';
-  if (isMac) return 'mac';
-  if (isWindows) return 'windows';
-  if (isLinux) return 'linux';
-  if (isChromeOS) return 'chromeos';
-  return '';
-};
-
-var checkBrowserName = function checkBrowserName() {
-  if (isChrome) return 'chrome';
-  if (isFirefox) return 'firefox';
-  if (isSafari) return 'safari';
-  if (isEdge) return 'edge';
-  if (isIE) return 'ie';
-  if (isOpera) return 'opera';
-  return '';
-}; // OS
+  getName() {
+    if (this.isEdge) return 'edge';
+    if (this.isIE) return 'ie';
+    return this._parsedBrowserName.toLowerCase();
+  }
+  /**
+   * Returns the browser's version
+   *
+   * @returns {Number} 11.0.1
+   * @memberof Browser
+   */
 
 
-var os = checkOSName();
-var osVersion = checkOSVersion();
-var osMajorVersion = checkOSMajorVersion(); // Browser
+  getVersion() {
+    return detector.base.getBrowserVersion();
+  }
+  /**
+   * Returns the browser's major version
+   *
+   * @returns {Number} 43
+   * @memberof Browser
+   */
 
-var browser = checkBrowserName();
-var browserVersion = checkBrowserVersion();
-var browserMajorVersion = checkBrowserMajorVersion(); // InAppBrowser flags
 
-var isFacebook = checkFacebook();
-var isTwitter = checkTwitter();
-var isInstagram = checkInstagram();
-var isPinterest = checkPinterest();
+  getMajorVersion() {
+    return parseInt(this.getBrowserVersion(), 10);
+  }
+  /**
+   * Returns the browser's vendor
+   *
+   * @returns {String} Google Inc
+   * @memberof Browser
+   */
 
-var checkInAppBrowser = function checkInAppBrowser() {
-  var isInAppBrowser = isFacebook || isTwitter || isInstagram || isPinterest;
 
-  if (!isInAppBrowser) {
-    isInAppBrowser = isiOS && osMajorVersion >= 11 && isSafari && typeof window.navigator.mediaDevices === 'undefined';
+  getVendor() {
+    return detector.window.navigator.vendor ? detector.window.navigator.vendor.toLowerCase() : '';
   }
 
-  return isInAppBrowser;
-};
+}
 
-var checkInAppBrowserVersion = function checkInAppBrowserVersion() {
-  if (isiOS) return osMajorVersion;
-  if (isAndroid) return browserMajorVersion;
-  return 9999;
-};
+var browser = new Browser();
 
-var isInAppBrowser = checkInAppBrowser();
-var inAppBrowserVersion = checkInAppBrowserVersion(); // Orientation
+/**
+ * Contains methods and utils to test user's Operative System
+ *
+ * @class OS
+ */
 
-var PORTRAIT = 'portrait';
-var LANDSCAPE = 'landscape';
+class OS {
+  constructor() {
+    this._parsedOSName = detector.base.getOSName();
+    this.isiOS = this._parsedOSName === 'iOS';
+    this.isAndroid = this._parsedOSName === 'Android';
+    this.isWindowsPhone = this._parsedOSName === 'Windows Phone';
+    this.isBlackberry = this._parsedOSName === 'BlackBerry';
+    this.isMac = this._parsedOSName === 'macOS';
+    this.isWindows = this._parsedOSName === 'Windows';
+    this.isLinux = this._parsedOSName === 'Linux';
+    this.isChromeOS = this._parsedOSName === 'Chrome OS';
+  }
+  /**
+   * Returns the Operative System name
+   *
+   * @returns {String} 'ios', 'android', 'windowsphone', 'blackberry', 'macos', 'chromeos', 'windows', etc
+   * @memberof OS
+   */
 
-var checkOrientation = function checkOrientation() {
-  if (_typeof(window.screen) === 'object') {
-    var orientationType = window.screen.msOrientation || (window.screen.orientation || window.screen.mozOrientation || {}).type;
 
-    if (typeof orientationType === 'string') {
-      return orientationType.split('-', 1)[0];
+  getName() {
+    return this._parsedOSName.split(' ').join('').toLowerCase();
+  }
+  /**
+   * Returns the Operative System version
+   *
+   * @returns {Number} 13.2.1
+   * @memberof OS
+   */
+
+
+  getVersion() {
+    return detector.base.getOSVersion();
+  }
+  /**
+   * Returns the Operative System major version
+   *
+   * @returns {Number} 13
+   * @memberof OS
+   */
+
+
+  getMajorVersion() {
+    return parseInt(detector.base.getOSVersion(), 10);
+  }
+
+}
+
+var os = new OS();
+
+const PORTRAIT = 'portrait';
+const LANDSCAPE = 'landscape';
+/**
+ * Contains methods and utils to test everything related to the user's device
+ *
+ * @class Device
+ */
+
+class Device {
+  constructor() {
+    const platform = detector.base.getPlatform();
+    if (!platform['type']) platform['type'] = '';
+    if (!platform['model']) platform['model'] = '';
+    this.isPhone = platform.type == 'mobile';
+    this.isTablet = platform.type == 'tablet';
+    this.isMobile = this.isPhone || this.isTablet;
+    this.isDesktop = !this.isMobile;
+    this.isiPhone = platform.model === 'iPhone';
+    this.isiPad = platform.model === 'iPad';
+    this.isiPod = platform.model === 'iPod';
+  }
+  /**
+   * Returns the device's type
+   *
+   * @returns {String} 'phone', 'desktop' or 'tablet'
+   * @memberof Device
+   */
+
+
+  getType() {
+    if (this.isPhone) return 'phone';
+    if (this.isTablet) return 'tablet';
+    if (this.isDesktop) return 'desktop';
+    return '';
+  }
+  /**
+   * Returns device's pixel ratio
+   *
+   * @returns {Number} 2
+   * @memberof Device
+   */
+
+
+  getPixelRatio() {
+    return detector.window.devicePixelRatio;
+  }
+  /**
+   * Returns device's current orientation
+   *
+   * @returns {String} 'portrait' or 'landscape'
+   * @memberof Device
+   */
+
+
+  getOrientation() {
+    if (typeof window.screen === 'object') {
+      const orientationType = window.screen.msOrientation || (window.screen.orientation || window.screen.mozOrientation || {}).type;
+
+      if (typeof orientationType === 'string') {
+        return orientationType.split('-', 1)[0];
+      }
     }
+
+    if (typeof window.matchMedia === 'function') {
+      return window.matchMedia('(orientation: portrait)').matches === true ? PORTRAIT : LANDSCAPE;
+    }
+
+    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    return w < h ? PORTRAIT : LANDSCAPE;
+  }
+  /**
+   * Is portrait the current device's orientation
+   *
+   * @returns {Boolean} True | False
+   * @memberof Device
+   */
+
+
+  isPortrait() {
+    return this.getOrientation() === PORTRAIT;
+  }
+  /**
+   * Is landscape the current device's orientation
+   *
+   * @returns {Boolean} True | False
+   * @memberof Device
+   */
+
+
+  isLandscape() {
+    return this.getOrientation() === LANDSCAPE;
   }
 
-  if (typeof window.matchMedia === 'function') {
-    return window.matchMedia('(orientation: portrait)').matches === true ? PORTRAIT : LANDSCAPE;
+}
+
+var device = new Device();
+
+/**
+ * Contains methods and utils to test browsers embedded in mobile applications
+ *
+ * @class InAppBrowser
+ */
+
+class InAppBrowser {
+  constructor() {
+    this.isFacebook = /fban|fbav/.test(detector.ua);
+    this.isTwitter = /twitter/.test(detector.ua);
+    this.isInstagram = /instagram/.test(detector.ua);
+    this.isPinterest = /pinterest/.test(detector.ua);
+  }
+  /**
+   * Is the browser embedded in an application
+   *
+   * @returns {Boolean} True | False
+   * @memberof InAppBrowser
+   */
+
+
+  isInAppBrowser() {
+    let isInAppBrowser = this.isFacebook || this.isTwitter || this.isInstagram || this.isPinterest;
+
+    if (!isInAppBrowser) {
+      isInAppBrowser = os.isiOS && os.getOSMajorVersion() >= 11 && browser.isSafari && typeof detector.window.navigator.mediaDevices === 'undefined';
+    }
+
+    return isInAppBrowser;
+  }
+  /**
+   * Returns in-app browser's version
+   *
+   * @returns {Number} 45
+   * @memberof InAppBrowser
+   */
+
+
+  getVersion() {
+    if (os.isiOS) return os.getOSMajorVersion();
+    if (os.isAndroid) return browser.getBrowserMajorVersion();
+    return 9999;
   }
 
-  var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-  return w < h ? PORTRAIT : LANDSCAPE;
-};
+}
 
-var checkPortrait = function checkPortrait() {
-  return checkOrientation() === PORTRAIT;
-};
+var inAppBrowser = new InAppBrowser();
 
-var checkLandscape = function checkLandscape() {
-  return checkOrientation() === LANDSCAPE;
-}; // Other
-
-
-var vendor = checkVendor();
-var device = checkDevice();
-
-var getClasses = function getClasses() {
-  return [isMobile ? 'mobile' : '', device, os, browser].filter(function (className) {
-    return Boolean(className);
-  });
-};
-
-var classes = getClasses();
-var devicePixelRatio = checkDevicePixelRatio(); // Create default object
-
-var detect = {
-  // Bot flags
-  isBot: isBot,
-  // Device flags
-  isPhone: isPhone,
-  isTablet: isTablet,
-  isMobile: isMobile,
-  isDesktop: isDesktop,
-  isiPhone: isiPhone,
-  isiPad: isiPad,
-  isiPod: isiPod,
-  // OS flags
-  isiOS: isiOS,
-  isAndroid: isAndroid,
-  isFirefoxOS: isFirefoxOS,
-  isWindowsPhone: isWindowsPhone,
-  isBlackberry: isBlackberry,
-  isMac: isMac,
-  isWindows: isWindows,
-  isLinux: isLinux,
-  isChromeOS: isChromeOS,
-  // Browser flags
-  isChrome: isChrome,
-  isFirefox: isFirefox,
-  isSafari: isSafari,
-  isEdge: isEdge,
-  isIE: isIE,
-  isOpera: isOpera,
-  // InAppBrowser flags & version
-  isFacebook: isFacebook,
-  isTwitter: isTwitter,
-  isInstagram: isInstagram,
-  isPinterest: isPinterest,
-  isInAppBrowser: isInAppBrowser,
-  inAppBrowserVersion: inAppBrowserVersion,
-  // OS
-  os: os,
-  osVersion: osVersion,
-  osMajorVersion: osMajorVersion,
-  // Browser
-  browser: browser,
-  browserVersion: browserVersion,
-  browserMajorVersion: browserMajorVersion,
-  // Orientation
-  PORTRAIT: PORTRAIT,
-  LANDSCAPE: LANDSCAPE,
-
-  get orientation() {
-    return checkOrientation();
-  },
-
-  get isPortrait() {
-    return checkPortrait();
-  },
-
-  get isLandscape() {
-    return checkLandscape();
-  },
-
-  // Other
-  classes: classes,
-  vendor: vendor,
-  device: device,
-  devicePixelRatio: devicePixelRatio,
-  // Libraries
-  bowser: bowser
-}; // Named exports
+var css$6 = ".RotateScreen {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #000; }\n  .RotateScreen .container {\n    text-align: center; }\n    .RotateScreen .container .rotate-text {\n      color: #fff;\n      font-size: 1.6rem; }\n    .RotateScreen .container .rotate-icon {\n      width: 10rem; }\n";
+styleInject(css$6);
 
 var RotateScreen =
 /*#__PURE__*/
@@ -3949,15 +3974,15 @@ function (_PureComponent) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleOrientationChange", function () {
-      if (detect.orientation !== _this.state.orientation) {
+      if (device.getOrientation() !== _this.state.orientation) {
         _this.setState({
-          orientation: detect.orientation
+          orientation: device.getOrientation()
         });
       }
     });
 
     _this.state = {
-      orientation: detect.orientation
+      orientation: device.getOrientation()
     };
     return _this;
   }
@@ -3967,7 +3992,7 @@ function (_PureComponent) {
     value: function componentDidMount() {
       this.setOrientationParentClass();
 
-      if (detect.isAndroid) {
+      if (os.isAndroid) {
         window.addEventListener('orientationchange', this.handleOrientationChange);
       } else {
         window.addEventListener('resize', this.handleOrientationChange);
@@ -3987,7 +4012,7 @@ function (_PureComponent) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      if (detect.isAndroid) {
+      if (os.isAndroid) {
         window.removeEventListener('orientationchange', this.handleOrientationChange);
       } else {
         window.removeEventListener('resize', this.handleOrientationChange);

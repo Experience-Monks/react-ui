@@ -1,6 +1,6 @@
 {
   "name": "@jam3/react-ui",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React components that follow Jam3 standards",
   "main": "dist/index.js",
   "module": "dist/index.module.js",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/Jam3/react-ui#readme",
   "dependencies": {
+    "@jam3/detect": "^1.0.1",
     "@jam3/react-check-extra-props": "^1.0.0",
     "bowser": "^2.0.0-beta.3",
     "classnames": "^2.2.6",

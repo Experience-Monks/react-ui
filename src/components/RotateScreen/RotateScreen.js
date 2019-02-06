@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import 'default-passive-events';
 import checkProps from '@jam3/react-check-extra-props';
+import { device, os } from '@jam3/detect';
 
 import './RotateScreen.css';
-
-import detect from '../../util/detect';
 
 export default class RotateScreen extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      orientation: detect.orientation
+      orientation: device.getOrientation()
     };
   }
 
   componentDidMount() {
     this.setOrientationParentClass();
 
-    if (detect.isAndroid) {
+    if (os.isAndroid) {
       window.addEventListener('orientationchange', this.handleOrientationChange);
     } else {
       window.addEventListener('resize', this.handleOrientationChange);
@@ -35,7 +34,7 @@ export default class RotateScreen extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (detect.isAndroid) {
+    if (os.isAndroid) {
       window.removeEventListener('orientationchange', this.handleOrientationChange);
     } else {
       window.removeEventListener('resize', this.handleOrientationChange);
@@ -55,8 +54,8 @@ export default class RotateScreen extends PureComponent {
   };
 
   handleOrientationChange = () => {
-    if (detect.orientation !== this.state.orientation) {
-      this.setState({ orientation: detect.orientation });
+    if (device.getOrientation() !== this.state.orientation) {
+      this.setState({ orientation: device.getOrientation() });
     }
   };
 
