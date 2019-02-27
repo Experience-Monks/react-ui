@@ -1,6 +1,6 @@
 {
   "name": "@jam3/react-ui",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "React components that follow Jam3 standards",
   "main": "dist/index.js",
   "module": "dist/index.module.js",
@@ -37,7 +37,7 @@
     "default-passive-events": "^1.0.10",
     "fullscreen-handler": "0.0.2",
     "no-op": "^1.0.3",
-    "react-background-video-player": "^1.1.5",
+    "react-background-video-player": "^1.1.6",
     "remove-trailing-separator": "^1.1.0"
   },
   "peerDependencies": {
