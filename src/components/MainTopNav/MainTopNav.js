@@ -36,15 +36,17 @@ class MainTopNav extends React.PureComponent {
   };
 
   render() {
+    const LinkComponent = this.props.linkComponent;
+
     return (
       <header className={classnames('MainTopNav', this.props.className)}>
         {this.props.ariaSiteTitle && <h1 className="only-aria-visible">{this.props.ariaSiteTitle}</h1>}
         <nav className="nav" aria-label={this.props.ariaNavLabel}>
           {this.props.ariaNavTitle && <h2 className="only-aria-visible">{this.props.ariaNavTitle}</h2>}
           {this.props.logoSrc && (
-            <BaseLink link={this.props.logoLink} aria-label={this.props.logoAriaLabel}>
+            <LinkComponent link={this.props.logoLink} aria-label={this.props.logoAriaLabel}>
               <img className="nav-logo" src={this.props.logoSrc} alt={this.props.logoAlt} />
-            </BaseLink>
+            </LinkComponent>
           )}
           {this.props.showHamburger ? (
             <HamburgerButton onClick={this.handleHamburgerClick} currentState={this.state.buttonState} />
@@ -53,14 +55,14 @@ class MainTopNav extends React.PureComponent {
               <ul className="nav-list">
                 {this.props.links.map((link, index) => (
                   <li key={index} className="nav-item">
-                    <BaseLink
+                    <LinkComponent
                       link={link.path}
                       className={classnames({
                         active: cleanPath(this.props.location.pathname) === cleanPath(link.path)
                       })}
                     >
                       {link.text}
-                    </BaseLink>
+                    </LinkComponent>
                   </li>
                 ))}
               </ul>
@@ -85,12 +87,17 @@ MainTopNav.propTypes = checkProps({
   links: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,
-      path: PropTypes.string,
+      path: PropTypes.string
     })
   ),
   showHamburger: PropTypes.bool,
   isMobileMenuOpen: PropTypes.bool,
-  setIsMobileMenuOpen: PropTypes.func
+  setIsMobileMenuOpen: PropTypes.func,
+  linkComponent: (props, propName) => {
+    if (props[propName] && !props[propName]['$$typeof']) {
+      return new Error(`Invalid prop '${propName}' supplied to 'MainTopNav'. A valid React component expected`);
+    }
+  }
 });
 
 MainTopNav.defaultProps = {
@@ -98,7 +105,8 @@ MainTopNav.defaultProps = {
   logoLink: '/',
   logoAriaLabel: 'Home',
   ariaNavLabel: 'Main Navigation',
-  setIsMobileMenuOpen: noop
+  setIsMobileMenuOpen: noop,
+  linkComponent: BaseLink
 };
 
 export default withRouter(MainTopNav);

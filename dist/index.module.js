@@ -3347,6 +3347,7 @@ var css$2 = ".Footer {\n  display: inline-block;\n  width: 100%;\n  padding: 0 4
 styleInject(css$2);
 
 var Footer = React.memo(React.forwardRef(function (props, ref) {
+  var LinkComponent = props.linkComponent;
   return React.createElement("footer", {
     className: classnames('Footer', props.className),
     ref: ref
@@ -3359,7 +3360,7 @@ var Footer = React.memo(React.forwardRef(function (props, ref) {
     return React.createElement("li", {
       key: index,
       className: "nav-item"
-    }, React.createElement(BaseLink, {
+    }, React.createElement(LinkComponent, {
       link: link.path
     }, link.text));
   }))), props.children, props.copyright && React.createElement("p", {
@@ -3373,11 +3374,17 @@ Footer.propTypes = src({
     path: propTypes.string
   })),
   ariaNavLabel: propTypes.string,
-  copyright: propTypes.string
+  copyright: propTypes.string,
+  linkComponent: function linkComponent(props, propName) {
+    if (props[propName] && !props[propName]['$$typeof']) {
+      return new Error("Invalid prop '".concat(propName, "' supplied to 'Footer'. A valid React component expected"));
+    }
+  }
 });
 Footer.defaultProps = {
   ariaNavLabel: 'Footer Navigation',
-  copyright: '© Copyright'
+  copyright: '© Copyright',
+  linkComponent: BaseLink
 };
 
 var noOp = function noop() {};
@@ -3493,6 +3500,7 @@ function (_React$PureComponent) {
     value: function render() {
       var _this = this;
 
+      var LinkComponent = this.props.linkComponent;
       return React.createElement("nav", {
         className: classnames("HamburgerMenu", this.props.className, {
           open: this.props.isMobileMenuOpen
@@ -3506,7 +3514,7 @@ function (_React$PureComponent) {
         return React.createElement("li", {
           key: index,
           className: "nav-item"
-        }, React.createElement(BaseLink, {
+        }, React.createElement(LinkComponent, {
           link: link.path,
           className: classnames({
             active: removeTrailingSeparator(_this.props.location.pathname) === removeTrailingSeparator(link.path)
@@ -3527,11 +3535,17 @@ HamburgerMenu.propTypes = src({
   })),
   closeOnRouteChange: propTypes.bool,
   isMobileMenuOpen: propTypes.bool,
-  setIsMobileMenuOpen: propTypes.func
+  setIsMobileMenuOpen: propTypes.func,
+  linkComponent: function linkComponent(props, propName) {
+    if (props[propName] && !props[propName]['$$typeof']) {
+      return new Error("Invalid prop '".concat(propName, "' supplied to 'HamburgerMenu'. A valid React component expected"));
+    }
+  }
 });
 HamburgerMenu.defaultProps = {
   setIsMobileMenuOpen: noOp,
-  closeOnRouteChange: true
+  closeOnRouteChange: true,
+  linkComponent: BaseLink
 };
 var HamburgerMenu$1 = withRouter(HamburgerMenu);
 
@@ -3584,6 +3598,7 @@ function (_React$PureComponent) {
     value: function render() {
       var _this2 = this;
 
+      var LinkComponent = this.props.linkComponent;
       return React.createElement("header", {
         className: classnames('MainTopNav', this.props.className)
       }, this.props.ariaSiteTitle && React.createElement("h1", {
@@ -3593,7 +3608,7 @@ function (_React$PureComponent) {
         "aria-label": this.props.ariaNavLabel
       }, this.props.ariaNavTitle && React.createElement("h2", {
         className: "only-aria-visible"
-      }, this.props.ariaNavTitle), this.props.logoSrc && React.createElement(BaseLink, {
+      }, this.props.ariaNavTitle), this.props.logoSrc && React.createElement(LinkComponent, {
         link: this.props.logoLink,
         "aria-label": this.props.logoAriaLabel
       }, React.createElement("img", {
@@ -3609,7 +3624,7 @@ function (_React$PureComponent) {
         return React.createElement("li", {
           key: index,
           className: "nav-item"
-        }, React.createElement(BaseLink, {
+        }, React.createElement(LinkComponent, {
           link: link.path,
           className: classnames({
             active: removeTrailingSeparator(_this2.props.location.pathname) === removeTrailingSeparator(link.path)
@@ -3637,14 +3652,20 @@ MainTopNav.propTypes = src({
   })),
   showHamburger: propTypes.bool,
   isMobileMenuOpen: propTypes.bool,
-  setIsMobileMenuOpen: propTypes.func
+  setIsMobileMenuOpen: propTypes.func,
+  linkComponent: function linkComponent(props, propName) {
+    if (props[propName] && !props[propName]['$$typeof']) {
+      return new Error("Invalid prop '".concat(propName, "' supplied to 'MainTopNav'. A valid React component expected"));
+    }
+  }
 });
 MainTopNav.defaultProps = {
   logoAlt: 'logo',
   logoLink: '/',
   logoAriaLabel: 'Home',
   ariaNavLabel: 'Main Navigation',
-  setIsMobileMenuOpen: noOp
+  setIsMobileMenuOpen: noOp,
+  linkComponent: BaseLink
 };
 var MainTopNav$1 = withRouter(MainTopNav);
 

@@ -22,6 +22,8 @@ class HamburgerMenu extends React.PureComponent {
   }
 
   render() {
+    const LinkComponent = this.props.linkComponent;
+
     return (
       <nav
         className={classnames(`HamburgerMenu`, this.props.className, { open: this.props.isMobileMenuOpen })}
@@ -31,12 +33,12 @@ class HamburgerMenu extends React.PureComponent {
           <ul className="nav-list">
             {this.props.links.map((link, index) => (
               <li key={index} className="nav-item">
-                <BaseLink
+                <LinkComponent
                   link={link.path}
                   className={classnames({ active: cleanPath(this.props.location.pathname) === cleanPath(link.path) })}
                 >
                   {link.text}
-                </BaseLink>
+                </LinkComponent>
               </li>
             ))}
           </ul>
@@ -52,17 +54,23 @@ HamburgerMenu.propTypes = checkProps({
   links: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,
-      path: PropTypes.string,
+      path: PropTypes.string
     })
   ),
   closeOnRouteChange: PropTypes.bool,
   isMobileMenuOpen: PropTypes.bool,
-  setIsMobileMenuOpen: PropTypes.func
+  setIsMobileMenuOpen: PropTypes.func,
+  linkComponent: (props, propName) => {
+    if (props[propName] && !props[propName]['$$typeof']) {
+      return new Error(`Invalid prop '${propName}' supplied to 'HamburgerMenu'. A valid React component expected`);
+    }
+  }
 });
 
 HamburgerMenu.defaultProps = {
   setIsMobileMenuOpen: noop,
-  closeOnRouteChange: true
+  closeOnRouteChange: true,
+  linkComponent: BaseLink
 };
 
 export default withRouter(HamburgerMenu);

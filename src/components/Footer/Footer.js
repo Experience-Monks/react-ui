@@ -8,23 +8,26 @@ import './Footer.css';
 import BaseLink from '../BaseLink/BaseLink';
 
 const Footer = React.memo(
-  React.forwardRef((props, ref) => (
-    <footer className={classnames('Footer', props.className)} ref={ref}>
-      {props.links && (
-        <nav className="footer-nav" aria-label={props.ariaNavLabel}>
-          <ul className="nav-list">
-            {props.links.map((link, index) => (
-              <li key={index} className="nav-item">
-                <BaseLink link={link.path}>{link.text}</BaseLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
-      {props.children}
-      {props.copyright && <p className="footer-copyright">{props.copyright}</p>}
-    </footer>
-  ))
+  React.forwardRef((props, ref) => {
+    const LinkComponent = props.linkComponent;
+    return (
+      <footer className={classnames('Footer', props.className)} ref={ref}>
+        {props.links && (
+          <nav className="footer-nav" aria-label={props.ariaNavLabel}>
+            <ul className="nav-list">
+              {props.links.map((link, index) => (
+                <li key={index} className="nav-item">
+                  <LinkComponent link={link.path}>{link.text}</LinkComponent>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+        {props.children}
+        {props.copyright && <p className="footer-copyright">{props.copyright}</p>}
+      </footer>
+    );
+  })
 );
 
 Footer.propTypes = checkProps({
@@ -36,12 +39,18 @@ Footer.propTypes = checkProps({
     })
   ),
   ariaNavLabel: PropTypes.string,
-  copyright: PropTypes.string
+  copyright: PropTypes.string,
+  linkComponent: (props, propName) => {
+    if (props[propName] && !props[propName]['$$typeof']) {
+      return new Error(`Invalid prop '${propName}' supplied to 'Footer'. A valid React component expected`);
+    }
+  }
 });
 
 Footer.defaultProps = {
   ariaNavLabel: 'Footer Navigation',
-  copyright: '© Copyright'
+  copyright: '© Copyright',
+  linkComponent: BaseLink
 };
 
 export default Footer;
