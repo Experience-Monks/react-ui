@@ -78,12 +78,14 @@ export default class RotateScreen extends PureComponent {
 }
 
 RotateScreen.propTypes = checkProps({
+  className: PropTypes.string,
   copy: PropTypes.string,
   iconSrc: PropTypes.string,
   iconAlt: PropTypes.string
 });
 
 RotateScreen.defaultProps = {
+  className: '',
   copy: 'Please rotate your device into portrait mode.',
   iconAlt: 'Please rotate your device'
 };
