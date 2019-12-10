@@ -4071,11 +4071,13 @@ function (_PureComponent) {
   return RotateScreen;
 }(PureComponent);
 RotateScreen.propTypes = src({
+  className: propTypes.string,
   copy: propTypes.string,
   iconSrc: propTypes.string,
   iconAlt: propTypes.string
 });
 RotateScreen.defaultProps = {
+  className: '',
   copy: 'Please rotate your device into portrait mode.',
   iconAlt: 'Please rotate your device'
 };
