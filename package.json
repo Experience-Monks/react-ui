@@ -11,7 +11,8 @@
     "storybook": "start-storybook -p 9001 -c .storybook -s ./src",
     "build-storybook": "build-storybook -c .storybook -s ./src -o ./docs",
     "build-css": "node-sass --include-path src/styles src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src/style --include-path ./node_modules src/ -o src/ --watch --recursive"
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src/style --include-path ./node_modules src/ -o src/ --watch --recursive",
+    "postinstall": "node ./src/scripts/copy-components-utility.js"
   },
   "repository": {
     "type": "git",
@@ -33,8 +34,11 @@
     "@jam3/detect": "^1.0.1",
     "@jam3/react-check-extra-props": "^1.0.0",
     "bowser": "^2.0.0-beta.3",
+    "chalk": "^3.0.0",
     "classnames": "^2.2.6",
     "default-passive-events": "^1.0.10",
+    "dir-compare": "^2.2.0",
+    "fs-extra": "^9.0.0",
     "fullscreen-handler": "0.0.2",
     "no-op": "^1.0.3",
     "react-background-video-player": "^1.1.6",
