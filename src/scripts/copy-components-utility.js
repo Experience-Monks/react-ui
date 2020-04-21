@@ -10,9 +10,17 @@ const reactUiComponentDirectory = './src/components';
 const projectRootDirectory = '../../..';
 let projectComponentDirectory = `${projectRootDirectory}/src/components`;
 
+const configSnippetExample = `// Make sure you configure your package.json:
+"react-ui": {
+  "eject": true, // enable/disable this script
+  "eject-path": "./src/components", // your components folder path
+  "components": ["BaseButton", "VideoPlayer"] // components to sync
+}`;
+
 const chalkRUIPrefix = chalk.bgCyanBright.black('react-ui:');
 const chalkError = description => chalk.red(`Fatal error occured while ${description}.`);
 const chalkComponent = componentName => chalk.yellow(componentName);
+const chalkCode = code => chalk.bgBlack.yellow(code);
 const chalkRUI = chalk.green('react-ui');
 const chalkProject = chalk.cyan('project');
 
@@ -54,6 +62,7 @@ function getProjectPackageData() {
     !packageJson['react-ui'].components.length
   ) {
     console.log(chalkRUIPrefix, chalk.red('Ejecting is not configured, skipping copy-component-utility.\n'));
+    console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
     process.exit(0);
   }
 
@@ -66,10 +75,12 @@ function getProjectPackageData() {
         chalkRUIPrefix,
         chalkError(`validating eject-path, '${packageJson['react-ui']['eject-path']}' does not exist`)
       );
+      console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
       process.exit(0);
     }
   } catch (err) {
     console.log(chalkRUIPrefix, chalkError('checking for existence of eject-path.'));
+    console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
     console.log(err);
     process.exit(0);
   }
@@ -89,6 +100,7 @@ function validatePackageComponentList(packageComponents) {
     supportedComponents = fs.readdirSync(reactUiComponentDirectory);
   } catch (err) {
     console.log(chalkRUIPrefix, chalkError('reading contents of react-ui directory'));
+    console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
     console.log(err);
     process.exit(0);
   }
@@ -116,11 +128,12 @@ function validatePackageComponentList(packageComponents) {
  */
 function copyComponentUtility(componentName) {
   console.log(chalkRUIPrefix, 'Running copy component utility for', chalkComponent(componentName) + '.');
+  const projectComponentNameDir = `${projectComponentDirectory}/${componentName}`;
 
-  if (!checkForExistence(`${projectComponentDirectory}/${componentName}`)) {
+  if (!checkForExistence(projectComponentNameDir) || isEmptyDir(projectComponentNameDir)) {
     console.log(chalkRUIPrefix, '-- Copied', chalkComponent(componentName), 'from', chalkRUI, 'to', chalkProject + '.');
-    copyFromTo(`${reactUiComponentDirectory}/${componentName}`, `${projectComponentDirectory}/${componentName}`);
-    createMetaVersionFile(`${projectComponentDirectory}/${componentName}/${metaVersionFileName}`);
+    copyFromTo(`${reactUiComponentDirectory}/${componentName}`, projectComponentNameDir);
+    createMetaVersionFile(`${projectComponentNameDir}/${metaVersionFileName}`);
     return;
   }
 
@@ -131,6 +144,8 @@ function copyComponentUtility(componentName) {
     );
     return;
   }
+
+  createMetaVersionFile(`${projectComponentNameDir}/${metaVersionFileName}`);
 
   const compareResults = compareComponentFromReactUiToProject(componentName);
   if (compareResults.differences === 0) {
@@ -145,6 +160,7 @@ function copyComponentUtility(componentName) {
     );
     return;
   }
+
   compareResults.diffSet.forEach(set => {
     const pathString = set.relativePath === '/' ? '/' : set.relativePath + '/';
     if (set.state === 'distinct') {
@@ -277,4 +293,13 @@ function gitMergeFileUtility(reactUiFilePath, projectFilePath) {
     console.log(err);
     process.exit(0);
   }
+}
+
+/**
+ * Check if a folder is empty
+ *
+ * @param {*} dirFolderPath Path to the component folder.
+ */
+function isEmptyDir(dirFolderPath) {
+  return fs.readdirSync(dirFolderPath).length === 0;
 }
