@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoControls.css';
+import './VideoControls.scss';
 
 import PlayIcon from './assets/play.svg';
 import PauseIcon from './assets/pause.svg';

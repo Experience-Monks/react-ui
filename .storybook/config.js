@@ -1,17 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { setAddon, configure, addDecorator } from '@storybook/react';
-import {withKnobs} from '@storybook/addon-knobs';
-import JSXAddon from 'storybook-addon-jsx';
+import { configure, addDecorator } from '@storybook/react';
 
-const req = require.context('../src', true, /\-story\.js$/);
+import StoryRouter from 'storybook-react-router';
 
-function loadStories() {
-  req.keys().forEach(filename => req(filename));
-}
+addDecorator(StoryRouter());
 
-setAddon(JSXAddon);
-addDecorator(withKnobs);
-addDecorator(story => <Router>{story()}</Router>);
+const req = require.context('../src/components', true, /\-story\.js$/);
 
-configure(loadStories, module);
+configure(req, module);

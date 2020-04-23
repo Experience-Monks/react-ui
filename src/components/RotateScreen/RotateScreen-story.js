@@ -5,4 +5,4 @@ import Rotate from './RotateScreen';
 
 import rotateIcon from './assets/rotate.svg';
 
-storiesOf('RotateScreen', module).addWithJSX('Default', () => <Rotate iconSrc={rotateIcon} />);
+storiesOf('RotateScreen', module).add('Default', () => <Rotate iconSrc={rotateIcon} />);

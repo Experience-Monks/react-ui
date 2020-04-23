@@ -44,11 +44,11 @@ const links = [
   }
 ];
 
-storiesOf('BaseLink', module).addWithJSX(
+storiesOf('BaseLink', module).add(
   'Basic Cases',
   withInfo(`
     BaseLink follows a very similar pattern to a standard html <a> tag, but it enforces additional
-    best practices, like adding rel="noopener" whenever target="_blank". It also distinguishes 
+    best practices, like adding rel="noopener" whenever target="_blank". It also distinguishes
     between basic <a> tag and react router's <Link> component.
 
     ~~~jsx
@@ -61,7 +61,7 @@ storiesOf('BaseLink', module).addWithJSX(
       Visit nodejs.org
     </BaseLink>
     ~~~
-    
+
     ~~~jsx
     // Section link via react router
     <BaseLink

@@ -3,4 +3,4 @@ import { storiesOf } from '@storybook/react';
 
 import PageOverlay from './PageOverlay';
 
-storiesOf('PageOverlay', module).addWithJSX('Default', () => <PageOverlay isShowing={true} />);
+storiesOf('PageOverlay', module).add('Default', () => <PageOverlay isShowing={true} />);

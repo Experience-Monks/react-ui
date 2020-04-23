@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoPlayer.css';
+import './VideoPlayer.scss';
 
 import VideoControls from './VideoControls/VideoControls';
 

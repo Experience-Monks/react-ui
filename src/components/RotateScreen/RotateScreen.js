@@ -5,7 +5,7 @@ import 'default-passive-events';
 import checkProps from '@jam3/react-check-extra-props';
 import { device, os } from '@jam3/detect';
 
-import './RotateScreen.css';
+import './RotateScreen.scss';
 
 export default class RotateScreen extends PureComponent {
   constructor(props) {
