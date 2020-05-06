@@ -1,0 +1,21 @@
+$color: black !default;
+$active-color: blue !default;
+
+.Breadcrumbs {
+  background-color: white;
+  font-size: 2rem;
+
+  .Link {
+    color: $color;
+    text-decoration: none;
+
+    &.active {
+      color: $active-color;
+      text-decoration: underline;
+    }
+  }
+
+  .separator {
+    padding: 0 0.3em;
+  }
+}
