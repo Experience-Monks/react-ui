@@ -1,0 +1,19 @@
+.ImageSequence {
+  height: 300vh;
+  margin-top: 50vh;
+  margin-bottom: 50vh;
+
+  .stickyContainer {
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: sticky;
+
+    .canvas {
+      width: 100%;
+      height: 100%;
+      background-color: tomato;
+    }
+  }
+}
