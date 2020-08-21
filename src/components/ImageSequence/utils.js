@@ -6,7 +6,7 @@ export function clamp(num, min, max) {
   return Math.min(Math.max(num, min), max);
 }
 
-export function drawImageCoverDimensions(iw, ih, w, h, offsetX = 0.5, offsetY = 0.5) {
+export function imageCoverDimensions(iw, ih, w, h, offsetX = 0.5, offsetY = 0.5) {
   let r = Math.min(w / iw, h / ih),
     nw = iw * r,
     nh = ih * r,

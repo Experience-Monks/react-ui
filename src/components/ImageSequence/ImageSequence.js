@@ -5,15 +5,22 @@ import checkProps from '@jam3/react-check-extra-props';
 
 import './ImageSequence.css';
 
-import { clamp, getViewportHeight, drawImageCoverDimensions, isImageLoaded } from './utils';
+import { clamp, getViewportHeight, imageCoverDimensions, isImageLoaded } from './utils';
 
 const IMAGE_LOAD_GAP = 4;
 
 // Terminology
 // Ratio: 0 - 1 (0.25)
-// Percentage: 0 - 100 (25%)
+// Percentage: 0 - 100 (25)
 
-function ImageSequence({ className, imageUrls, heightMultiplier, tooltips, percentDrawOffsetX, percentDrawOffsetY }) {
+function ImageSequence({
+  className,
+  imageUrls,
+  heightMultiplier, // Multiplier for scroll height based on number of images
+  percentDrawOffsetX, // Background position left for background cover
+  percentDrawOffsetY, // Background position top for background cover
+  tooltips
+}) {
   const ImageSequenceElRef = useRef(null);
   const stickyContainerElRef = useRef(null);
   const canvasElRef = useRef(null);
@@ -26,7 +33,10 @@ function ImageSequence({ className, imageUrls, heightMultiplier, tooltips, perce
     imageUrls.map((imageUrl, index) => {
       const image = new Image();
       image.dataSrc = imageUrl;
+
+      // Load first batch of images in gaps
       if (index % IMAGE_LOAD_GAP === 0) image.src = image.dataSrc;
+
       return image;
     })
   );
@@ -67,7 +77,7 @@ function ImageSequence({ className, imageUrls, heightMultiplier, tooltips, perce
     const ratioDrawOffsetX = percentDrawOffsetX / 100;
     const ratioDrawOffsetY = percentDrawOffsetY / 100;
 
-    const dimensions = drawImageCoverDimensions(
+    const dimensions = imageCoverDimensions(
       image.width,
       image.height,
       canvasElRef.current.width,
@@ -79,6 +89,8 @@ function ImageSequence({ className, imageUrls, heightMultiplier, tooltips, perce
     const { cx, cy, cw, ch, x, y, w, h } = dimensions;
     canvasContextRef.current.drawImage(image, cx, cy, cw, ch, x, y, w, h);
 
+    // Advanced positioning of tooltips based on draw dimensions (tooltips will follow pinned point on canvas)
+    // Comment this line out if you'd prefer basic positioning
     setTooltipsPosition(dimensions);
   }, []);
 
@@ -91,6 +103,7 @@ function ImageSequence({ className, imageUrls, heightMultiplier, tooltips, perce
     if (isImageLoaded(activeImage)) {
       drawImage(activeImage);
     } else {
+      // Draw nearest previous loaded image as substitute
       for (let substituteImageIndex = activeImageIndex - 1; substituteImageIndex >= 0; substituteImageIndex--) {
         const substituteImage = imagesRef.current[substituteImageIndex];
         if (isImageLoaded(substituteImage)) {
@@ -99,6 +112,7 @@ function ImageSequence({ className, imageUrls, heightMultiplier, tooltips, perce
         }
       }
 
+      // Draw current image when loaded
       activeImageOnLoadRef.current = activeImage;
       activeImage.onload = () => {
         drawImage(activeImage);
@@ -106,31 +120,42 @@ function ImageSequence({ className, imageUrls, heightMultiplier, tooltips, perce
     }
   }, []);
 
+  const setScrolledRatio = useCallback(() => {
+    const { top, height } = ImageSequenceElRef.current.getBoundingClientRect();
+    scrolledRatioRef.current = clamp((top / (height - getViewportHeight())) * -1, 0, 1);
+  }, []);
+
   useLayoutEffect(() => {
-    canvasContextRef.current = canvasElRef.current.getContext('2d');
-    canvasContextRef.current.imageSmoothingEnabled = true;
-
-    function update() {
-      const { top, height } = ImageSequenceElRef.current.getBoundingClientRect();
-      scrolledRatioRef.current = clamp((top / (height - getViewportHeight())) * -1, 0, 1);
-
-      setCanvasSize();
+    function commonUpdates() {
+      setScrolledRatio();
       drawActiveImage();
       setTooltipsVisibility();
     }
 
-    update();
+    function scrollHandler() {
+      commonUpdates();
+    }
 
-    window.addEventListener('scroll', update);
-    window.addEventListener('resize', update);
+    function resizeHandler() {
+      setCanvasSize();
+      commonUpdates();
+    }
+
+    canvasContextRef.current = canvasElRef.current.getContext('2d');
+    canvasContextRef.current.imageSmoothingEnabled = true;
+    setCanvasSize();
+    commonUpdates();
+
+    window.addEventListener('scroll', scrollHandler);
+    window.addEventListener('resize', resizeHandler);
     return () => {
-      window.removeEventListener('scroll', update);
-      window.addEventListener('resize', update);
+      window.removeEventListener('scroll', scrollHandler);
+      window.addEventListener('resize', resizeHandler);
     };
   }, []);
 
   useEffect(() => {
-    // load remainder of the images
+    // Load remainder of the images
     imagesRef.current.forEach(image => {
       if (!image.src) image.src = image.dataSrc;
     });
@@ -152,6 +177,7 @@ function ImageSequence({ className, imageUrls, heightMultiplier, tooltips, perce
             <button
               key={index}
               className="tooltip"
+              // Basic tooltip positioning, overwritten by setTooltipsPosition() when canvas drawn
               style={{
                 top: `${percentPositionY}%`,
                 left: `${percentPostionX}%`
@@ -173,14 +199,24 @@ ImageSequence.propTypes = checkProps({
   imageUrls: PropTypes.arrayOf(PropTypes.string),
   heightMultiplier: PropTypes.number,
   percentDrawOffsetX: PropTypes.number,
-  percentDrawOffsetY: PropTypes.number
+  percentDrawOffsetY: PropTypes.number,
+  tooltips: PropTypes.arrayOf(
+    PropTypes.exact({
+      percentPostionX: PropTypes.number,
+      percentPositionY: PropTypes.number,
+      percentVisibleStart: PropTypes.number,
+      percentVisibleEnd: PropTypes.number,
+      content: PropTypes.string
+    })
+  )
 });
 
 ImageSequence.defaultProps = {
   imageUrls: [],
   heightMultiplier: 3,
   percentDrawOffsetX: 50,
-  percentDrawOffsetY: 50
+  percentDrawOffsetY: 50,
+  tooltips: []
 };
 
 export default memo(ImageSequence);

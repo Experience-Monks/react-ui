@@ -13,28 +13,28 @@ const props = {
     }),
   tooltips: [
     {
-      percentPostionX: 25,
-      percentPositionY: 25,
-      percentVisibleStart: 20,
-      percentVisibleEnd: 45,
+      percentPostionX: 83,
+      percentPositionY: 33,
+      percentVisibleStart: 0,
+      percentVisibleEnd: 5,
       content: 'I am tooltip one!'
     },
     {
-      percentPostionX: 50,
-      percentPositionY: 50,
-      percentVisibleStart: 40,
-      percentVisibleEnd: 65,
+      percentPostionX: 65,
+      percentPositionY: 35,
+      percentVisibleStart: 30,
+      percentVisibleEnd: 60,
       content: 'I am tooltip two!'
     },
     {
-      percentPostionX: 75,
-      percentPositionY: 75,
+      percentPostionX: 45,
+      percentPositionY: 45,
       percentVisibleStart: 60,
       percentVisibleEnd: 85,
       content: 'I am tooltip three!'
     }
   ],
-  percentDrawOffsetX: 100,
+  percentDrawOffsetX: 50,
   percentDrawOffsetY: 50
 };
 
