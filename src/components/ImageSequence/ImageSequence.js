@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect, useRef, useCallback, useEffect } from 'react';
+import React, { memo, useLayoutEffect, useRef, useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
@@ -29,16 +29,19 @@ function ImageSequence({
   const activeImageOnLoadRef = useRef(null);
   const scrolledRatioRef = useRef(0);
   const canvasContextRef = useRef(null);
-  const imagesRef = useRef(
-    imageUrls.map((imageUrl, index) => {
-      const image = new Image();
-      image.dataSrc = imageUrl;
 
-      // Load first batch of images in gaps
-      if (index % IMAGE_LOAD_GAP === 0) image.src = image.dataSrc;
+  const images = useMemo(
+    () =>
+      imageUrls.map((imageUrl, index) => {
+        const image = new Image();
+        image.dataSrc = imageUrl;
 
-      return image;
-    })
+        // Load first batch of images in gaps
+        if (index % IMAGE_LOAD_GAP === 0) image.src = image.dataSrc;
+
+        return image;
+      }),
+    [imageUrls]
   );
 
   const setCanvasSize = useCallback(() => {
@@ -48,125 +51,144 @@ function ImageSequence({
     canvasElRef.current.height = height;
   }, []);
 
-  const setTooltipsVisibility = useCallback(() => {
-    tooltips.forEach(({ percentVisibleStart, percentVisibleEnd }, index) => {
-      const tooltipEl = tooltipElsRef.current[index];
-      const ratioVisibleStart = percentVisibleStart / 100;
-      const ratioVisibleEnd = percentVisibleEnd / 100;
+  const setTooltipsVisibility = useCallback(
+    () => {
+      tooltips.forEach(({ percentVisibleStart, percentVisibleEnd }, index) => {
+        const tooltipEl = tooltipElsRef.current[index];
+        const ratioVisibleStart = percentVisibleStart / 100;
+        const ratioVisibleEnd = percentVisibleEnd / 100;
 
-      if (scrolledRatioRef.current >= ratioVisibleStart && scrolledRatioRef.current <= ratioVisibleEnd) {
-        tooltipEl.style.visibility = 'visible';
-      } else {
-        tooltipEl.style.visibility = 'hidden';
-      }
-    });
-  }, []);
-
-  const setTooltipsPosition = useCallback(({ cx, cy, ih, iw, nw, nh }) => {
-    tooltips.forEach(({ percentPostionX, percentPositionY }, index) => {
-      const tooltipEl = tooltipElsRef.current[index];
-      const ratioPostionX = percentPostionX / 100;
-      const ratioPositionY = percentPositionY / 100;
-
-      tooltipEl.style.top = `${nh * ratioPositionY - (cy / ih) * nh}px`;
-      tooltipEl.style.left = `${nw * ratioPostionX - (cx / iw) * nw}px`;
-    });
-  }, []);
-
-  const drawImage = useCallback(image => {
-    const ratioDrawOffsetX = percentDrawOffsetX / 100;
-    const ratioDrawOffsetY = percentDrawOffsetY / 100;
-
-    const dimensions = imageCoverDimensions(
-      image.width,
-      image.height,
-      canvasElRef.current.width,
-      canvasElRef.current.height,
-      ratioDrawOffsetX,
-      ratioDrawOffsetY
-    );
-
-    const { cx, cy, cw, ch, x, y, w, h } = dimensions;
-    canvasContextRef.current.drawImage(image, cx, cy, cw, ch, x, y, w, h);
-
-    // Advanced positioning of tooltips based on draw dimensions (tooltips will follow pinned point on canvas)
-    // Comment this line out if you'd prefer basic positioning
-    setTooltipsPosition(dimensions);
-  }, []);
-
-  const drawActiveImage = useCallback(() => {
-    if (activeImageOnLoadRef.current) activeImageOnLoadRef.current.onload = null;
-
-    const activeImageIndex = Math.round((imagesRef.current.length - 1) * scrolledRatioRef.current) || 0;
-    const activeImage = imagesRef.current[activeImageIndex];
-
-    if (isImageLoaded(activeImage)) {
-      drawImage(activeImage);
-    } else {
-      // Draw nearest previous loaded image as substitute
-      for (let substituteImageIndex = activeImageIndex - 1; substituteImageIndex >= 0; substituteImageIndex--) {
-        const substituteImage = imagesRef.current[substituteImageIndex];
-        if (isImageLoaded(substituteImage)) {
-          drawImage(substituteImage);
-          break;
+        if (scrolledRatioRef.current >= ratioVisibleStart && scrolledRatioRef.current <= ratioVisibleEnd) {
+          tooltipEl.style.visibility = 'visible';
+        } else {
+          tooltipEl.style.visibility = 'hidden';
         }
-      }
+      });
+    },
+    [tooltips]
+  );
 
-      // Draw current image when loaded
-      activeImageOnLoadRef.current = activeImage;
-      activeImage.onload = () => {
+  const setTooltipsPosition = useCallback(
+    ({ cx, cy, ih, iw, nw, nh }) => {
+      tooltips.forEach(({ percentPostionX, percentPositionY }, index) => {
+        const tooltipEl = tooltipElsRef.current[index];
+        const ratioPostionX = percentPostionX / 100;
+        const ratioPositionY = percentPositionY / 100;
+
+        tooltipEl.style.top = `${nh * ratioPositionY - (cy / ih) * nh}px`;
+        tooltipEl.style.left = `${nw * ratioPostionX - (cx / iw) * nw}px`;
+      });
+    },
+    [tooltips]
+  );
+
+  const drawImage = useCallback(
+    image => {
+      const ratioDrawOffsetX = percentDrawOffsetX / 100;
+      const ratioDrawOffsetY = percentDrawOffsetY / 100;
+
+      const dimensions = imageCoverDimensions(
+        image.width,
+        image.height,
+        canvasElRef.current.width,
+        canvasElRef.current.height,
+        ratioDrawOffsetX,
+        ratioDrawOffsetY
+      );
+
+      const { cx, cy, cw, ch, x, y, w, h } = dimensions;
+      canvasContextRef.current.drawImage(image, cx, cy, cw, ch, x, y, w, h);
+
+      // Advanced positioning of tooltips based on draw dimensions (tooltips will follow pinned point on canvas)
+      // Comment this line out if you'd prefer basic positioning
+      setTooltipsPosition(dimensions);
+    },
+    [setTooltipsPosition, percentDrawOffsetX, percentDrawOffsetY]
+  );
+
+  const drawActiveImage = useCallback(
+    () => {
+      if (activeImageOnLoadRef.current) activeImageOnLoadRef.current.onload = null;
+
+      const activeImageIndex = Math.round((images.length - 1) * scrolledRatioRef.current) || 0;
+      const activeImage = images[activeImageIndex];
+
+      if (isImageLoaded(activeImage)) {
         drawImage(activeImage);
-      };
-    }
-  }, []);
+      } else {
+        // Draw nearest previous loaded image as substitute
+        for (let substituteImageIndex = activeImageIndex - 1; substituteImageIndex >= 0; substituteImageIndex--) {
+          const substituteImage = images[substituteImageIndex];
+          if (isImageLoaded(substituteImage)) {
+            drawImage(substituteImage);
+            break;
+          }
+        }
+
+        // Draw current image when loaded
+        activeImageOnLoadRef.current = activeImage;
+        activeImage.onload = () => {
+          drawImage(activeImage);
+        };
+      }
+    },
+    [images, drawImage]
+  );
 
   const setScrolledRatio = useCallback(() => {
     const { top, height } = ImageSequenceElRef.current.getBoundingClientRect();
     scrolledRatioRef.current = clamp((top / (height - getViewportHeight())) * -1, 0, 1);
   }, []);
 
-  useLayoutEffect(() => {
-    function commonUpdates() {
-      setScrolledRatio();
-      drawActiveImage();
-      setTooltipsVisibility();
-    }
+  useLayoutEffect(
+    () => {
+      function commonUpdates() {
+        setScrolledRatio();
+        drawActiveImage();
+        setTooltipsVisibility();
+      }
 
-    function scrollHandler() {
-      commonUpdates();
-    }
+      function scrollHandler() {
+        commonUpdates();
+      }
 
-    function resizeHandler() {
+      function resizeHandler() {
+        setCanvasSize();
+        commonUpdates();
+      }
+
+      canvasContextRef.current = canvasElRef.current.getContext('2d');
+      canvasContextRef.current.imageSmoothingEnabled = true;
       setCanvasSize();
       commonUpdates();
-    }
 
-    canvasContextRef.current = canvasElRef.current.getContext('2d');
-    canvasContextRef.current.imageSmoothingEnabled = true;
-    setCanvasSize();
-    commonUpdates();
-
-    window.addEventListener('scroll', scrollHandler);
-    window.addEventListener('resize', resizeHandler);
-    return () => {
-      window.removeEventListener('scroll', scrollHandler);
+      window.addEventListener('scroll', scrollHandler);
       window.addEventListener('resize', resizeHandler);
-    };
-  }, []);
 
-  useEffect(() => {
-    // Load remainder of the images
-    imagesRef.current.forEach(image => {
-      if (!image.src) image.src = image.dataSrc;
-    });
-  }, []);
+      return () => {
+        window.removeEventListener('scroll', scrollHandler);
+        window.addEventListener('resize', resizeHandler);
+      };
+    },
+    [setCanvasSize, setScrolledRatio, drawActiveImage, setTooltipsVisibility]
+  );
+
+  useEffect(
+    () => {
+      // Load remainder of the images
+      images.forEach(image => {
+        if (!image.src) image.src = image.dataSrc;
+      });
+    },
+    [images]
+  );
 
   return (
     <div
       className={classnames('ImageSequence', className)}
       ref={ImageSequenceElRef}
       style={{
-        height: `${imagesRef.current.length * heightMultiplier}vh`
+        height: `${images.length * heightMultiplier}vh`
       }}
     >
       <div className="stickyContainer" ref={stickyContainerElRef}>
@@ -175,7 +197,7 @@ function ImageSequence({
         {tooltips.map(({ percentPostionX, percentPositionY, content }, index) => {
           return (
             <button
-              key={index}
+              key={content}
               className="tooltip"
               // Basic tooltip positioning, overwritten by setTooltipsPosition() when canvas drawn
               style={{
