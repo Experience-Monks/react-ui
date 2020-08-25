@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from 'no-op';
@@ -14,6 +14,7 @@ import HamburgerButton, { STATES } from '../HamburgerButton/HamburgerButton';
 const getButtonState = isMenuOpen => (isMenuOpen ? STATES.close : STATES.idle);
 
 const MainTopNav = props => {
+  const location = useLocation();
   const [buttonState, setButtonState] = useState(getButtonState(props.isMobileMenuOpen));
   const nextStateButton = getButtonState(props.isMobileMenuOpen);
 
@@ -47,7 +48,7 @@ const MainTopNav = props => {
                   <LinkComponent
                     link={link.path}
                     className={classnames({
-                      active: cleanPath(props.location.pathname) === cleanPath(link.path)
+                      active: cleanPath(location.pathname) === cleanPath(link.path)
                     })}
                   >
                     {link.text}
@@ -97,4 +98,4 @@ MainTopNav.defaultProps = {
   linkComponent: BaseLink
 };
 
-export default withRouter(memo(MainTopNav));
+export default memo(MainTopNav);

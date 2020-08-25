@@ -106,7 +106,7 @@ class VideoTest extends React.PureComponent {
 }
 
 storiesOf('VideoPlayer', module)
-  .addWithJSX('Cover Video + Controls', () => (
+  .add('Cover Video + Controls', () => (
     <VideoTest
       src={src}
       poster={poster}
@@ -116,7 +116,7 @@ storiesOf('VideoPlayer', module)
       captions={captions}
     />
   ))
-  .addWithJSX('Looping Cover Video', () => (
+  .add('Looping Cover Video', () => (
     <VideoTest
       src={src}
       poster={poster}
@@ -130,7 +130,5 @@ storiesOf('VideoPlayer', module)
       allowKeyboardControl={false}
     />
   ))
-  .addWithJSX('Basic player', () => <VideoTest src={src} poster={poster} style={regular} />)
-  .addWithJSX('VideoControls', () => (
-    <VideoControlsTest duration={120} currentTime={30} captions={true} />
-  ));
+  .add('Basic player', () => <VideoTest src={src} poster={poster} style={regular} />)
+  .add('VideoControls', () => <VideoControlsTest duration={120} currentTime={30} captions={true} />);

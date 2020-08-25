@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import Component from './HamburgerButton';
 
@@ -12,23 +12,11 @@ let idleToCloseState = STATES.idle;
 let idleToBackState = STATES.back;
 let closeToBackState = STATES.close;
 
-class HamburgerButtonTest extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentState: props.currentState
-    };
-  }
+const HamburgerButtonTest = props => {
+  const [currentState, setCurrentState] = useState(props.currentState);
 
-  onClick = () => {
-    const currentState = this.props.onClick();
-    this.setState({ currentState });
-  };
-
-  render() {
-    return <Component currentState={this.state.currentState} onClick={this.onClick} />;
-  }
-}
+  return <Component currentState={currentState} onClick={() => setCurrentState(props.onClick())} />;
+};
 
 function onIdleClick() {
   idleToCloseState = idleToCloseState === STATES.idle ? STATES.close : STATES.idle;

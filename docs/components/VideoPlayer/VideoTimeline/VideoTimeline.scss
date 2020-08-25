@@ -93,6 +93,7 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       @include thumb;
+      margin-top: -$video-player-controls-thumb-size/4;
     }
 
     &::-moz-range-thumb {

@@ -65,7 +65,8 @@
       background: red;
       border-radius: 50%;
       border: none;
-      outline: none; }
+      outline: none;
+      margin-top: -0.25rem; }
     .VideoTimeline input[type=range]::-moz-range-thumb {
       width: 1rem;
       height: 1rem;

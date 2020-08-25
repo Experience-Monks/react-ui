@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { memo, forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import checkProps from '@jam3/react-check-extra-props';
 
-import './BaseLink.css';
-
-import checkProps from '../../util/check-props';
+import './BaseLink.scss';
 
 const excludes = ['children', 'download', 'target', 'rel', 'link'];
 
 const externalLinkRegex = /^(https:\/\/|http:\/\/|www\.|tel:|mailto:)/;
 const externalSiteRegex = /^(https:\/\/|http:\/\/|www\.)/;
 
-const BaseLink = React.forwardRef((props, ref) => {
+const BaseLink = forwardRef((props, ref) => {
   const Tag = externalLinkRegex.test(props.link) || props.download ? 'a' : Link;
 
   // clean props
@@ -43,7 +42,6 @@ const BaseLink = React.forwardRef((props, ref) => {
     </Tag>
   );
 });
-
 BaseLink.propTypes = checkProps({
   className: PropTypes.string,
   rel: PropTypes.string,
@@ -74,4 +72,4 @@ BaseLink.defaultProps = {
   target: '_blank'
 };
 
-export default BaseLink;
+export default memo(BaseLink);

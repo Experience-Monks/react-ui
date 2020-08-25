@@ -1,90 +1,56 @@
-import React, { PureComponent } from 'react';
+import React, { memo, useLayoutEffect, useRef } from 'react';
+import { useOrientation } from 'react-use';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import 'default-passive-events';
+import checkProps from '@jam3/react-check-extra-props';
+import { device } from '@jam3/detect';
 
-import './RotateScreen.css';
+import './RotateScreen.scss';
 
-import checkProps from '../../util/check-props';
-import detect from '../../util/detect';
+const RotateScreen = ({ className, iconSrc, iconAlt, copy, children }) => {
+  const containerRef = useRef();
+  const orientation = useOrientation();
 
-export default class RotateScreen extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      orientation: detect.orientation
+  useLayoutEffect(() => {
+    containerRef.current.addEventListener('touchmove', preventScrolling, { passive: false });
+    console.log(containerRef.current);
+
+    return () => {
+      containerRef.current.removeEventListener('touchmove', preventScrolling);
     };
-  }
+  }, []);
 
-  componentDidMount() {
-    this.setOrientationParentClass();
-
-    if (detect.isAndroid) {
-      window.addEventListener('orientationchange', this.handleOrientationChange);
-    } else {
-      window.addEventListener('resize', this.handleOrientationChange);
-    }
-
-    this.container.addEventListener('touchmove', this.preventScrolling, { passive: false });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.orientation !== prevState.orientation) {
-      this.setOrientationParentClass();
-    }
-  }
-
-  componentWillUnmount() {
-    if (detect.isAndroid) {
-      window.removeEventListener('orientationchange', this.handleOrientationChange);
-    } else {
-      window.removeEventListener('resize', this.handleOrientationChange);
-    }
-    this.container.removeEventListener('touchmove', this.preventScrolling);
-  }
-
-  preventScrolling = e => {
+  function preventScrolling(e) {
     e.preventDefault();
     e.stopPropagation();
-  };
-
-  setOrientationParentClass = (orientation = this.state.orientation) => {
-    orientation === 'landscape'
-      ? document.body.classList.add('rotate-screen-visible')
-      : document.body.classList.remove('rotate-screen-visible');
-  };
-
-  handleOrientationChange = () => {
-    if (detect.orientation !== this.state.orientation) {
-      this.setState({ orientation: detect.orientation });
-    }
-  };
-
-  render() {
-    const visible = this.state.orientation === 'landscape';
-    const style = {
-      visibility: visible ? 'visible' : 'hidden'
-    };
-
-    return (
-      <div className={classnames('RotateScreen', this.props.className)} style={style} ref={r => (this.container = r)}>
-        <div className="container">
-          {this.props.iconSrc && <img src={this.props.iconSrc} className="rotate-icon" alt={this.props.iconAlt} />}
-          {this.props.copy && <p className="rotate-text">{this.props.copy}</p>}
-          {this.props.children}
-        </div>
-      </div>
-    );
   }
-}
+
+  return (
+    <div
+      className={classnames('RotateScreen', className, { show: device.isMobile && orientation.angle !== 0 })}
+      ref={containerRef}
+    >
+      <div className="container">
+        {iconSrc && <img src={iconSrc} className="rotate-icon" alt={iconAlt} />}
+        {copy && <p className="rotate-text">{copy}</p>}
+        {children}
+      </div>
+    </div>
+  );
+};
 
 RotateScreen.propTypes = checkProps({
+  className: PropTypes.string,
   copy: PropTypes.string,
   iconSrc: PropTypes.string,
   iconAlt: PropTypes.string
 });
 
 RotateScreen.defaultProps = {
+  className: '',
   copy: 'Please rotate your device into portrait mode.',
   iconAlt: 'Please rotate your device'
 };
+
+export default memo(RotateScreen);

@@ -5,13 +5,14 @@ import checkProps from '@jam3/react-check-extra-props';
 
 import './CloseButton.scss';
 
-const CloseButton = ({ className, component, ...buttonProps }) => {
-  const Component = component;
+import BaseButton from '../BaseButton/BaseButton';
+
+const CloseButton = ({ className, ...buttonProps }) => {
   return (
-    <Component className={classnames('CloseButton', className)} {...buttonProps}>
+    <BaseButton className={classnames('CloseButton', className)} {...buttonProps}>
       <span />
       <span />
-    </Component>
+    </BaseButton>
   );
 };
 

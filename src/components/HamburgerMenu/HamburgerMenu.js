@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import noop from 'no-op';
 import cleanPath from 'remove-trailing-separator';
 import checkProps from '@jam3/react-check-extra-props';
@@ -13,7 +13,6 @@ import BaseLink from '../BaseLink/BaseLink';
 const HamburgerMenu = ({
   className,
   closeOnRouteChange,
-  location,
   isMobileMenuOpen,
   linkComponent,
   links,
@@ -24,16 +23,21 @@ const HamburgerMenu = ({
   const refContainer = useRef(null);
   const previousPathname = useRef('');
 
-  useEffect(() => {
-    if (closeOnRouteChange && previousPathname.current !== location.pathname) {
-      isMobileMenuOpen && setIsMobileMenuOpen(false);
-    }
-    previousPathname.current = location.pathname;
+  const location = useLocation();
 
-    return () => {
-      isMobileMenuOpen && setIsMobileMenuOpen(false);
-    };
-  }, [isMobileMenuOpen, closeOnRouteChange, location]);
+  useEffect(
+    () => {
+      if (closeOnRouteChange && previousPathname.current && previousPathname.current !== location.pathname) {
+        isMobileMenuOpen && setIsMobileMenuOpen(false);
+      }
+      previousPathname.current = location.pathname;
+
+      return () => {
+        isMobileMenuOpen && setIsMobileMenuOpen(false);
+      };
+    },
+    [isMobileMenuOpen, closeOnRouteChange, location]
+  );
 
   return (
     <nav className={classnames(`HamburgerMenu`, className, { open: isMobileMenuOpen })} ref={refContainer}>
@@ -80,4 +84,4 @@ HamburgerMenu.defaultProps = {
   linkComponent: BaseLink
 };
 
-export default withRouter(memo(HamburgerMenu));
+export default memo(HamburgerMenu);

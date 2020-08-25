@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from 'no-op';
+import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoControls.css';
+import './VideoControls.scss';
 
 import PlayIcon from './assets/play.svg';
 import PauseIcon from './assets/pause.svg';
@@ -17,9 +18,7 @@ import CaptionsOffIcon from './assets/captions-off.svg';
 import VideoTimeline from '../VideoTimeline/VideoTimeline';
 import BaseButton from '../../BaseButton/BaseButton';
 
-import checkProps from '../../../util/check-props';
-
-const VideoControls = props => {
+const VideoControls = React.memo(props => {
   function formatTime(totalSeconds) {
     const totalSecondsFloat = totalSeconds;
     let minutes = Math.floor(totalSecondsFloat / 60);
@@ -93,7 +92,7 @@ const VideoControls = props => {
       </BaseButton>
     </nav>
   );
-};
+});
 
 VideoControls.propTypes = checkProps({
   className: PropTypes.string,

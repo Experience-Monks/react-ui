@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import postcss from 'rollup-plugin-postcss';
 import svg from 'rollup-plugin-svg';
+import external from 'rollup-plugin-peer-deps-external';
 
 function configure(file) {
   return {
@@ -31,7 +32,10 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    svg()
+    svg(),
+    external({
+      includeDependencies: true
+    })
   ],
   external: ['react']
 };

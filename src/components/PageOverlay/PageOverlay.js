@@ -1,25 +1,25 @@
 import React, { memo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
 import './PageOverlay.scss';
 
-const PageOverlay = ({ className, closeOnRouteChange, isShowing, location, onClick, isMobileMenuOpen }) => {
+const PageOverlay = ({ className, triggerOnRouteChange, isShowing, onClick }) => {
   const previousPathname = useRef('');
+  const location = useLocation();
 
-  useEffect(() => {
-    if (closeOnRouteChange && previousPathname.current !== location.pathname) {
-      isMobileMenuOpen && setIsMobileMenuOpen(false);
-    }
-    previousPathname.current = location.pathname;
-
-    return () => {
-      isMobileMenuOpen && setIsMobileMenuOpen(false);
-    };
-  }, [isMobileMenuOpen, closeOnRouteChange, location]);
+  useEffect(
+    () => {
+      if (triggerOnRouteChange && previousPathname.current && previousPathname.current !== location.pathname) {
+        triggerOnRouteChange && onClick();
+      }
+      previousPathname.current = location.pathname;
+    },
+    [triggerOnRouteChange, location]
+  );
 
   return <div className={classnames('PageOverlay', className, { 'is-showing': isShowing })} onClick={onClick} />;
 };
@@ -27,13 +27,13 @@ const PageOverlay = ({ className, closeOnRouteChange, isShowing, location, onCli
 PageOverlay.propTypes = checkProps({
   className: PropTypes.string,
   isShowing: PropTypes.bool,
-  hideOnRouteChange: PropTypes.bool,
+  triggerOnRouteChange: PropTypes.bool,
   onClick: PropTypes.func
 });
 
 PageOverlay.defaultProps = {
-  onClick: noop,
-  hideOnRouteChange: true
+  triggerOnRouteChange: false,
+  onClick: noop
 };
 
-export default withRouter(memo(PageOverlay));
+export default memo(PageOverlay);
