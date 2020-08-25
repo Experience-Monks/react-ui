@@ -18,5 +18,6 @@ export {
   HamburgerMenu,
   MainTopNav,
   RotateScreen,
-  PageOverlay
+  PageOverlay,
+  VideoPlayer
 };

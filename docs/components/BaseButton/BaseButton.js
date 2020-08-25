@@ -1,25 +1,21 @@
-import React from 'react';
+import React, { memo, forwardRef } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import checkProps from '@jam3/react-check-extra-props';
 
-import checkProps from '../../util/check-props';
-
-export default class BaseButton extends React.PureComponent {
-  render() {
-    const { nodeRef: ref, component: Component, children, role: buttonRole, ...buttonProps } = this.props;
-    const role = Component === 'button' ? buttonRole : 'button';
-
-    return (
-      <Component ref={ref} role={role} {...buttonProps}>
-        {children}
-      </Component>
-    );
-  }
-}
+const BaseButton = forwardRef((props, ref) => {
+  const { component: Component, children, role: buttonRole, ...buttonProps } = props;
+  const role = Component === 'button' ? buttonRole : 'button';
+  return (
+    <Component className={classnames('BaseButton', props.className)} ref={ref} role={role} {...buttonProps}>
+      {children}
+    </Component>
+  );
+});
 
 BaseButton.propTypes = checkProps({
   style: PropTypes.object,
   className: PropTypes.string,
-  nodeRef: PropTypes.func,
   component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   children: PropTypes.node,
   onClick: PropTypes.func,
@@ -45,3 +41,5 @@ BaseButton.propTypes = checkProps({
 BaseButton.defaultProps = {
   component: 'button'
 };
+
+export default memo(BaseButton);

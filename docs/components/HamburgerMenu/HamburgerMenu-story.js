@@ -15,4 +15,4 @@ const props = {
   ]
 };
 
-storiesOf('HamburgerMenu', module).addWithJSX('Open', () => <Component {...props} isMobileMenuOpen={true} />);
+storiesOf('HamburgerMenu', module).add('Open', () => <Component {...props} isMobileMenuOpen={true} />);

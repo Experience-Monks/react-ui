@@ -19,5 +19,5 @@ const props = {
 };
 
 storiesOf('MainTopNav', module)
-  .addWithJSX('Default', () => <Component {...props} />)
-  .addWithJSX('Hamburger', () => <Component {...props} showHamburger />);
+  .add('Default', () => <Component {...props} />)
+  .add('Hamburger', () => <Component {...props} showHamburger />);
