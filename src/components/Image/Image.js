@@ -2,22 +2,28 @@ import React, { memo, forwardRef, useRef, useEffect, useState, useCallback } fro
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
+import { useIntersectionObserver } from '@jam3/react-hooks';
 
 import './Image.css';
 
-import { intersectionObserver } from './utils';
+const TABLET_WIDTH = 768;
+const DESKTOP_WIDTH = 1024;
 
 const Image = forwardRef(
   (
     {
+      sizeMobile,
+      sizeTablet,
+      sizeDesktop,
       className,
       src,
       alt,
-      quality,
       draggable,
       lazyLoad,
       lazyLoadFallbackWidth,
       lazyLoadFallbackQuality,
+      lazyLoadIntersectionRootMargin,
+      quality,
       srcSetTotal,
       srcSetWidthIncrement
     },
@@ -27,6 +33,12 @@ const Image = forwardRef(
 
     const [loadImage, setLoadImage] = useState(!lazyLoad);
     const [hasFilterBlur, setHasFilterBlur] = useState(lazyLoad);
+
+    const isLazyLoadIntersecting =
+      lazyLoad &&
+      useIntersectionObserver(ImageElRef, {
+        rootMargin: lazyLoadIntersectionRootMargin
+      });
 
     const buildSrc = useCallback(
       (w, q) => {
@@ -58,66 +70,72 @@ const Image = forwardRef(
       [hasFilterBlur, loadImage, setHasFilterBlur]
     );
 
-    useEffect(() => {
-      if (!lazyLoad) return;
-
-      const observer = intersectionObserver(ImageElRef.current, {
-        onIntersectionIn: () => {
+    useEffect(
+      () => {
+        if (lazyLoad && isLazyLoadIntersecting) {
           setLoadImage(true);
-        },
-        viewportTriggerPercentageTop: -5,
-        viewportTriggerPercentageBottom: -5,
-        viewportTriggerPercentageLeft: -5,
-        viewportTriggerPercentageRight: -5
-      });
-
-      return () => {
-        observer && observer.destroy();
-      };
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        }
+      },
+      [lazyLoad, isLazyLoadIntersecting, setLoadImage]
+    );
 
     return (
       <img
-        alt={alt}
-        src={loadImage ? src : buildSrc(lazyLoadFallbackWidth, lazyLoadFallbackQuality)}
-        srcSet={loadImage ? buildSrcSet() : null}
-        draggable={draggable}
         className={classnames('Image', className, {
           hasFilterBlur: hasFilterBlur
         })}
+        alt={alt}
+        draggable={draggable}
+        onLoad={handleOnLoad}
+        src={loadImage ? src : buildSrc(lazyLoadFallbackWidth, lazyLoadFallbackQuality)}
+        srcSet={loadImage ? buildSrcSet() : null}
+        sizes={`(min-width: ${DESKTOP_WIDTH}px) ${sizeDesktop}, (min-width: ${TABLET_WIDTH}px) ${sizeTablet}, ${sizeMobile}`}
         ref={el => {
           ImageElRef.current = el;
           if (ref) typeof ref === 'object' ? (ref.current = el) : ref(el);
         }}
-        onLoad={handleOnLoad}
       />
     );
   }
 );
 
 Image.propTypes = checkProps({
+  // Width of the container image resides within. Accepts px, vw and rem.
+  // For rem, uses 16px as html root value, not set value
+  sizeMobile: PropTypes.string,
+  sizeTablet: PropTypes.string,
+  sizeDesktop: PropTypes.string,
+
   className: PropTypes.string,
   src: PropTypes.string,
   alt: PropTypes.string,
   draggable: PropTypes.bool,
-  quality: PropTypes.number,
+
   lazyLoad: PropTypes.bool,
   lazyLoadFallbackWidth: PropTypes.number,
   lazyLoadFallbackQuality: PropTypes.number,
+  lazyLoadIntersectionRootMargin: PropTypes.string,
+
+  quality: PropTypes.number,
   srcSetTotal: PropTypes.number,
   srcSetWidthIncrement: PropTypes.number
 });
 
 Image.defaultProps = {
+  sizeMobile: '100vw',
+  sizeTablet: '100vw',
+  sizeDesktop: '100vw',
+
   src: '',
   alt: '',
   draggable: true,
-  quality: 80,
+
   lazyLoad: true,
   lazyLoadFallbackWidth: 100,
   lazyLoadFallbackQuality: 50,
+  lazyLoadIntersectionRootMargin: '5%',
+
+  quality: 80,
   srcSetTotal: 20,
   srcSetWidthIncrement: 200
 };
