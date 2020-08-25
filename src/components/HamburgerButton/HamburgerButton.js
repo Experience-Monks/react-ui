@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './HamburgerButton.css';
+import './HamburgerButton.scss';
 
 import BaseButton from '../BaseButton/BaseButton';
 
@@ -16,22 +16,20 @@ export const STATES = {
 
 const bars = [0, 1, 2].map(item => <span key={item} className={`bar ${item}`} />);
 
-export default class HamburgerButton extends PureComponent {
-  render() {
-    return (
-      <BaseButton
-        className={classnames('HamburgerButton', this.props.className, this.props.currentState)}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onClick={this.props.onClick}
-        tabIndex={this.props.tabIndex}
-        aria-label={this.props.ariaLabel}
-      >
-        <div className="bars-container">{bars}</div>
-      </BaseButton>
-    );
-  }
-}
+const HamburgerButton = ({ className, currentState, onMouseEnter, onMouseLeave, onClick, tabIndex, ariaLabel }) => {
+  return (
+    <BaseButton
+      className={classnames('HamburgerButton', className, currentState)}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+      tabIndex={tabIndex}
+      aria-label={ariaLabel}
+    >
+      <div className="bars-container">{bars}</div>
+    </BaseButton>
+  );
+};
 
 HamburgerButton.propTypes = checkProps({
   className: PropTypes.string,
@@ -51,3 +49,5 @@ HamburgerButton.defaultProps = {
   onMouseLeave: noop,
   ariaLabel: 'Mobile menu button'
 };
+
+export default memo(HamburgerButton);

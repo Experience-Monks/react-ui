@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
 import noop from 'no-op';
 
 import BaseLink from './BaseLink';
@@ -44,56 +43,28 @@ const links = [
   }
 ];
 
-storiesOf('BaseLink', module).addWithJSX(
-  'Basic Cases',
-  withInfo(`
-    BaseLink follows a very similar pattern to a standard html <a> tag, but it enforces additional
-    best practices, like adding rel="noopener" whenever target="_blank". It also distinguishes 
-    between basic <a> tag and react router's <Link> component.
+storiesOf('BaseLink', module).add('Basic Cases', () => (
+  <nav>
+    <ul>
+      {links.map((link, i) => {
+        const num = (i + 1).toString();
 
-    ~~~jsx
-    // External link that opens in a new tab by default
-    <BaseLink
-      className="customized-anchor-tag"
-      title="Link to nodejs main site"
-      link="https://www.nodejs.org"
-    >
-      Visit nodejs.org
-    </BaseLink>
-    ~~~
-    
-    ~~~jsx
-    // Section link via react router
-    <BaseLink
-      className="section-link"
-      link="/about"
-    >
-      Visit odejs.org
-    </BaseLink>
-    ~~~
-  `)(() => (
-    <nav>
-      <ul>
-        {links.map((link, i) => {
-          const num = (i + 1).toString();
-
-          return (
-            <li key={`li-${link.text}-${num}`}>
-              <BaseLink
-                title={link.title}
-                className={link.className}
-                key={`${link.text}-${i}`}
-                link={link.link}
-                target={link.target}
-                onClick={link.onClick || noop}
-                download={link.download}
-              >
-                {link.text}
-              </BaseLink>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
-  ))
-);
+        return (
+          <li key={`li-${link.text}-${num}`}>
+            <BaseLink
+              title={link.title}
+              className={link.className}
+              key={`${link.text}-${i}`}
+              link={link.link}
+              target={link.target}
+              onClick={link.onClick || noop}
+              download={link.download}
+            >
+              {link.text}
+            </BaseLink>
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+));

@@ -19,4 +19,4 @@ const props = {
   ]
 };
 
-storiesOf('Footer', module).addWithJSX('Default', () => <Component {...props} />);
+storiesOf('Footer', module).add('Default', () => <Component {...props} />);

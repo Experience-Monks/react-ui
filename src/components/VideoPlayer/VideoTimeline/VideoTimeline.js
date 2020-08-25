@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoTimeline.css';
+import './VideoTimeline.scss';
 
 export default class VideoTimeline extends React.PureComponent {
   static getDerivedStateFromProps(nextProps, prevState) {

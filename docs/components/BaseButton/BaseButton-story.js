@@ -10,7 +10,7 @@ function handleMouseMove() {
   console.log('Move');
 }
 
-storiesOf('Button', module).addWithJSX(
+storiesOf('Button', module).add(
   'Default',
   () => (
     <Component onClick={handleClick} onMouseMove={handleMouseMove}>

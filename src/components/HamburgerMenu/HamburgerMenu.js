@@ -1,53 +1,64 @@
-import React from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import noop from 'no-op';
 import cleanPath from 'remove-trailing-separator';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './HamburgerMenu.css';
+import './HamburgerMenu.scss';
 
 import BaseLink from '../BaseLink/BaseLink';
 
-class HamburgerMenu extends React.PureComponent {
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.closeOnRouteChange && prevProps.location.pathname !== this.props.location.pathname) {
-      this.props.isMobileMenuOpen && this.props.setIsMobileMenuOpen(false);
-    }
-  }
+const HamburgerMenu = ({
+  className,
+  closeOnRouteChange,
+  isMobileMenuOpen,
+  linkComponent,
+  links,
+  children,
+  setIsMobileMenuOpen
+}) => {
+  const LinkComponent = linkComponent;
+  const refContainer = useRef(null);
+  const previousPathname = useRef('');
 
-  componentWillUnmount() {
-    this.props.isMobileMenuOpen && this.props.setIsMobileMenuOpen(false);
-  }
+  const location = useLocation();
 
-  render() {
-    const LinkComponent = this.props.linkComponent;
+  useEffect(
+    () => {
+      if (closeOnRouteChange && previousPathname.current && previousPathname.current !== location.pathname) {
+        isMobileMenuOpen && setIsMobileMenuOpen(false);
+      }
+      previousPathname.current = location.pathname;
 
-    return (
-      <nav
-        className={classnames(`HamburgerMenu`, this.props.className, { open: this.props.isMobileMenuOpen })}
-        ref={r => (this.container = r)}
-      >
-        {this.props.links && (
-          <ul className="nav-list">
-            {this.props.links.map((link, index) => (
-              <li key={index} className="nav-item">
-                <LinkComponent
-                  link={link.path}
-                  className={classnames({ active: cleanPath(this.props.location.pathname) === cleanPath(link.path) })}
-                >
-                  {link.text}
-                </LinkComponent>
-              </li>
-            ))}
-          </ul>
-        )}
-        {this.props.children}
-      </nav>
-    );
-  }
-}
+      return () => {
+        isMobileMenuOpen && setIsMobileMenuOpen(false);
+      };
+    },
+    [isMobileMenuOpen, closeOnRouteChange, location]
+  );
+
+  return (
+    <nav className={classnames(`HamburgerMenu`, className, { open: isMobileMenuOpen })} ref={refContainer}>
+      {links && (
+        <ul className="nav-list">
+          {links.map((link, index) => (
+            <li key={index} className="nav-item">
+              <LinkComponent
+                link={link.path}
+                className={classnames({ active: cleanPath(location.pathname) === cleanPath(link.path) })}
+              >
+                {link.text}
+              </LinkComponent>
+            </li>
+          ))}
+        </ul>
+      )}
+      {children}
+    </nav>
+  );
+};
 
 HamburgerMenu.propTypes = checkProps({
   className: PropTypes.string,
@@ -73,4 +84,4 @@ HamburgerMenu.defaultProps = {
   linkComponent: BaseLink
 };
 
-export default withRouter(HamburgerMenu);
+export default memo(HamburgerMenu);

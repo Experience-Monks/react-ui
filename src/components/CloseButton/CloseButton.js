@@ -1,26 +1,20 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './CloseButton.css';
+import './CloseButton.scss';
 
-export class CloseButton extends React.PureComponent {
-  render() {
-    const { className, component, ...buttonProps } = this.props;
-    const Component = component;
+import BaseButton from '../BaseButton/BaseButton';
 
-    return (
-      <Component
-        className={classnames('CloseButton', className)}
-        {...buttonProps}
-      >
-        <span />
-        <span />
-      </Component>
-    );
-  }
-}
+const CloseButton = ({ className, ...buttonProps }) => {
+  return (
+    <BaseButton className={classnames('CloseButton', className)} {...buttonProps}>
+      <span />
+      <span />
+    </BaseButton>
+  );
+};
 
 CloseButton.propTypes = checkProps({
   style: PropTypes.object,
@@ -51,4 +45,4 @@ CloseButton.defaultProps = {
   component: 'button'
 };
 
-export default CloseButton;
+export default memo(CloseButton);
