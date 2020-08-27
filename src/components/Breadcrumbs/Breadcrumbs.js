@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Link, withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import checkProps from '@jam3/react-check-extra-props';
+import BaseLink from '../BaseLink/BaseLink';
 
 import './Breadcrumbs.scss';
 
-const Breadcrumbs = ({ location, routes, breadStyle }) => {
+const Breadcrumbs = ({ routes, breadStyle }) => {
   const [active, setActive] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     const pos = routes.map(path => path.route).indexOf(location.pathname);
@@ -34,7 +36,7 @@ const Breadcrumbs = ({ location, routes, breadStyle }) => {
           (prev, curr, index) => [
             prev,
             <span key={index} className="separator" aria-hidden="true">
-              >
+              {'>'}
             </span>,
             curr
           ],
@@ -63,13 +65,13 @@ const LinkWrapper = ({ pathname, text, route }) => {
   const isActive = route === pathname;
 
   return (
-    <Link
+    <BaseLink
       className={classnames('Link', { active: isActive })}
-      to={route}
+      link={route}
       {...(isActive ? { 'aria-current': 'location' } : {})}
     >
       {text}
-    </Link>
+    </BaseLink>
   );
 };
 
@@ -79,4 +81,4 @@ LinkWrapper.propTypes = checkProps({
   text: PropTypes.string.isRequired
 });
 
-export default withRouter(Breadcrumbs);
+export default Breadcrumbs;
