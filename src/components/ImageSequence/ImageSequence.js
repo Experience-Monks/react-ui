@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './ImageSequence.css';
+import './ImageSequence.scss';
 
 import { clamp, getViewportHeight, imageCoverDimensions, isImageLoaded } from './utils';
 
@@ -51,22 +51,19 @@ function ImageSequence({
     canvasElRef.current.height = height;
   }, []);
 
-  const setTooltipsVisibility = useCallback(
-    () => {
-      tooltips.forEach(({ percentVisibleStart, percentVisibleEnd }, index) => {
-        const tooltipEl = tooltipElsRef.current[index];
-        const ratioVisibleStart = percentVisibleStart / 100;
-        const ratioVisibleEnd = percentVisibleEnd / 100;
+  const setTooltipsVisibility = useCallback(() => {
+    tooltips.forEach(({ percentVisibleStart, percentVisibleEnd }, index) => {
+      const tooltipEl = tooltipElsRef.current[index];
+      const ratioVisibleStart = percentVisibleStart / 100;
+      const ratioVisibleEnd = percentVisibleEnd / 100;
 
-        if (scrolledRatioRef.current >= ratioVisibleStart && scrolledRatioRef.current <= ratioVisibleEnd) {
-          tooltipEl.style.visibility = 'visible';
-        } else {
-          tooltipEl.style.visibility = 'hidden';
-        }
-      });
-    },
-    [tooltips]
-  );
+      if (scrolledRatioRef.current >= ratioVisibleStart && scrolledRatioRef.current <= ratioVisibleEnd) {
+        tooltipEl.style.visibility = 'visible';
+      } else {
+        tooltipEl.style.visibility = 'hidden';
+      }
+    });
+  }, [tooltips]);
 
   const setTooltipsPosition = useCallback(
     ({ cx, cy, ih, iw, nw, nh }) => {
@@ -106,82 +103,73 @@ function ImageSequence({
     [setTooltipsPosition, percentDrawOffsetX, percentDrawOffsetY]
   );
 
-  const drawActiveImage = useCallback(
-    () => {
-      if (activeImageOnLoadRef.current) activeImageOnLoadRef.current.onload = null;
+  const drawActiveImage = useCallback(() => {
+    if (activeImageOnLoadRef.current) activeImageOnLoadRef.current.onload = null;
 
-      const activeImageIndex = Math.round((images.length - 1) * scrolledRatioRef.current) || 0;
-      const activeImage = images[activeImageIndex];
+    const activeImageIndex = Math.round((images.length - 1) * scrolledRatioRef.current) || 0;
+    const activeImage = images[activeImageIndex];
 
-      if (isImageLoaded(activeImage)) {
-        drawImage(activeImage);
-      } else {
-        // Draw nearest previous loaded image as substitute
-        for (let substituteImageIndex = activeImageIndex - 1; substituteImageIndex >= 0; substituteImageIndex--) {
-          const substituteImage = images[substituteImageIndex];
-          if (isImageLoaded(substituteImage)) {
-            drawImage(substituteImage);
-            break;
-          }
+    if (isImageLoaded(activeImage)) {
+      drawImage(activeImage);
+    } else {
+      // Draw nearest previous loaded image as substitute
+      for (let substituteImageIndex = activeImageIndex - 1; substituteImageIndex >= 0; substituteImageIndex--) {
+        const substituteImage = images[substituteImageIndex];
+        if (isImageLoaded(substituteImage)) {
+          drawImage(substituteImage);
+          break;
         }
-
-        // Draw current image when loaded
-        activeImageOnLoadRef.current = activeImage;
-        activeImage.onload = () => {
-          drawImage(activeImage);
-        };
       }
-    },
-    [images, drawImage]
-  );
+
+      // Draw current image when loaded
+      activeImageOnLoadRef.current = activeImage;
+      activeImage.onload = () => {
+        drawImage(activeImage);
+      };
+    }
+  }, [images, drawImage]);
 
   const setScrolledRatio = useCallback(() => {
     const { top, height } = ImageSequenceElRef.current.getBoundingClientRect();
     scrolledRatioRef.current = clamp((top / (height - getViewportHeight())) * -1, 0, 1);
   }, []);
 
-  useLayoutEffect(
-    () => {
-      function commonUpdates() {
-        setScrolledRatio();
-        drawActiveImage();
-        setTooltipsVisibility();
-      }
+  useLayoutEffect(() => {
+    function commonUpdates() {
+      setScrolledRatio();
+      drawActiveImage();
+      setTooltipsVisibility();
+    }
 
-      function scrollHandler() {
-        commonUpdates();
-      }
+    function scrollHandler() {
+      commonUpdates();
+    }
 
-      function resizeHandler() {
-        setCanvasSize();
-        commonUpdates();
-      }
-
-      canvasContextRef.current = canvasElRef.current.getContext('2d');
-      canvasContextRef.current.imageSmoothingEnabled = true;
+    function resizeHandler() {
       setCanvasSize();
       commonUpdates();
+    }
 
-      window.addEventListener('scroll', scrollHandler);
+    canvasContextRef.current = canvasElRef.current.getContext('2d');
+    canvasContextRef.current.imageSmoothingEnabled = true;
+    setCanvasSize();
+    commonUpdates();
+
+    window.addEventListener('scroll', scrollHandler);
+    window.addEventListener('resize', resizeHandler);
+
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
       window.addEventListener('resize', resizeHandler);
+    };
+  }, [setCanvasSize, setScrolledRatio, drawActiveImage, setTooltipsVisibility]);
 
-      return () => {
-        window.removeEventListener('scroll', scrollHandler);
-        window.addEventListener('resize', resizeHandler);
-      };
-    },
-    [setCanvasSize, setScrolledRatio, drawActiveImage, setTooltipsVisibility]
-  );
-
-  useEffect(
-    () => {
-      // Load remainder of the images
-      images.forEach(image => {
-        if (!image.src) image.src = image.dataSrc;
-      });
-    },
-    [images]
-  );
+  useEffect(() => {
+    // Load remainder of the images
+    images.forEach(image => {
+      if (!image.src) image.src = image.dataSrc;
+    });
+  }, [images]);
 
   return (
     <div

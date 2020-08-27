@@ -38,4 +38,8 @@ const props = {
   percentDrawOffsetY: 50
 };
 
-storiesOf('ImageSequence', module).addWithJSX('Default', () => <Component {...props} />);
+storiesOf('ImageSequence', module).add('Default', () => (
+  <div style={{ margin: '50vh 0' }}>
+    <Component {...props} />
+  </div>
+));

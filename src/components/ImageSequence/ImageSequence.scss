@@ -2,10 +2,6 @@
   // Default height, overwritten in JS by heightMultiplier and images length
   height: 300vh;
 
-  // Remove this: test code used to demonstrate sticky functionality within Storybook
-  margin-top: 50vh;
-  margin-bottom: 50vh;
-
   .stickyContainer {
     width: 100%;
     height: 100vh;
