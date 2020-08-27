@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 import { useIntersectionObserver } from '@jam3/react-hooks';
 
-import './Image.css';
+import './Image.scss';
 
 const TABLET_WIDTH = 768;
 const DESKTOP_WIDTH = 1024;
@@ -47,37 +47,28 @@ const Image = forwardRef(
       [src]
     );
 
-    const buildSrcSet = useCallback(
-      () => {
-        let srcSetString = '';
+    const buildSrcSet = useCallback(() => {
+      let srcSetString = '';
 
-        for (let index = 1; index <= srcSetTotal; index++) {
-          const width = srcSetWidthIncrement * index;
-          srcSetString += `${buildSrc(width, quality)} ${width}w,`;
-        }
+      for (let index = 1; index <= srcSetTotal; index++) {
+        const width = srcSetWidthIncrement * index;
+        srcSetString += `${buildSrc(width, quality)} ${width}w,`;
+      }
 
-        return srcSetString;
-      },
-      [buildSrc, srcSetTotal, srcSetWidthIncrement, quality]
-    );
+      return srcSetString;
+    }, [buildSrc, srcSetTotal, srcSetWidthIncrement, quality]);
 
-    const handleOnLoad = useCallback(
-      () => {
-        if (hasFilterBlur && loadImage) {
-          setHasFilterBlur(false);
-        }
-      },
-      [hasFilterBlur, loadImage, setHasFilterBlur]
-    );
+    const handleOnLoad = useCallback(() => {
+      if (hasFilterBlur && loadImage) {
+        setHasFilterBlur(false);
+      }
+    }, [hasFilterBlur, loadImage, setHasFilterBlur]);
 
-    useEffect(
-      () => {
-        if (lazyLoad && isLazyLoadIntersecting) {
-          setLoadImage(true);
-        }
-      },
-      [lazyLoad, isLazyLoadIntersecting, setLoadImage]
-    );
+    useEffect(() => {
+      if (lazyLoad && isLazyLoadIntersecting) {
+        setLoadImage(true);
+      }
+    }, [lazyLoad, isLazyLoadIntersecting, setLoadImage]);
 
     return (
       <img

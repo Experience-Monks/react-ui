@@ -6,4 +6,4 @@ const props = {
   src: 'https://assets.imgix.net/unsplash/mountains.jpg'
 };
 
-storiesOf('Image', module).addWithJSX('Default', () => <Component {...props} />);
+storiesOf('Image', module).add('Default', () => <Component {...props} />);
