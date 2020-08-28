@@ -2,8 +2,11 @@ import React, { memo, useCallback, useState, useMemo } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import checkProps from '@jam3/react-check-extra-props';
+import noop from 'no-op';
 
 import './CookieBanner.scss';
+
+import BaseButton from '../BaseButton/BaseButton';
 
 const EXPIRATION_DURATION_MONTHS = 3;
 
@@ -12,7 +15,7 @@ const LOCAL_STORAGE_KEYS = {
   expiration: 'cookie-expiration'
 };
 
-function CookieBanner({ className }) {
+function CookieBanner({ className, defaultText, children, acceptCta, rejectCta, onAccept, onReject }) {
   const expired = useMemo(() => {
     let expirationDate = localStorage.getItem(LOCAL_STORAGE_KEYS.expiration);
     if (expirationDate === null) {
@@ -20,16 +23,12 @@ function CookieBanner({ className }) {
     }
 
     expirationDate = new Date(expirationDate);
-    if (expirationDate.getTime() < new Date().getTime()) {
-      return true;
-    } else {
-      return false;
-    }
+    return expirationDate.getTime() < new Date().getTime();
   }, []);
 
   const [visible, setVisible] = useState(!localStorage.getItem(LOCAL_STORAGE_KEYS.consent) || expired);
 
-  const onAccept = useCallback(() => {
+  const onAcceptClick = useCallback(() => {
     localStorage.setItem(LOCAL_STORAGE_KEYS.consent, true);
 
     const expirationDate = new Date();
@@ -37,31 +36,44 @@ function CookieBanner({ className }) {
     localStorage.setItem(LOCAL_STORAGE_KEYS.expiration, expirationDate);
 
     setVisible(false);
+    onAccept();
   }, []);
 
-  const onReject = useCallback(() => {
+  const onRejectClick = useCallback(() => {
     setVisible(false);
+    onReject();
   }, []);
 
   return visible ? (
     <div className={classnames('CookieBanner', className)}>
-      <p className="description">
-        We use cookies on this website to improve your experience. Learn more on our privacy policy.
-      </p>
-      <button className="accept" onClick={onAccept}>
-        Accept cookies
-      </button>
-      <button className="reject" onClick={onReject}>
-        No thanks
-      </button>
+      <span className="description">{children || defaultText}</span>
+      <div className="buttons-container">
+        <BaseButton className="accept" onClick={onAcceptClick}>
+          {acceptCta}
+        </BaseButton>
+        <BaseButton className="reject" onClick={onRejectClick}>
+          {rejectCta}
+        </BaseButton>
+      </div>
     </div>
   ) : null;
 }
 
 CookieBanner.propTypes = checkProps({
-  className: PropTypes.string
+  className: PropTypes.string,
+  defaultText: PropTypes.string,
+  acceptCta: PropTypes.string,
+  rejectCta: PropTypes.string,
+  onAccept: PropTypes.func,
+  onReject: PropTypes.func
 });
 
-CookieBanner.defaultProps = {};
+CookieBanner.defaultProps = {
+  defaultText: 'We use cookies on this website to improve your experience.',
+  acceptCta: 'Accept cookies',
+  rejectCta: 'No thanks',
+  onAccept: noop,
+  onReject: noop
+};
 
 export default memo(CookieBanner);
