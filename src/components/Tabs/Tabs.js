@@ -13,7 +13,7 @@ const keys = {
 
 import './Tabs.scss';
 
-export const Tabs = ({ children }) => {
+export const Tabs = ({ tabListLabel, children }) => {
   const containerRef = useRef(null);
   const childrenArray = React.Children.toArray(children);
   const [active, setActive] = useState(0);
@@ -36,32 +36,53 @@ export const Tabs = ({ children }) => {
 
   return (
     <div className="Tabs" ref={containerRef}>
-      <ol className="tabs-list" role="tablist">
+      <ul className="tabs-list" role="tablist" aria-label={tabListLabel}>
         {childrenArray.map((child, index) => {
-          const { label } = child.props;
-          return (
-            <Tab
-              key={`${label}${index}`}
-              label={label}
-              isActive={active === index}
-              onClick={() => setActive(index)}
-              onKeyUp={handleKeyup}
-            >
-              {label}
-            </Tab>
-          );
+          const label = child.props['data-label'];
+          if (!label) {
+            console.warn('Child component has no data-label prop');
+            return;
+          } else {
+            return (
+              <Tab
+                index={index}
+                key={`${label}${index}`}
+                label={label}
+                isActive={active === index}
+                onClick={() => setActive(index)}
+                onKeyUp={handleKeyup}
+              >
+                {label}
+              </Tab>
+            );
+          }
         })}
-      </ol>
-      <div className="tabs-content">{childrenArray.map((child, index) => (index === active ? child : undefined))}</div>
+      </ul>
+
+      <div className="tabs-content">
+        {childrenArray.map((child, index) =>
+          React.cloneElement(child, {
+            id: `panel-${index}`,
+            role: 'tabpanel',
+            tabIndex: '0',
+            'aria-labelledby': `tab-${index}`,
+            hidden: index !== active
+          })
+        )}
+      </div>
     </div>
   );
 };
 
-Tabs.propTypes = checkProps({});
+Tabs.propTypes = checkProps({
+  tabListLabel: PropTypes.string
+});
 
-Tabs.defaultProps = {};
+Tabs.defaultProps = {
+  tabListLabel: ''
+};
 
-export const Tab = ({ isActive, label, onClick, onKeyUp }) => {
+export const Tab = ({ isActive, label, index, onClick, onKeyUp }) => {
   const el = useRef(null);
 
   useEffect(() => {
@@ -70,10 +91,11 @@ export const Tab = ({ isActive, label, onClick, onKeyUp }) => {
 
   return (
     <li
+      id={`tab-${index}`}
       ref={el}
       className={classnames('Tab', { active: isActive })}
       role="tab"
-      aria-controls={label}
+      aria-controls={`panel-${index}`}
       aria-selected={isActive}
       tabIndex={isActive ? 0 : -1}
       onClick={onClick}
@@ -87,6 +109,7 @@ export const Tab = ({ isActive, label, onClick, onKeyUp }) => {
 Tab.propTypes = checkProps({
   isActive: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
   onKeyUp: PropTypes.func.isRequired
 });
