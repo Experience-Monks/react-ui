@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useLayoutEffect, useEffect, useState, useRef, memo } from 'react';
+import PropTypes, { func } from 'prop-types';
 import BackgroundVideo from 'react-background-video-player';
-import fullScreen from 'fullscreen-handler';
+import fullscreenHandler from 'fullscreen-handler';
 import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
@@ -10,128 +10,162 @@ import './VideoPlayer.scss';
 
 import VideoControls from './VideoControls/VideoControls';
 
-export default class VideoPlayer extends React.PureComponent {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.windowWidth !== prevState.containerWidth || nextProps.windowHeight !== prevState.containerHeight) {
-      return {
-        containerWidth: nextProps.windowWidth,
-        containerHeight: nextProps.windowHeight
-      };
+const VideoPlayer = ({
+  className,
+  style,
+  src,
+  preload,
+  playsInline,
+  crossOrigin,
+  poster,
+  loop,
+  muted,
+  captions,
+  autoPlay,
+  volume,
+  togglePlayOnClick,
+  windowWidth,
+  windowHeight,
+  startTime,
+  allowKeyboardControl,
+  showControlsOnLoad,
+  hasControls,
+  autoPlayDelay,
+  disableBackgroundCover,
+  controlsTimeout,
+  onEnd,
+  playIcon,
+  pauseIcon,
+  mutedIcon,
+  unmutedIcon,
+  exitFullscreenIcon,
+  enterFullscreenIcon,
+  captionsOnIcon,
+  captionsOffIcon
+}) => {
+  const container = useRef();
+  const fullScreen = useRef();
+  const controls = useRef();
+  const captionsContainer = useRef();
+  const trackRef = useRef();
+  const autoPlayTimeout = useRef();
+  const hideControlsTimeout = useRef();
+  const VideoRef = useRef();
+
+  const [containerSize, setContainerSize] = useState({ width: windowWidth || 0, height: windowHeight || 0 });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(muted);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isShowingControls, setIsShowingControls] = useState(showControlsOnLoad);
+  const [isShowingCaptions, setIsShowingCaptions] = useState(captions && captions.default);
+  const [currentCaptions, setCurrentCaptions] = useState('');
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  useLayoutEffect(() => {
+    fullScreen.current = fullscreenHandler(container.current, onEnterFullScreen, onExitFullScreen);
+    controls.current = container.current.querySelector('.VideoControls');
+
+    if (hasControls) {
+      showControlsOnLoad ? setHideControlsTimeout() : hideControls();
     }
 
-    if (nextProps.startTime !== prevState.startTime) {
-      return { startTime: nextProps.startTime };
+    if (autoPlay) {
+      autoPlayTimeout.current = setTimeout(() => {
+        play();
+        clearAutoPlayTimeout();
+      }, autoPlayDelay * 1000);
     }
 
-    return null;
-  }
+    return () => {
+      pause();
+      isFullScreen && fullScreen.current.exit();
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      containerWidth: props.windowWidth || 0,
-      containerHeight: props.windowHeight || 0,
-      isPlaying: false,
-      isMuted: props.muted,
-      isFullScreen: false,
-      isShowingControls: props.showControlsOnLoad,
-      isShowingCaptions: props.captions && props.captions.default,
-      currentCaptions: '',
-      currentTime: 0,
-      progress: 0,
-      duration: 0,
-      startTime: props.startTime
+      clearAutoPlayTimeout();
+      clearHideControlsTimeout();
+      fullScreen.current.destroy();
+      trackRef.current && trackRef.current.removeEventListener('cuechange', onTrackChange);
     };
-  }
+  }, []);
 
-  componentDidMount() {
-    this.fullScreen = fullScreen(this.container, this.onEnterFullScreen, this.onExitFullScreen);
-    this.controls = this.container.querySelector('.VideoControls');
+  useEffect(
+    () => {
+      setContainerSize({ width: windowWidth, height: windowHeight });
+    },
+    [windowWidth, windowHeight]
+  );
 
-    if (this.props.hasControls) {
-      this.props.showControlsOnLoad ? this.setHideControlsTimeout() : this.hideControls(0);
-    }
-
-    if (this.props.autoPlay) {
-      this.autoPlayTimeout = setTimeout(() => {
-        this.play();
-        this.clearAutoPlayTimeout();
-      }, this.props.autoPlayDelay * 1000);
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.isPlaying !== this.state.isPlaying) {
-      if (this.state.isPlaying) {
-        this.props.onPlay();
-        this.props.hasControls && this.setHideControlsTimeout();
+  useEffect(
+    () => {
+      if (isPlaying) {
+        onPlay();
+        hasControls && setHideControlsTimeout();
       } else {
-        this.props.onPause();
-        if (this.props.hasControls) {
-          this.clearHideControlsTimeout();
-          this.showControls();
+        onPause();
+        if (hasControls && progress) {
+          clearHideControlsTimeout();
+          showControls();
         }
       }
-    }
+    },
+    [isPlaying]
+  );
 
-    if (this.props.captions && prevProps.captions.src !== this.props.captions.src) {
-      this.setCaptions(this.props.captions);
-    }
+  useEffect(
+    () => {
+      setCaptions(captions);
+    },
+    [captions]
+  );
+
+  function showControls() {
+    !isShowingControls && setIsShowingControls(true);
   }
 
-  componentWillUnmount() {
-    this.fullScreen.destroy();
-    this.pause();
-    this.clearAutoPlayTimeout();
-    this.props.hasControls && this.clearHideControlsTimeout();
-    this.captions && this.captions.removeEventListener('cuechange', this.onTrackChange);
+  function hideControls() {
+    isShowingControls && setIsShowingControls(false);
   }
 
-  showControls = () => {
-    this.setState({ isShowingControls: true });
-  };
+  function play() {
+    !isPlaying && VideoRef.current.play();
+  }
 
-  hideControls = () => {
-    this.setState({ isShowingControls: false });
-  };
+  function pause() {
+    isPlaying && VideoRef.current.pause();
+  }
 
-  play = () => {
-    !this.state.isPlaying && this.video.play();
-  };
+  function mute() {
+    !isMuted && VideoRef.current.mute();
+  }
 
-  pause = () => {
-    this.state.isPlaying && this.video.pause();
-  };
+  function unmute() {
+    isMuted && VideoRef.current.unmute();
+  }
 
-  mute = () => {
-    !this.state.isMuted && this.video.mute();
-  };
+  function togglePlay() {
+    VideoRef.current.togglePlay();
+  }
 
-  unmute = () => {
-    this.state.isMuted && this.video.unmute();
-  };
+  function toggleMute() {
+    VideoRef.current.toggleMute();
+  }
 
-  togglePlay = () => {
-    this.video.togglePlay();
-  };
+  function toggleFullscreen() {
+    isFullScreen ? fullScreen.current.exit() : fullScreen.current.enter();
+  }
 
-  toggleMute = () => {
-    this.video.toggleMute();
-  };
+  function toggleCaptions() {
+    setIsShowingCaptions(!isShowingCaptions);
+  }
 
-  toggleFullscreen = () => {
-    this.state.isFullScreen ? this.fullScreen.exit() : this.fullScreen.enter();
-  };
+  function setCaptions(captions) {
+    if (!captions) return;
 
-  toggleCaptions = () => {
-    this.setState({ isShowingCaptions: !this.state.isShowingCaptions });
-  };
-
-  setCaptions = (captions = this.props.captions) => {
-    const video = this.video.video;
-    if (video.contains(this.captions)) {
-      video.removeChild(this.captions);
-      this.captions.removeEventListener('cuechange', this.onTrackChange);
+    const video = VideoRef.current.video;
+    if (video.contains(trackRef.current)) {
+      video.removeChild(trackRef.current);
+      trackRef.current.removeEventListener('cuechange', onTrackChange);
     }
 
     const track = document.createElement('track');
@@ -142,173 +176,186 @@ export default class VideoPlayer extends React.PureComponent {
     track.src = captions.src;
     track.mode = 'hidden';
 
-    this.captions = track;
-    video.appendChild(this.captions);
+    trackRef.current = track;
+    video.appendChild(track);
     video.textTracks[0].mode = 'hidden';
+    track.style.display = 'none';
 
-    this.captions.addEventListener('cuechange', this.onTrackChange);
-  };
+    trackRef.current.addEventListener('cuechange', onTrackChange);
+  }
 
-  clearHideControlsTimeout = () => {
-    if (this.hideControlsTimeout) {
-      clearTimeout(this.hideControlsTimeout);
-      this.hideControlsTimeout = undefined;
+  function clearHideControlsTimeout() {
+    hideControlsTimeout.current && clearTimeout(hideControlsTimeout.current);
+  }
+
+  function clearAutoPlayTimeout() {
+    autoPlayTimeout.current && clearTimeout(autoPlayTimeout.current);
+  }
+
+  function setHideControlsTimeout() {
+    clearHideControlsTimeout();
+    hideControlsTimeout.current = setTimeout(() => {
+      isPlaying && hideControls();
+    }, controlsTimeout * 1000);
+  }
+
+  function updateTime(currentTime) {
+    VideoRef.current.setCurrentTime(Number(currentTime));
+  }
+
+  function onReady(duration) {
+    if (captions) {
+      captions.src && setCaptions(captions);
     }
-  };
+    setDuration(duration);
+  }
 
-  clearAutoPlayTimeout = () => {
-    this.autoPlayTimeout && clearTimeout(this.autoPlayTimeout);
-  };
-
-  setHideControlsTimeout = () => {
-    this.clearHideControlsTimeout();
-    this.hideControlsTimeout = setTimeout(() => {
-      this.state.isPlaying && this.hideControls();
-    }, this.props.controlsTimeout * 1000);
-  };
-
-  updateTime = currentTime => {
-    this.video.setCurrentTime(Number(currentTime));
-  };
-
-  onReady = duration => {
-    if (this.props.captions) {
-      this.props.captions.src && this.setCaptions();
-    }
-    this.setState({ duration });
-  };
-
-  onTrackChange = () => {
-    const trackList = this.video.video.textTracks;
+  function onTrackChange() {
+    const trackList = VideoRef.current.video.textTracks;
     const textTracks = trackList && trackList.length > 0 ? trackList[0] : null;
-    let cue = textTracks && textTracks.activeCues.length > 0 ? textTracks.activeCues[0] : null;
-    let text = cue ? cue.text : '';
-    this.setState({ currentCaptions: text });
-  };
+    const cue =
+      textTracks && textTracks.activeCues && textTracks.activeCues.length > 0 ? textTracks.activeCues[0] : null;
+    const text = cue ? cue.text : '';
+    setCurrentCaptions(text);
+  }
 
-  onResize = newSize => {
-    this.setState(newSize);
-  };
+  function onEnterFullScreen() {
+    setIsFullScreen(true);
+  }
 
-  onEnterFullScreen = () => {
-    this.setState({ isFullScreen: true });
-  };
+  function onExitFullScreen() {
+    setIsFullScreen(false);
+  }
 
-  onExitFullScreen = () => {
-    this.setState({ isFullScreen: false });
-  };
+  function onPlay() {
+    setIsPlaying(true);
+  }
 
-  onPlay = () => {
-    this.setState({ isPlaying: true });
-  };
+  function onPause() {
+    setIsPlaying(false);
+  }
 
-  onPause = () => {
-    this.setState({ isPlaying: false });
-  };
+  function onTimeUpdate(currentTime, progress, duration) {
+    setCurrentTime(currentTime);
+    setDuration(duration);
+    setProgress(progress);
+  }
 
-  onTimeUpdate = (currentTime, progress, duration) => {
-    this.setState({ currentTime, progress, duration });
-  };
+  function onMute() {
+    setIsMuted(true);
+  }
 
-  onMute = () => {
-    this.setState({ isMuted: true });
-  };
+  function onUnmute() {
+    setIsMuted(false);
+  }
 
-  onUnmute = () => {
-    this.setState({ isMuted: false });
-  };
+  function onVideoEnd() {
+    onEnd();
+    isFullScreen && fullScreen.current.exit();
+  }
 
-  onEnd = () => {
-    this.props.onEnd();
-    this.fullScreen.isFullScreen() && this.fullScreen.exit();
-  };
-
-  onMouseMove = () => {
-    if (this.state.isPlaying && this.props.hasControls) {
-      this.showControls();
-      this.setHideControlsTimeout();
+  function onMouseMove() {
+    if (hasControls) {
+      showControls();
+      isPlaying && setHideControlsTimeout();
     }
-  };
+  }
 
-  onKeyPress = e => {
-    if (this.props.allowKeyboardControl) {
+  function onKeyPress(e) {
+    if (allowKeyboardControl) {
       const event = e.keyCode || e.which || e.charCode;
       if (event === 32) {
-        this.togglePlay();
+        togglePlay();
       }
     }
-  };
-
-  render() {
-    return (
-      <div
-        className={classnames('VideoPlayer', this.props.className, {
-          'show-controls': this.state.isShowingControls,
-          'show-captions': this.state.isShowingCaptions
-        })}
-        style={this.props.style}
-        ref={r => (this.container = r)}
-        onMouseMove={this.onMouseMove}
-      >
-        <BackgroundVideo
-          ref={r => (this.video = r)}
-          src={this.props.src}
-          containerWidth={this.state.containerWidth}
-          containerHeight={this.state.containerHeight}
-          autoPlay={false}
-          poster={this.props.poster}
-          muted={this.props.muted}
-          loop={this.props.loop}
-          disableBackgroundCover={this.props.disableBackgroundCover}
-          preload={this.props.preload}
-          playsInline={this.props.playsInline}
-          volume={this.props.volume}
-          startTime={this.state.startTime}
-          onReady={this.onReady}
-          onPlay={this.onPlay}
-          onPause={this.onPause}
-          onTimeUpdate={this.onTimeUpdate}
-          onMute={this.onMute}
-          onUnmute={this.onUnmute}
-          onEnd={this.onEnd}
-          onClick={this.props.togglePlayOnClick ? this.togglePlay : f => f}
-          onKeyPress={this.onKeyPress}
-        />
-
-        {this.props.captions && (
-          <div className="VideoPlayer-captions-container" ref={r => (this.captionsContainer = r)}>
-            {this.state.currentCaptions && <p>{this.state.currentCaptions}</p>}
-          </div>
-        )}
-
-        {this.props.hasControls && (
-          <VideoControls
-            captions={Boolean(this.props.captions)}
-            currentTime={Number(this.state.currentTime)}
-            isPlaying={this.state.isPlaying}
-            isMuted={this.state.isMuted}
-            isFullScreen={this.state.isFullScreen}
-            isShowingCaptions={this.state.isShowingCaptions}
-            duration={this.state.duration}
-            onPlayToggle={this.togglePlay}
-            onMuteToggle={this.toggleMute}
-            onFullscreenToggle={this.toggleFullscreen}
-            onCaptionsToggle={this.toggleCaptions}
-            onTimeUpdate={this.updateTime}
-            playIcon={this.props.playIcon}
-            pauseIcon={this.props.pauseIcon}
-            mutedIcon={this.props.mutedIcon}
-            unmutedIcon={this.props.unmutedIcon}
-            exitFullscreenIcon={this.props.exitFullscreenIcon}
-            enterFullscreenIcon={this.props.enterFullscreenIcon}
-            captionsOnIcon={this.props.captionsOnIcon}
-            captionsOffIcon={this.props.captionsOffIcon}
-          />
-        )}
-      </div>
-    );
   }
-}
+
+  function onControlsFocus() {
+    if (hasControls) {
+      showControls();
+      clearHideControlsTimeout();
+    }
+  }
+
+  function onControlsBlur() {
+    if (hasControls) {
+      clearHideControlsTimeout();
+      isPlaying && setHideControlsTimeout();
+    }
+  }
+
+  return (
+    <div
+      className={classnames('VideoPlayer', className, {
+        'show-controls': isShowingControls,
+        'show-captions': isShowingCaptions
+      })}
+      style={style}
+      ref={container}
+      onMouseMove={onMouseMove}
+    >
+      <BackgroundVideo
+        ref={VideoRef}
+        src={src}
+        containerWidth={containerSize.width}
+        containerHeight={containerSize.height}
+        autoPlay={false}
+        poster={poster}
+        muted={muted}
+        loop={loop}
+        disableBackgroundCover={disableBackgroundCover}
+        preload={preload}
+        playsInline={playsInline}
+        volume={volume}
+        startTime={startTime}
+        onReady={onReady}
+        onPlay={onPlay}
+        onPause={onPause}
+        onTimeUpdate={onTimeUpdate}
+        onMute={onMute}
+        onUnmute={onUnmute}
+        onEnd={onVideoEnd}
+        onClick={togglePlayOnClick ? togglePlay : noop}
+        onKeyPress={onKeyPress}
+        tabIndex={allowKeyboardControl ? 0 : null}
+        extraVideoElementProps={{ crossOrigin }}
+      />
+
+      {captions && (
+        <div className="VideoPlayer-captions-container" ref={captionsContainer}>
+          {currentCaptions && <p>{currentCaptions}</p>}
+        </div>
+      )}
+
+      {hasControls && (
+        <VideoControls
+          captions={Boolean(captions)}
+          currentTime={Number(currentTime)}
+          isPlaying={isPlaying}
+          isMuted={isMuted}
+          isFullScreen={isFullScreen}
+          isShowingCaptions={isShowingCaptions}
+          duration={duration}
+          onPlayToggle={togglePlay}
+          onMuteToggle={toggleMute}
+          onFullscreenToggle={toggleFullscreen}
+          onCaptionsToggle={toggleCaptions}
+          onTimeUpdate={updateTime}
+          playIcon={playIcon}
+          pauseIcon={pauseIcon}
+          mutedIcon={mutedIcon}
+          unmutedIcon={unmutedIcon}
+          exitFullscreenIcon={exitFullscreenIcon}
+          enterFullscreenIcon={enterFullscreenIcon}
+          captionsOnIcon={captionsOnIcon}
+          captionsOffIcon={captionsOffIcon}
+          onFocus={onControlsFocus}
+          onBlur={onControlsBlur}
+        />
+      )}
+    </div>
+  );
+};
 
 VideoPlayer.propTypes = checkProps({
   className: PropTypes.string,
@@ -342,7 +389,8 @@ VideoPlayer.propTypes = checkProps({
   exitFullscreenIcon: PropTypes.string,
   enterFullscreenIcon: PropTypes.string,
   captionsOnIcon: PropTypes.string,
-  captionsOffIcon: PropTypes.string
+  captionsOffIcon: PropTypes.string,
+  crossOrigin: PropTypes.string
 });
 
 VideoPlayer.defaultProps = {
@@ -358,10 +406,13 @@ VideoPlayer.defaultProps = {
   showControlsOnLoad: true,
   disableBackgroundCover: true,
   preload: 'auto',
-  playsInline: false,
+  playsInline: true,
   volume: 1,
   startTime: 0, // in seconds
+  crossOrigin: 'anonymous',
   onPlay: noop,
   onPause: noop,
   onEnd: noop
 };
+
+export default memo(VideoPlayer);

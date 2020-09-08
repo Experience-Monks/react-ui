@@ -9,7 +9,6 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
   background-color: $video-player-controls-track-color;
   cursor: pointer;
   border: none;
-  outline: none;
   color: transparent;
 }
 
@@ -19,7 +18,6 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
   background: $video-player-controls-bg-color;
   border-radius: 50%;
   border: none;
-  outline: none;
 }
 
 .VideoTimeline {
@@ -39,7 +37,7 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
     margin: 0;
   }
 
-  input[type=range]::-webkit-slider-thumb {
+  input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
     -moz-appearance: none;
   }
@@ -48,11 +46,11 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
     border: 0;
   }
 
-  input[type=range]:focus {
+  input[type='range']:focus {
     border: none;
   }
 
-  input[type=range] {
+  input[type='range'] {
     -webkit-appearance: none;
     position: absolute;
     width: 100%;
@@ -62,7 +60,6 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
     color: transparent;
     cursor: pointer;
     padding: 0;
-    outline: none;
 
     // track
     &::-webkit-slider-runnable-track {
