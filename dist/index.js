@@ -7,7 +7,8 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var React = require('react');
 var React__default = _interopDefault(React);
 var reactRouterDom = require('react-router-dom');
-var PropTypes = _interopDefault(require('prop-types'));
+var PropTypes = require('prop-types');
+var PropTypes__default = _interopDefault(PropTypes);
 var classnames = _interopDefault(require('classnames'));
 var checkProps = _interopDefault(require('@jam3/react-check-extra-props'));
 var noop = _interopDefault(require('no-op'));
@@ -16,29 +17,7 @@ var reactUse = require('react-use');
 require('default-passive-events');
 var detect = require('@jam3/detect');
 var BackgroundVideo = _interopDefault(require('react-background-video-player'));
-var fullScreen = _interopDefault(require('fullscreen-handler'));
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
+var fullscreenHandler = _interopDefault(require('fullscreen-handler'));
 
 function _defineProperty(obj, key, value) {
   if (key in obj) {
@@ -107,50 +86,6 @@ function _objectSpread2(target) {
   return target;
 }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-
-  try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
   var target = {};
@@ -185,41 +120,6 @@ function _objectWithoutProperties(source, excluded) {
   }
 
   return target;
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-        result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-
-    return _possibleConstructorReturn(this, result);
-  };
 }
 
 function _slicedToArray(arr, i) {
@@ -340,28 +240,29 @@ var BaseLink = /*#__PURE__*/React.forwardRef(function (props, ref) {
   }, componentProps), props.children);
 });
 BaseLink.propTypes = checkProps({
-  className: PropTypes.string,
-  rel: PropTypes.string,
-  link: PropTypes.string,
-  target: PropTypes.oneOf(['_blank', '_self']),
-  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  download: PropTypes.string,
-  title: PropTypes.string,
-  children: PropTypes.node,
-  onBlur: PropTypes.func,
-  onFocus: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onKeyUp: PropTypes.func,
-  onMouseMove: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onMouseUp: PropTypes.func,
-  onMouseDown: PropTypes.func,
-  onTouchEnd: PropTypes.func,
-  onTouchMove: PropTypes.func,
-  onTouchStart: PropTypes.func,
-  onClick: PropTypes.func,
-  'aria-label': PropTypes.string
+  className: PropTypes__default.string,
+  rel: PropTypes__default.string,
+  link: PropTypes__default.string,
+  target: PropTypes__default.oneOf(['_blank', '_self']),
+  tabIndex: PropTypes__default.oneOfType([PropTypes__default.number, PropTypes__default.string]),
+  download: PropTypes__default.string,
+  title: PropTypes__default.string,
+  children: PropTypes__default.node,
+  onBlur: PropTypes__default.func,
+  onFocus: PropTypes__default.func,
+  onKeyDown: PropTypes__default.func,
+  onKeyUp: PropTypes__default.func,
+  onMouseMove: PropTypes__default.func,
+  onMouseEnter: PropTypes__default.func,
+  onMouseLeave: PropTypes__default.func,
+  onMouseUp: PropTypes__default.func,
+  onMouseDown: PropTypes__default.func,
+  onTouchEnd: PropTypes__default.func,
+  onTouchMove: PropTypes__default.func,
+  onTouchStart: PropTypes__default.func,
+  onClick: PropTypes__default.func,
+  'aria-label': PropTypes__default.string,
+  'aria-current': PropTypes__default.string
 });
 BaseLink.defaultProps = {
   link: '',
@@ -383,28 +284,28 @@ var BaseButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
   }, buttonProps), children);
 });
 BaseButton.propTypes = checkProps({
-  style: PropTypes.object,
-  className: PropTypes.string,
-  component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  children: PropTypes.node,
-  onClick: PropTypes.func,
-  onBlur: PropTypes.func,
-  onFocus: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onKeyUp: PropTypes.func,
-  onMouseMove: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onMouseUp: PropTypes.func,
-  onMouseDown: PropTypes.func,
-  onTouchEnd: PropTypes.func,
-  onTouchMove: PropTypes.func,
-  onTouchStart: PropTypes.func,
-  role: PropTypes.string,
-  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  disabled: PropTypes.bool,
-  'aria-label': PropTypes.string,
-  title: PropTypes.string
+  style: PropTypes__default.object,
+  className: PropTypes__default.string,
+  component: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.func]),
+  children: PropTypes__default.node,
+  onClick: PropTypes__default.func,
+  onBlur: PropTypes__default.func,
+  onFocus: PropTypes__default.func,
+  onKeyDown: PropTypes__default.func,
+  onKeyUp: PropTypes__default.func,
+  onMouseMove: PropTypes__default.func,
+  onMouseEnter: PropTypes__default.func,
+  onMouseLeave: PropTypes__default.func,
+  onMouseUp: PropTypes__default.func,
+  onMouseDown: PropTypes__default.func,
+  onTouchEnd: PropTypes__default.func,
+  onTouchMove: PropTypes__default.func,
+  onTouchStart: PropTypes__default.func,
+  role: PropTypes__default.string,
+  tabIndex: PropTypes__default.oneOfType([PropTypes__default.number, PropTypes__default.string]),
+  disabled: PropTypes__default.bool,
+  'aria-label': PropTypes__default.string,
+  title: PropTypes__default.string
 });
 BaseButton.defaultProps = {
   component: 'button'
@@ -424,28 +325,28 @@ var CloseButton = function CloseButton(_ref) {
 };
 
 CloseButton.propTypes = checkProps({
-  style: PropTypes.object,
-  className: PropTypes.string,
-  nodeRef: PropTypes.func,
-  children: PropTypes.node,
-  component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  onClick: PropTypes.func,
-  onBlur: PropTypes.func,
-  onFocus: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onKeyUp: PropTypes.func,
-  onMouseMove: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onMouseUp: PropTypes.func,
-  onMouseDown: PropTypes.func,
-  onTouchEnd: PropTypes.func,
-  onTouchMove: PropTypes.func,
-  onTouchStart: PropTypes.func,
-  role: PropTypes.string,
-  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  disabled: PropTypes.bool,
-  'aria-label': PropTypes.string
+  style: PropTypes__default.object,
+  className: PropTypes__default.string,
+  nodeRef: PropTypes__default.func,
+  children: PropTypes__default.node,
+  component: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.func]),
+  onClick: PropTypes__default.func,
+  onBlur: PropTypes__default.func,
+  onFocus: PropTypes__default.func,
+  onKeyDown: PropTypes__default.func,
+  onKeyUp: PropTypes__default.func,
+  onMouseMove: PropTypes__default.func,
+  onMouseEnter: PropTypes__default.func,
+  onMouseLeave: PropTypes__default.func,
+  onMouseUp: PropTypes__default.func,
+  onMouseDown: PropTypes__default.func,
+  onTouchEnd: PropTypes__default.func,
+  onTouchMove: PropTypes__default.func,
+  onTouchStart: PropTypes__default.func,
+  role: PropTypes__default.string,
+  tabIndex: PropTypes__default.oneOfType([PropTypes__default.number, PropTypes__default.string]),
+  disabled: PropTypes__default.bool,
+  'aria-label': PropTypes__default.string
 });
 CloseButton.defaultProps = {
   component: 'button'
@@ -477,13 +378,13 @@ var Footer = /*#__PURE__*/React.forwardRef(function (props, ref) {
   }, props.copyright));
 });
 Footer.propTypes = checkProps({
-  className: PropTypes.string,
-  links: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string,
-    path: PropTypes.string
+  className: PropTypes__default.string,
+  links: PropTypes__default.arrayOf(PropTypes__default.shape({
+    text: PropTypes__default.string,
+    path: PropTypes__default.string
   })),
-  ariaNavLabel: PropTypes.string,
-  copyright: PropTypes.string,
+  ariaNavLabel: PropTypes__default.string,
+  copyright: PropTypes__default.string,
   linkComponent: function linkComponent(props, propName) {
     if (props[propName] && !props[propName]['$$typeof']) {
       return new Error("Invalid prop '".concat(propName, "' supplied to 'Footer'. A valid React component expected"));
@@ -533,13 +434,13 @@ var HamburgerButton = function HamburgerButton(_ref) {
 };
 
 HamburgerButton.propTypes = checkProps({
-  className: PropTypes.string,
-  tabIndex: PropTypes.number,
-  currentState: PropTypes.string,
-  onClick: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  ariaLabel: PropTypes.string
+  className: PropTypes__default.string,
+  tabIndex: PropTypes__default.number,
+  currentState: PropTypes__default.string,
+  onClick: PropTypes__default.func,
+  onMouseEnter: PropTypes__default.func,
+  onMouseLeave: PropTypes__default.func,
+  ariaLabel: PropTypes__default.string
 });
 HamburgerButton.defaultProps = {
   tabIndex: 0,
@@ -597,14 +498,14 @@ var HamburgerMenu = function HamburgerMenu(_ref) {
 };
 
 HamburgerMenu.propTypes = checkProps({
-  className: PropTypes.string,
-  links: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string,
-    path: PropTypes.string
+  className: PropTypes__default.string,
+  links: PropTypes__default.arrayOf(PropTypes__default.shape({
+    text: PropTypes__default.string,
+    path: PropTypes__default.string
   })),
-  closeOnRouteChange: PropTypes.bool,
-  isMobileMenuOpen: PropTypes.bool,
-  setIsMobileMenuOpen: PropTypes.func,
+  closeOnRouteChange: PropTypes__default.bool,
+  isMobileMenuOpen: PropTypes__default.bool,
+  setIsMobileMenuOpen: PropTypes__default.func,
   linkComponent: function linkComponent(props, propName) {
     if (props[propName] && !props[propName]['$$typeof']) {
       return new Error("Invalid prop '".concat(propName, "' supplied to 'HamburgerMenu'. A valid React component expected"));
@@ -679,21 +580,21 @@ var MainTopNav = function MainTopNav(props) {
 };
 
 MainTopNav.propTypes = checkProps({
-  className: PropTypes.string,
-  logoSrc: PropTypes.string,
-  ariaSiteTitle: PropTypes.string,
-  ariaNavTitle: PropTypes.string,
-  ariaNavLabel: PropTypes.string,
-  logoLink: PropTypes.string,
-  logoAriaLabel: PropTypes.string,
-  logoAlt: PropTypes.string,
-  links: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string,
-    path: PropTypes.string
+  className: PropTypes__default.string,
+  logoSrc: PropTypes__default.string,
+  ariaSiteTitle: PropTypes__default.string,
+  ariaNavTitle: PropTypes__default.string,
+  ariaNavLabel: PropTypes__default.string,
+  logoLink: PropTypes__default.string,
+  logoAriaLabel: PropTypes__default.string,
+  logoAlt: PropTypes__default.string,
+  links: PropTypes__default.arrayOf(PropTypes__default.shape({
+    text: PropTypes__default.string,
+    path: PropTypes__default.string
   })),
-  showHamburger: PropTypes.bool,
-  isMobileMenuOpen: PropTypes.bool,
-  setIsMobileMenuOpen: PropTypes.func,
+  showHamburger: PropTypes__default.bool,
+  isMobileMenuOpen: PropTypes__default.bool,
+  setIsMobileMenuOpen: PropTypes__default.func,
   linkComponent: function linkComponent(props, propName) {
     if (props[propName] && !props[propName]['$$typeof']) {
       return new Error("Invalid prop '".concat(propName, "' supplied to 'MainTopNav'. A valid React component expected"));
@@ -753,10 +654,10 @@ var RotateScreen = function RotateScreen(_ref) {
 };
 
 RotateScreen.propTypes = checkProps({
-  className: PropTypes.string,
-  copy: PropTypes.string,
-  iconSrc: PropTypes.string,
-  iconAlt: PropTypes.string
+  className: PropTypes__default.string,
+  copy: PropTypes__default.string,
+  iconSrc: PropTypes__default.string,
+  iconAlt: PropTypes__default.string
 });
 RotateScreen.defaultProps = {
   className: '',
@@ -765,10 +666,10 @@ RotateScreen.defaultProps = {
 };
 var RotateScreen$1 = /*#__PURE__*/React.memo(RotateScreen);
 
-var css_248z$7 = ".VideoPlayer {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n  .VideoPlayer .BackgroundVideo video {\n    width: 100%;\n    height: 100%; }\n  .VideoPlayer:fullscreen {\n    width: 100% !important;\n    height: 100% !important;\n    background-color: #000; }\n    .VideoPlayer:fullscreen .BackgroundVideo {\n      display: flex; }\n    .VideoPlayer:fullscreen video {\n      position: relative !important;\n      width: 100% !important;\n      height: auto !important;\n      left: 0 !important;\n      top: 0 !important; }\n    .VideoPlayer:fullscreen button.close {\n      opacity: 0; }\n  .VideoPlayer-captions-container {\n    position: absolute;\n    left: 50%;\n    bottom: 3rem;\n    background-color: rgba(0, 0, 0, 0.8);\n    transform: translateX(-50%);\n    color: #fff;\n    transition: 0.2s;\n    visibility: hidden; }\n    .VideoPlayer-captions-container p {\n      margin: 0;\n      font-size: 3rem;\n      font-weight: bold;\n      padding: 1rem;\n      max-width: 50rem;\n      text-align: center; }\n  .VideoPlayer .VideoControls {\n    transform: translateY(100%);\n    transition: 0.2s; }\n  .VideoPlayer.show-captions .VideoPlayer-captions-container {\n    visibility: visible; }\n  .VideoPlayer.show-controls .VideoControls {\n    transform: translateY(0%); }\n  .VideoPlayer.show-controls .VideoPlayer-captions-container {\n    bottom: 8rem; }\n";
+var css_248z$7 = ".VideoPlayer {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n  .VideoPlayer .BackgroundVideo video {\n    width: 100%;\n    height: 100%; }\n  .VideoPlayer:-webkit-full-screen {\n    width: 100% !important;\n    height: 100% !important;\n    background-color: #000; }\n    .VideoPlayer:-webkit-full-screen .BackgroundVideo {\n      display: flex; }\n    .VideoPlayer:-webkit-full-screen video {\n      position: relative !important;\n      width: 100% !important;\n      height: 100% !important;\n      left: 0 !important;\n      top: 0 !important; }\n  .VideoPlayer:fullscreen {\n    width: 100% !important;\n    height: 100% !important;\n    background-color: #000; }\n    .VideoPlayer:fullscreen .BackgroundVideo {\n      display: flex; }\n    .VideoPlayer:fullscreen video {\n      position: relative !important;\n      width: 100% !important;\n      height: 100% !important;\n      left: 0 !important;\n      top: 0 !important; }\n  .VideoPlayer-captions-container {\n    position: absolute;\n    left: 50%;\n    bottom: 3rem;\n    background-color: rgba(0, 0, 0, 0.8);\n    transform: translateX(-50%);\n    color: #fff;\n    transition: 0.2s;\n    visibility: hidden; }\n    .VideoPlayer-captions-container p {\n      margin: 0;\n      font-size: 3rem;\n      font-weight: bold;\n      padding: 1rem;\n      max-width: 50rem;\n      text-align: center; }\n  .VideoPlayer .VideoControls {\n    transform: translateY(100%);\n    transition: 0.2s; }\n  .VideoPlayer.show-captions .VideoPlayer-captions-container {\n    visibility: visible; }\n  .VideoPlayer.show-controls .VideoControls {\n    transform: translateY(0%); }\n  .VideoPlayer.show-controls .VideoPlayer-captions-container {\n    bottom: 8rem; }\n  .VideoPlayer track {\n    display: none !important; }\n";
 styleInject(css_248z$7);
 
-var css_248z$8 = ".VideoControls {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 5rem;\n  background-color: #000;\n  z-index: 1;\n  box-sizing: border-box; }\n  .VideoControls-button {\n    width: 2rem;\n    height: 2rem;\n    margin-left: 2rem;\n    border: none;\n    cursor: pointer;\n    background: transparent;\n    padding: 0;\n    text-align: inherit;\n    letter-spacing: inherit;\n    font-size: inherit;\n    text-transform: inherit;\n    color: inherit;\n    outline: none; }\n    .VideoControls-button:first-of-type {\n      margin-right: 2rem; }\n    .VideoControls-button:last-of-type {\n      margin-right: 2rem; }\n    .VideoControls-button img {\n      width: 100%;\n      height: 100%; }\n  .VideoControls-time {\n    width: 4rem;\n    color: #fff;\n    font-size: 1.5rem;\n    margin-left: 2rem; }\n";
+var css_248z$8 = ".VideoControls {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 5rem;\n  background-color: #000;\n  z-index: 1;\n  box-sizing: border-box; }\n  .VideoControls-button {\n    width: 2rem;\n    height: 2rem;\n    margin-left: 2rem;\n    border: none;\n    cursor: pointer;\n    background: transparent;\n    padding: 0;\n    text-align: inherit;\n    letter-spacing: inherit;\n    font-size: inherit;\n    text-transform: inherit;\n    color: inherit; }\n    .VideoControls-button:first-of-type {\n      margin-right: 2rem; }\n    .VideoControls-button:last-of-type {\n      margin-right: 2rem; }\n    .VideoControls-button img {\n      width: 100%;\n      height: 100%; }\n  .VideoControls-time {\n    width: 4rem;\n    color: #fff;\n    font-size: 1.5rem;\n    margin-left: 2rem; }\n";
 styleInject(css_248z$8);
 
 var PlayIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\">\n    <path fill=\"#fff\" d=\"M4 3.532l14.113 8.468-14.113 8.468v-16.936zm-2-3.532v24l20-12-20-12z\"/>\n</svg>";
@@ -787,111 +688,123 @@ var CaptionsOnIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" hei
 
 var CaptionsOffIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\">\n    <path fill=\"#fff\" d=\"M22 3v13h-11.643l-4.357 3.105v-3.105h-4v-13h20zm2-2h-24v16.981h4v5.019l7-5.019h13v-16.981z\"/>\n</svg>";
 
-var css_248z$9 = ".VideoTimeline {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 3px;\n  flex-grow: 1; }\n  .VideoTimeline-progress {\n    position: absolute;\n    height: 3px;\n    background-color: red; }\n  .VideoTimeline input {\n    margin: 0; }\n  .VideoTimeline input[type=range]::-webkit-slider-thumb {\n    -webkit-appearance: none;\n    -moz-appearance: none; }\n  .VideoTimeline input[type='range']::-moz-focus-outer {\n    border: 0; }\n  .VideoTimeline input[type=range]:focus {\n    border: none; }\n  .VideoTimeline input[type=range] {\n    -webkit-appearance: none;\n    position: absolute;\n    width: 100%;\n    height: 3px;\n    background: transparent;\n    border-color: transparent;\n    color: transparent;\n    cursor: pointer;\n    padding: 0;\n    outline: none; }\n    .VideoTimeline input[type=range]::-webkit-slider-runnable-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-moz-range-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-ms-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      outline: none;\n      color: transparent; }\n    .VideoTimeline input[type=range]::-ms-tooltip {\n      display: none; }\n    .VideoTimeline input[type=range]::-ms-fill-lower {\n      background: transparent; }\n    .VideoTimeline input[type=range]::-ms-fill-upper {\n      background: transparent; }\n    .VideoTimeline input[type=range]::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none;\n      margin-top: -0.25rem; }\n    .VideoTimeline input[type=range]::-moz-range-thumb {\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none; }\n    .VideoTimeline input[type=range]::-ms-thumb {\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      outline: none; }\n";
+var css_248z$9 = ".VideoTimeline {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 3px;\n  flex-grow: 1; }\n  .VideoTimeline-progress {\n    position: absolute;\n    height: 3px;\n    background-color: red; }\n  .VideoTimeline input {\n    margin: 0; }\n  .VideoTimeline input[type='range']::-webkit-slider-thumb {\n    -webkit-appearance: none;\n    -moz-appearance: none; }\n  .VideoTimeline input[type='range']::-moz-focus-outer {\n    border: 0; }\n  .VideoTimeline input[type='range']:focus {\n    border: none; }\n  .VideoTimeline input[type='range'] {\n    -webkit-appearance: none;\n    position: absolute;\n    width: 100%;\n    height: 3px;\n    background: transparent;\n    border-color: transparent;\n    color: transparent;\n    cursor: pointer;\n    padding: 0; }\n    .VideoTimeline input[type='range']::-webkit-slider-runnable-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      color: transparent; }\n    .VideoTimeline input[type='range']::-moz-range-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      color: transparent; }\n    .VideoTimeline input[type='range']::-ms-track {\n      width: 100%;\n      height: 3px;\n      background-color: rgba(255, 0, 0, 0.3);\n      cursor: pointer;\n      border: none;\n      color: transparent; }\n    .VideoTimeline input[type='range']::-ms-tooltip {\n      display: none; }\n    .VideoTimeline input[type='range']::-ms-fill-lower {\n      background: transparent; }\n    .VideoTimeline input[type='range']::-ms-fill-upper {\n      background: transparent; }\n    .VideoTimeline input[type='range']::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none;\n      margin-top: -0.25rem; }\n    .VideoTimeline input[type='range']::-moz-range-thumb {\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none; }\n    .VideoTimeline input[type='range']::-ms-thumb {\n      width: 1rem;\n      height: 1rem;\n      background: red;\n      border-radius: 50%;\n      border: none; }\n";
 styleInject(css_248z$9);
 
-var VideoTimeline = /*#__PURE__*/function (_React$PureComponent) {
-  _inherits(VideoTimeline, _React$PureComponent);
+var VideoTimeline = function VideoTimeline(_ref) {
+  var className = _ref.className,
+      style = _ref.style,
+      currTime = _ref.currentTime,
+      duration = _ref.duration,
+      onTimeUpdate = _ref.onTimeUpdate,
+      step = _ref.step,
+      stepFast = _ref.stepFast,
+      inputAriaLabel = _ref.inputAriaLabel;
+  var inputRef = React.useRef();
 
-  var _super = _createSuper(VideoTimeline);
+  var _useState = React.useState(currTime),
+      _useState2 = _slicedToArray(_useState, 2),
+      currentTime = _useState2[0],
+      seCurrentTime = _useState2[1];
 
-  _createClass(VideoTimeline, null, [{
-    key: "getDerivedStateFromProps",
-    value: function getDerivedStateFromProps(nextProps, prevState) {
-      if (nextProps.currentTime !== prevState.currentTime && !prevState.isMouseDown) {
-        return {
-          currentTime: nextProps.currentTime
-        };
-      }
+  var _useState3 = React.useState(step),
+      _useState4 = _slicedToArray(_useState3, 2),
+      currStep = _useState4[0],
+      setCurrStep = _useState4[1];
 
-      return null;
-    }
-  }]);
+  React.useEffect(function () {
+    seCurrentTime(currTime);
+  }, [currTime]);
 
-  function VideoTimeline(props) {
-    var _this;
-
-    _classCallCheck(this, VideoTimeline);
-
-    _this = _super.call(this, props);
-
-    _defineProperty(_assertThisInitialized(_this), "onChange", function () {
-      _this.props.onTimeUpdate(_this.input.value, _this.input.value / _this.props.duration);
-
-      _this.setState({
-        currentTime: parseFloat(_this.input.value)
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onMouseDown", function () {
-      _this.setState({
-        isMouseDown: true
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onMouseUp", function () {
-      _this.setState({
-        isMouseDown: false
-      });
-    });
-
-    _this.state = {
-      currentTime: _this.props.currentTime,
-      isMouseDown: false
-    };
-    return _this;
+  function onChange() {
+    seCurrentTime(parseFloat(inputRef.current.value));
+    onTimeUpdate(inputRef.current.value, inputRef.current.value / duration);
   }
 
-  _createClass(VideoTimeline, [{
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      var progressStyle = {
-        width: this.state.currentTime / this.props.duration * 100 + '%'
-      };
-      return /*#__PURE__*/React__default.createElement("div", {
-        className: classnames('VideoTimeline', this.props.className),
-        style: this.props.style,
-        ref: function ref(r) {
-          return _this2.container = r;
-        }
-      }, /*#__PURE__*/React__default.createElement("div", {
-        className: "VideoTimeline-progress",
-        style: progressStyle
-      }), /*#__PURE__*/React__default.createElement("input", {
-        type: "range",
-        ref: function ref(r) {
-          return _this2.input = r;
-        },
-        min: "0",
-        max: this.props.duration,
-        step: "0.001",
-        onChange: this.onChange,
-        onMouseDown: this.onMouseDown,
-        onMouseUp: this.onMouseUp,
-        value: this.state.currentTime,
-        "aria-label": "Seek Video"
-      }));
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: classnames('VideoTimeline', className),
+    style: style
+  }, /*#__PURE__*/React__default.createElement("div", {
+    className: "VideoTimeline-progress",
+    style: {
+      width: currentTime / duration * 100 + '%'
     }
-  }]);
+  }), /*#__PURE__*/React__default.createElement("input", {
+    type: "range",
+    ref: inputRef,
+    min: "0",
+    max: duration,
+    step: currStep,
+    onChange: onChange,
+    value: currentTime,
+    onKeyDown: function onKeyDown() {
+      return setCurrStep(stepFast);
+    },
+    onKeyUp: function onKeyUp() {
+      return setCurrStep(step);
+    },
+    onBlur: function onBlur() {
+      return setCurrStep(step);
+    },
+    "aria-label": inputAriaLabel,
+    title: inputAriaLabel
+  }));
+};
 
-  return VideoTimeline;
-}(React__default.PureComponent);
 VideoTimeline.propTypes = checkProps({
-  className: PropTypes.string,
-  style: PropTypes.object,
-  duration: PropTypes.number.isRequired,
-  currentTime: PropTypes.number,
-  onTimeUpdate: PropTypes.func
+  className: PropTypes__default.string,
+  style: PropTypes__default.object,
+  duration: PropTypes__default.number.isRequired,
+  currentTime: PropTypes__default.number,
+  step: PropTypes__default.number,
+  stepFast: PropTypes__default.number,
+  inputAriaLabel: PropTypes__default.string,
+  onTimeUpdate: PropTypes__default.func
 });
 VideoTimeline.defaultProps = {
   style: {},
   currentTime: 0,
+  step: 0.1,
+  stepFast: 5,
+  inputAriaLabel: 'Seek Video',
   onTimeUpdate: noop
 };
+var VideoTimeline$1 = /*#__PURE__*/React.memo(VideoTimeline);
 
-var VideoControls = /*#__PURE__*/React__default.memo(function (props) {
+var VideoControls = function VideoControls(_ref) {
+  var className = _ref.className,
+      duration = _ref.duration,
+      currentTime = _ref.currentTime,
+      onPlayToggle = _ref.onPlayToggle,
+      isPlaying = _ref.isPlaying,
+      onTimeUpdate = _ref.onTimeUpdate,
+      captions = _ref.captions,
+      isShowingCaptions = _ref.isShowingCaptions,
+      onCaptionsToggle = _ref.onCaptionsToggle,
+      isMuted = _ref.isMuted,
+      onMuteToggle = _ref.onMuteToggle,
+      isFullScreen = _ref.isFullScreen,
+      onFullscreenToggle = _ref.onFullscreenToggle,
+      navAriaLabel = _ref.navAriaLabel,
+      playIcon = _ref.playIcon,
+      playLabel = _ref.playLabel,
+      pauseIcon = _ref.pauseIcon,
+      pauseLabel = _ref.pauseLabel,
+      captionsOnIcon = _ref.captionsOnIcon,
+      captionsHideLabel = _ref.captionsHideLabel,
+      captionsOffIcon = _ref.captionsOffIcon,
+      captionsShowLabel = _ref.captionsShowLabel,
+      mutedIcon = _ref.mutedIcon,
+      unmuteLabel = _ref.unmuteLabel,
+      unmutedIcon = _ref.unmutedIcon,
+      muteLabel = _ref.muteLabel,
+      exitFullscreenIcon = _ref.exitFullscreenIcon,
+      exitFullscreenLabel = _ref.exitFullscreenLabel,
+      enterFullscreenIcon = _ref.enterFullscreenIcon,
+      enterFullscreenLabel = _ref.enterFullscreenLabel,
+      onFocus = _ref.onFocus,
+      onBlur = _ref.onBlur;
+
   function formatTime(totalSeconds) {
     var totalSecondsFloat = totalSeconds;
     var minutes = Math.floor(totalSecondsFloat / 60);
@@ -901,72 +814,88 @@ var VideoControls = /*#__PURE__*/React__default.memo(function (props) {
     return "".concat(minutes, ":").concat(seconds);
   }
 
+  var isFullscreenAPISupported = React.useMemo(function () {
+    return document.body.requestFullScreen || document.body.requestFullscreen || document.body.mozRequestFullScreen || document.body.webkitRequestFullscreen || document.body.webkitEnterFullScreen || document.body.msRequestFullscreen;
+  }, []);
   return /*#__PURE__*/React__default.createElement("nav", {
-    className: classnames('VideoControls', props.className),
-    "aria-label": "Video Controls"
+    className: classnames('VideoControls', className),
+    "aria-label": navAriaLabel,
+    onFocus: onFocus,
+    onBlur: onBlur
   }, /*#__PURE__*/React__default.createElement(BaseButton$1, {
     className: "VideoControls-button",
-    "aria-label": props.isPlaying ? 'Pause Video' : 'Play Video',
-    title: props.isPlaying ? 'Pause Video' : 'Play Video',
-    onClick: props.onPlayToggle
+    "aria-label": isPlaying ? pauseLabel : playLabel,
+    title: isPlaying ? pauseLabel : playLabel,
+    onClick: onPlayToggle
   }, /*#__PURE__*/React__default.createElement("img", {
-    src: props.isPlaying ? props.pauseIcon : props.playIcon,
-    alt: props.isPlaying ? 'Pause Icon' : 'Play Icon'
-  })), /*#__PURE__*/React__default.createElement(VideoTimeline, {
-    duration: props.duration,
-    currentTime: Number(props.currentTime),
-    onTimeUpdate: props.onTimeUpdate
+    src: isPlaying ? pauseIcon : playIcon,
+    alt: isPlaying ? pauseLabel : playLabel
+  })), /*#__PURE__*/React__default.createElement(VideoTimeline$1, {
+    duration: duration,
+    currentTime: Number(currentTime),
+    onTimeUpdate: onTimeUpdate
   }), /*#__PURE__*/React__default.createElement("time", {
-    className: "VideoControls-time",
-    tabIndex: "0"
-  }, formatTime(Number(props.currentTime))), props.captions && /*#__PURE__*/React__default.createElement(BaseButton$1, {
+    className: "VideoControls-time"
+  }, formatTime(Number(currentTime))), captions && /*#__PURE__*/React__default.createElement(BaseButton$1, {
     className: "VideoControls-button",
-    "aria-label": props.isShowingCaptions ? 'Hide Captions' : 'Show Captions',
-    title: props.isShowingCaptions ? 'Hide Captions' : 'Show Captions',
-    onClick: props.onCaptionsToggle
+    "aria-label": isShowingCaptions ? captionsHideLabel : captionsShowLabel,
+    title: isShowingCaptions ? captionsHideLabel : captionsShowLabel,
+    onClick: onCaptionsToggle
   }, /*#__PURE__*/React__default.createElement("img", {
-    src: props.isShowingCaptions ? props.captionsOnIcon : props.captionsOffIcon,
-    alt: props.isShowingCaptions ? 'Captions On Icon' : 'Captions Off Icon'
+    src: isShowingCaptions ? captionsOnIcon : captionsOffIcon,
+    alt: isShowingCaptions ? captionsHideLabel : captionsShowLabel
   })), /*#__PURE__*/React__default.createElement(BaseButton$1, {
     className: "VideoControls-button",
-    "aria-label": props.isMuted ? 'Unmute Video' : 'Mute Video',
-    title: props.isMuted ? 'Unmute Video' : 'Mute Video',
-    onClick: props.onMuteToggle
+    "aria-label": isMuted ? unmuteLabel : muteLabel,
+    title: isMuted ? unmuteLabel : muteLabel,
+    onClick: onMuteToggle
   }, /*#__PURE__*/React__default.createElement("img", {
-    src: props.isMuted ? props.mutedIcon : props.unmutedIcon,
-    alt: props.isMuted ? 'Muted Icon' : 'Unmuted Icon'
-  })), /*#__PURE__*/React__default.createElement(BaseButton$1, {
+    src: isMuted ? mutedIcon : unmutedIcon,
+    alt: isMuted ? unmuteLabel : muteLabel
+  })), isFullscreenAPISupported && /*#__PURE__*/React__default.createElement(BaseButton$1, {
     className: "VideoControls-button",
-    "aria-label": props.isFullScreen ? 'Exit Fullscreen Mode' : 'Enter Fullscreen Mode',
-    title: props.isFullScreen ? 'Exit Fullscreen Mode' : 'Enter Fullscreen Mode',
-    onClick: props.onFullscreenToggle
+    "aria-label": isFullScreen ? exitFullscreenLabel : enterFullscreenLabel,
+    title: isFullScreen ? exitFullscreenLabel : enterFullscreenLabel,
+    onClick: onFullscreenToggle
   }, /*#__PURE__*/React__default.createElement("img", {
-    src: props.isFullScreen ? props.exitFullscreenIcon : props.enterFullscreenIcon,
-    alt: props.isFullScreen ? 'Fullscreen Mode Icon' : 'Normal Mode Icon'
+    src: isFullScreen ? exitFullscreenIcon : enterFullscreenIcon,
+    alt: isFullScreen ? exitFullscreenLabel : enterFullscreenLabel
   })));
-});
+};
+
 VideoControls.propTypes = checkProps({
-  className: PropTypes.string,
-  captions: PropTypes.bool,
-  isFullScreen: PropTypes.bool,
-  isPlaying: PropTypes.bool,
-  isMuted: PropTypes.bool,
-  isShowingCaptions: PropTypes.bool,
-  duration: PropTypes.number.isRequired,
-  currentTime: PropTypes.number,
-  onPlayToggle: PropTypes.func,
-  onMuteToggle: PropTypes.func,
-  onFullscreenToggle: PropTypes.func,
-  onCaptionsToggle: PropTypes.func,
-  onTimeUpdate: PropTypes.func,
-  playIcon: PropTypes.string,
-  pauseIcon: PropTypes.string,
-  mutedIcon: PropTypes.string,
-  unmutedIcon: PropTypes.string,
-  exitFullscreenIcon: PropTypes.string,
-  enterFullscreenIcon: PropTypes.string,
-  captionsOnIcon: PropTypes.string,
-  captionsOffIcon: PropTypes.string
+  className: PropTypes__default.string,
+  captions: PropTypes__default.bool,
+  isFullScreen: PropTypes__default.bool,
+  isPlaying: PropTypes__default.bool,
+  isMuted: PropTypes__default.bool,
+  isShowingCaptions: PropTypes__default.bool,
+  duration: PropTypes__default.number.isRequired,
+  currentTime: PropTypes__default.number,
+  onPlayToggle: PropTypes__default.func,
+  onMuteToggle: PropTypes__default.func,
+  onFullscreenToggle: PropTypes__default.func,
+  onCaptionsToggle: PropTypes__default.func,
+  onTimeUpdate: PropTypes__default.func,
+  navAriaLabel: PropTypes__default.string,
+  playIcon: PropTypes__default.string,
+  playLabel: PropTypes__default.string,
+  pauseIcon: PropTypes__default.string,
+  pauseLabel: PropTypes__default.string,
+  mutedIcon: PropTypes__default.string,
+  unmuteLabel: PropTypes__default.string,
+  unmutedIcon: PropTypes__default.string,
+  muteLabel: PropTypes__default.string,
+  exitFullscreenIcon: PropTypes__default.string,
+  exitFullscreenLabel: PropTypes__default.string,
+  enterFullscreenIcon: PropTypes__default.string,
+  enterFullscreenLabel: PropTypes__default.string,
+  captionsOnIcon: PropTypes__default.string,
+  captionsHideLabel: PropTypes__default.string,
+  captionsOffIcon: PropTypes__default.string,
+  captionsShowLabel: PropTypes__default.string,
+  onFocus: PropTypes__default.func,
+  onBlur: PropTypes__default.func
 });
 VideoControls.defaultProps = {
   onPlayToggle: noop,
@@ -974,408 +903,423 @@ VideoControls.defaultProps = {
   onFullscreenToggle: noop,
   onCaptionsToggle: noop,
   onTimeUpdate: noop,
+  onFocus: noop,
+  onBlur: noop,
+  navAriaLabel: 'Video Controls',
   playIcon: PlayIcon,
+  playLabel: 'Play Video',
   pauseIcon: PauseIcon,
+  pauseLabel: 'Pause Video',
   mutedIcon: MutedIcon,
+  unmuteLabel: 'Unmute Video',
   unmutedIcon: UnmutedIcon,
+  muteLabel: 'Mute Video',
   exitFullscreenIcon: ExitFullscreenIcon,
+  exitFullscreenLabel: 'Exit Fullscreen Mode',
   enterFullscreenIcon: EnterFullscreenIcon,
+  enterFullscreenLabel: 'Enter Fullscreen Mode',
   captionsOnIcon: CaptionsOnIcon,
-  captionsOffIcon: CaptionsOffIcon
+  captionsHideLabel: 'Hide Captions',
+  captionsOffIcon: CaptionsOffIcon,
+  captionsShowLabel: 'Show Captions'
 };
+var VideoControls$1 = /*#__PURE__*/React.memo(VideoControls);
 
-var VideoPlayer = /*#__PURE__*/function (_React$PureComponent) {
-  _inherits(VideoPlayer, _React$PureComponent);
+var VideoPlayer = function VideoPlayer(_ref) {
+  var className = _ref.className,
+      style = _ref.style,
+      src = _ref.src,
+      preload = _ref.preload,
+      playsInline = _ref.playsInline,
+      crossOrigin = _ref.crossOrigin,
+      poster = _ref.poster,
+      loop = _ref.loop,
+      muted = _ref.muted,
+      captions = _ref.captions,
+      autoPlay = _ref.autoPlay,
+      volume = _ref.volume,
+      togglePlayOnClick = _ref.togglePlayOnClick,
+      windowWidth = _ref.windowWidth,
+      windowHeight = _ref.windowHeight,
+      startTime = _ref.startTime,
+      allowKeyboardControl = _ref.allowKeyboardControl,
+      showControlsOnLoad = _ref.showControlsOnLoad,
+      hasControls = _ref.hasControls,
+      autoPlayDelay = _ref.autoPlayDelay,
+      disableBackgroundCover = _ref.disableBackgroundCover,
+      controlsTimeout = _ref.controlsTimeout,
+      onEnd = _ref.onEnd,
+      playIcon = _ref.playIcon,
+      pauseIcon = _ref.pauseIcon,
+      mutedIcon = _ref.mutedIcon,
+      unmutedIcon = _ref.unmutedIcon,
+      exitFullscreenIcon = _ref.exitFullscreenIcon,
+      enterFullscreenIcon = _ref.enterFullscreenIcon,
+      captionsOnIcon = _ref.captionsOnIcon,
+      captionsOffIcon = _ref.captionsOffIcon;
+  var container = React.useRef();
+  var fullScreen = React.useRef();
+  var controls = React.useRef();
+  var captionsContainer = React.useRef();
+  var trackRef = React.useRef();
+  var autoPlayTimeout = React.useRef();
+  var hideControlsTimeout = React.useRef();
+  var VideoRef = React.useRef();
 
-  var _super = _createSuper(VideoPlayer);
+  var _useState = React.useState({
+    width: windowWidth || 0,
+    height: windowHeight || 0
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      containerSize = _useState2[0],
+      setContainerSize = _useState2[1];
 
-  _createClass(VideoPlayer, null, [{
-    key: "getDerivedStateFromProps",
-    value: function getDerivedStateFromProps(nextProps, prevState) {
-      if (nextProps.windowWidth !== prevState.containerWidth || nextProps.windowHeight !== prevState.containerHeight) {
-        return {
-          containerWidth: nextProps.windowWidth,
-          containerHeight: nextProps.windowHeight
-        };
-      }
+  var _useState3 = React.useState(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isPlaying = _useState4[0],
+      setIsPlaying = _useState4[1];
 
-      if (nextProps.startTime !== prevState.startTime) {
-        return {
-          startTime: nextProps.startTime
-        };
-      }
+  var _useState5 = React.useState(muted),
+      _useState6 = _slicedToArray(_useState5, 2),
+      isMuted = _useState6[0],
+      setIsMuted = _useState6[1];
 
-      return null;
+  var _useState7 = React.useState(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      isFullScreen = _useState8[0],
+      setIsFullScreen = _useState8[1];
+
+  var _useState9 = React.useState(showControlsOnLoad),
+      _useState10 = _slicedToArray(_useState9, 2),
+      isShowingControls = _useState10[0],
+      setIsShowingControls = _useState10[1];
+
+  var _useState11 = React.useState(captions && captions["default"]),
+      _useState12 = _slicedToArray(_useState11, 2),
+      isShowingCaptions = _useState12[0],
+      setIsShowingCaptions = _useState12[1];
+
+  var _useState13 = React.useState(''),
+      _useState14 = _slicedToArray(_useState13, 2),
+      currentCaptions = _useState14[0],
+      setCurrentCaptions = _useState14[1];
+
+  var _useState15 = React.useState(0),
+      _useState16 = _slicedToArray(_useState15, 2),
+      currentTime = _useState16[0],
+      setCurrentTime = _useState16[1];
+
+  var _useState17 = React.useState(0),
+      _useState18 = _slicedToArray(_useState17, 2),
+      duration = _useState18[0],
+      setDuration = _useState18[1];
+
+  var _useState19 = React.useState(0),
+      _useState20 = _slicedToArray(_useState19, 2),
+      progress = _useState20[0],
+      setProgress = _useState20[1];
+
+  React.useLayoutEffect(function () {
+    fullScreen.current = fullscreenHandler(container.current, onEnterFullScreen, onExitFullScreen);
+    controls.current = container.current.querySelector('.VideoControls');
+
+    if (hasControls) {
+      showControlsOnLoad ? setHideControlsTimeout() : hideControls();
     }
-  }]);
 
-  function VideoPlayer(props) {
-    var _this;
+    if (autoPlay) {
+      autoPlayTimeout.current = setTimeout(function () {
+        play();
+        clearAutoPlayTimeout();
+      }, autoPlayDelay * 1000);
+    }
 
-    _classCallCheck(this, VideoPlayer);
-
-    _this = _super.call(this, props);
-
-    _defineProperty(_assertThisInitialized(_this), "showControls", function () {
-      _this.setState({
-        isShowingControls: true
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "hideControls", function () {
-      _this.setState({
-        isShowingControls: false
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "play", function () {
-      !_this.state.isPlaying && _this.video.play();
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "pause", function () {
-      _this.state.isPlaying && _this.video.pause();
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "mute", function () {
-      !_this.state.isMuted && _this.video.mute();
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "unmute", function () {
-      _this.state.isMuted && _this.video.unmute();
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "togglePlay", function () {
-      _this.video.togglePlay();
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "toggleMute", function () {
-      _this.video.toggleMute();
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "toggleFullscreen", function () {
-      _this.state.isFullScreen ? _this.fullScreen.exit() : _this.fullScreen.enter();
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "toggleCaptions", function () {
-      _this.setState({
-        isShowingCaptions: !_this.state.isShowingCaptions
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "setCaptions", function () {
-      var captions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.props.captions;
-      var video = _this.video.video;
-
-      if (video.contains(_this.captions)) {
-        video.removeChild(_this.captions);
-
-        _this.captions.removeEventListener('cuechange', _this.onTrackChange);
-      }
-
-      var track = document.createElement('track');
-      track.kind = captions.kind;
-      track.label = captions.label;
-      track.srclang = captions.srclang;
-      track["default"] = captions["default"];
-      track.src = captions.src;
-      track.mode = 'hidden';
-      _this.captions = track;
-      video.appendChild(_this.captions);
-      video.textTracks[0].mode = 'hidden';
-
-      _this.captions.addEventListener('cuechange', _this.onTrackChange);
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "clearHideControlsTimeout", function () {
-      if (_this.hideControlsTimeout) {
-        clearTimeout(_this.hideControlsTimeout);
-        _this.hideControlsTimeout = undefined;
-      }
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "clearAutoPlayTimeout", function () {
-      _this.autoPlayTimeout && clearTimeout(_this.autoPlayTimeout);
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "setHideControlsTimeout", function () {
-      _this.clearHideControlsTimeout();
-
-      _this.hideControlsTimeout = setTimeout(function () {
-        _this.state.isPlaying && _this.hideControls();
-      }, _this.props.controlsTimeout * 1000);
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "updateTime", function (currentTime) {
-      _this.video.setCurrentTime(Number(currentTime));
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onReady", function (duration) {
-      if (_this.props.captions) {
-        _this.props.captions.src && _this.setCaptions();
-      }
-
-      _this.setState({
-        duration: duration
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onTrackChange", function () {
-      var trackList = _this.video.video.textTracks;
-      var textTracks = trackList && trackList.length > 0 ? trackList[0] : null;
-      var cue = textTracks && textTracks.activeCues.length > 0 ? textTracks.activeCues[0] : null;
-      var text = cue ? cue.text : '';
-
-      _this.setState({
-        currentCaptions: text
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onResize", function (newSize) {
-      _this.setState(newSize);
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onEnterFullScreen", function () {
-      _this.setState({
-        isFullScreen: true
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onExitFullScreen", function () {
-      _this.setState({
-        isFullScreen: false
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onPlay", function () {
-      _this.setState({
-        isPlaying: true
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onPause", function () {
-      _this.setState({
-        isPlaying: false
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onTimeUpdate", function (currentTime, progress, duration) {
-      _this.setState({
-        currentTime: currentTime,
-        progress: progress,
-        duration: duration
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onMute", function () {
-      _this.setState({
-        isMuted: true
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onUnmute", function () {
-      _this.setState({
-        isMuted: false
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onEnd", function () {
-      _this.props.onEnd();
-
-      _this.fullScreen.isFullScreen() && _this.fullScreen.exit();
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onMouseMove", function () {
-      if (_this.state.isPlaying && _this.props.hasControls) {
-        _this.showControls();
-
-        _this.setHideControlsTimeout();
-      }
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onKeyPress", function (e) {
-      if (_this.props.allowKeyboardControl) {
-        var event = e.keyCode || e.which || e.charCode;
-
-        if (event === 32) {
-          _this.togglePlay();
-        }
-      }
-    });
-
-    _this.state = {
-      containerWidth: props.windowWidth || 0,
-      containerHeight: props.windowHeight || 0,
-      isPlaying: false,
-      isMuted: props.muted,
-      isFullScreen: false,
-      isShowingControls: props.showControlsOnLoad,
-      isShowingCaptions: props.captions && props.captions["default"],
-      currentCaptions: '',
-      currentTime: 0,
-      progress: 0,
-      duration: 0,
-      startTime: props.startTime
+    return function () {
+      pause();
+      isFullScreen && fullScreen.current.exit();
+      clearAutoPlayTimeout();
+      clearHideControlsTimeout();
+      fullScreen.current.destroy();
+      trackRef.current && trackRef.current.removeEventListener('cuechange', onTrackChange);
     };
-    return _this;
+  }, []);
+  React.useEffect(function () {
+    setContainerSize({
+      width: windowWidth,
+      height: windowHeight
+    });
+  }, [windowWidth, windowHeight]);
+  React.useEffect(function () {
+    if (isPlaying) {
+      onPlay();
+      hasControls && setHideControlsTimeout();
+    } else {
+      onPause();
+
+      if (hasControls && progress) {
+        clearHideControlsTimeout();
+        showControls();
+      }
+    }
+  }, [isPlaying]);
+  React.useEffect(function () {
+    setCaptions(captions);
+  }, [captions]);
+
+  function showControls() {
+    !isShowingControls && setIsShowingControls(true);
   }
 
-  _createClass(VideoPlayer, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
+  function hideControls() {
+    isShowingControls && setIsShowingControls(false);
+  }
 
-      this.fullScreen = fullScreen(this.container, this.onEnterFullScreen, this.onExitFullScreen);
-      this.controls = this.container.querySelector('.VideoControls');
+  function play() {
+    !isPlaying && VideoRef.current.play();
+  }
 
-      if (this.props.hasControls) {
-        this.props.showControlsOnLoad ? this.setHideControlsTimeout() : this.hideControls(0);
-      }
+  function pause() {
+    isPlaying && VideoRef.current.pause();
+  }
 
-      if (this.props.autoPlay) {
-        this.autoPlayTimeout = setTimeout(function () {
-          _this2.play();
+  function togglePlay() {
+    VideoRef.current.togglePlay();
+  }
 
-          _this2.clearAutoPlayTimeout();
-        }, this.props.autoPlayDelay * 1000);
+  function toggleMute() {
+    VideoRef.current.toggleMute();
+  }
+
+  function toggleFullscreen() {
+    isFullScreen ? fullScreen.current.exit() : fullScreen.current.enter();
+  }
+
+  function toggleCaptions() {
+    setIsShowingCaptions(!isShowingCaptions);
+  }
+
+  function setCaptions(captions) {
+    if (!captions) return;
+    var video = VideoRef.current.video;
+
+    if (video.contains(trackRef.current)) {
+      video.removeChild(trackRef.current);
+      trackRef.current.removeEventListener('cuechange', onTrackChange);
+    }
+
+    var track = document.createElement('track');
+    track.kind = captions.kind;
+    track.label = captions.label;
+    track.srclang = captions.srclang;
+    track["default"] = captions["default"];
+    track.src = captions.src;
+    track.mode = 'hidden';
+    trackRef.current = track;
+    video.appendChild(track);
+    video.textTracks[0].mode = 'hidden';
+    track.style.display = 'none';
+    trackRef.current.addEventListener('cuechange', onTrackChange);
+  }
+
+  function clearHideControlsTimeout() {
+    hideControlsTimeout.current && clearTimeout(hideControlsTimeout.current);
+  }
+
+  function clearAutoPlayTimeout() {
+    autoPlayTimeout.current && clearTimeout(autoPlayTimeout.current);
+  }
+
+  function setHideControlsTimeout() {
+    clearHideControlsTimeout();
+    hideControlsTimeout.current = setTimeout(function () {
+      isPlaying && hideControls();
+    }, controlsTimeout * 1000);
+  }
+
+  function updateTime(currentTime) {
+    VideoRef.current.setCurrentTime(Number(currentTime));
+  }
+
+  function onReady(duration) {
+    if (captions) {
+      captions.src && setCaptions(captions);
+    }
+
+    setDuration(duration);
+  }
+
+  function onTrackChange() {
+    var trackList = VideoRef.current.video.textTracks;
+    var textTracks = trackList && trackList.length > 0 ? trackList[0] : null;
+    var cue = textTracks && textTracks.activeCues && textTracks.activeCues.length > 0 ? textTracks.activeCues[0] : null;
+    var text = cue ? cue.text : '';
+    setCurrentCaptions(text);
+  }
+
+  function onEnterFullScreen() {
+    setIsFullScreen(true);
+  }
+
+  function onExitFullScreen() {
+    setIsFullScreen(false);
+  }
+
+  function onPlay() {
+    setIsPlaying(true);
+  }
+
+  function onPause() {
+    setIsPlaying(false);
+  }
+
+  function onTimeUpdate(currentTime, progress, duration) {
+    setCurrentTime(currentTime);
+    setDuration(duration);
+    setProgress(progress);
+  }
+
+  function onMute() {
+    setIsMuted(true);
+  }
+
+  function onUnmute() {
+    setIsMuted(false);
+  }
+
+  function onVideoEnd() {
+    onEnd();
+    isFullScreen && fullScreen.current.exit();
+  }
+
+  function onMouseMove() {
+    if (hasControls) {
+      showControls();
+      isPlaying && setHideControlsTimeout();
+    }
+  }
+
+  function onKeyPress(e) {
+    if (allowKeyboardControl) {
+      var event = e.keyCode || e.which || e.charCode;
+
+      if (event === 32) {
+        togglePlay();
       }
     }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps, prevState) {
-      if (prevState.isPlaying !== this.state.isPlaying) {
-        if (this.state.isPlaying) {
-          this.props.onPlay();
-          this.props.hasControls && this.setHideControlsTimeout();
-        } else {
-          this.props.onPause();
+  }
 
-          if (this.props.hasControls) {
-            this.clearHideControlsTimeout();
-            this.showControls();
-          }
-        }
-      }
-
-      if (this.props.captions && prevProps.captions.src !== this.props.captions.src) {
-        this.setCaptions(this.props.captions);
-      }
+  function onControlsFocus() {
+    if (hasControls) {
+      showControls();
+      clearHideControlsTimeout();
     }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.fullScreen.destroy();
-      this.pause();
-      this.clearAutoPlayTimeout();
-      this.props.hasControls && this.clearHideControlsTimeout();
-      this.captions && this.captions.removeEventListener('cuechange', this.onTrackChange);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
+  }
 
-      return /*#__PURE__*/React__default.createElement("div", {
-        className: classnames('VideoPlayer', this.props.className, {
-          'show-controls': this.state.isShowingControls,
-          'show-captions': this.state.isShowingCaptions
-        }),
-        style: this.props.style,
-        ref: function ref(r) {
-          return _this3.container = r;
-        },
-        onMouseMove: this.onMouseMove
-      }, /*#__PURE__*/React__default.createElement(BackgroundVideo, {
-        ref: function ref(r) {
-          return _this3.video = r;
-        },
-        src: this.props.src,
-        containerWidth: this.state.containerWidth,
-        containerHeight: this.state.containerHeight,
-        autoPlay: false,
-        poster: this.props.poster,
-        muted: this.props.muted,
-        loop: this.props.loop,
-        disableBackgroundCover: this.props.disableBackgroundCover,
-        preload: this.props.preload,
-        playsInline: this.props.playsInline,
-        volume: this.props.volume,
-        startTime: this.state.startTime,
-        onReady: this.onReady,
-        onPlay: this.onPlay,
-        onPause: this.onPause,
-        onTimeUpdate: this.onTimeUpdate,
-        onMute: this.onMute,
-        onUnmute: this.onUnmute,
-        onEnd: this.onEnd,
-        onClick: this.props.togglePlayOnClick ? this.togglePlay : function (f) {
-          return f;
-        },
-        onKeyPress: this.onKeyPress
-      }), this.props.captions && /*#__PURE__*/React__default.createElement("div", {
-        className: "VideoPlayer-captions-container",
-        ref: function ref(r) {
-          return _this3.captionsContainer = r;
-        }
-      }, this.state.currentCaptions && /*#__PURE__*/React__default.createElement("p", null, this.state.currentCaptions)), this.props.hasControls && /*#__PURE__*/React__default.createElement(VideoControls, {
-        captions: Boolean(this.props.captions),
-        currentTime: Number(this.state.currentTime),
-        isPlaying: this.state.isPlaying,
-        isMuted: this.state.isMuted,
-        isFullScreen: this.state.isFullScreen,
-        isShowingCaptions: this.state.isShowingCaptions,
-        duration: this.state.duration,
-        onPlayToggle: this.togglePlay,
-        onMuteToggle: this.toggleMute,
-        onFullscreenToggle: this.toggleFullscreen,
-        onCaptionsToggle: this.toggleCaptions,
-        onTimeUpdate: this.updateTime,
-        playIcon: this.props.playIcon,
-        pauseIcon: this.props.pauseIcon,
-        mutedIcon: this.props.mutedIcon,
-        unmutedIcon: this.props.unmutedIcon,
-        exitFullscreenIcon: this.props.exitFullscreenIcon,
-        enterFullscreenIcon: this.props.enterFullscreenIcon,
-        captionsOnIcon: this.props.captionsOnIcon,
-        captionsOffIcon: this.props.captionsOffIcon
-      }));
+  function onControlsBlur() {
+    if (hasControls) {
+      clearHideControlsTimeout();
+      isPlaying && setHideControlsTimeout();
     }
-  }]);
+  }
 
-  return VideoPlayer;
-}(React__default.PureComponent);
+  return /*#__PURE__*/React__default.createElement("div", {
+    className: classnames('VideoPlayer', className, {
+      'show-controls': isShowingControls,
+      'show-captions': isShowingCaptions
+    }),
+    style: style,
+    ref: container,
+    onMouseMove: onMouseMove
+  }, /*#__PURE__*/React__default.createElement(BackgroundVideo, {
+    ref: VideoRef,
+    src: src,
+    containerWidth: containerSize.width,
+    containerHeight: containerSize.height,
+    autoPlay: false,
+    poster: poster,
+    muted: muted,
+    loop: loop,
+    disableBackgroundCover: disableBackgroundCover,
+    preload: preload,
+    playsInline: playsInline,
+    volume: volume,
+    startTime: startTime,
+    onReady: onReady,
+    onPlay: onPlay,
+    onPause: onPause,
+    onTimeUpdate: onTimeUpdate,
+    onMute: onMute,
+    onUnmute: onUnmute,
+    onEnd: onVideoEnd,
+    onClick: togglePlayOnClick ? togglePlay : noop,
+    onKeyPress: onKeyPress,
+    tabIndex: allowKeyboardControl ? 0 : null,
+    extraVideoElementProps: {
+      crossOrigin: crossOrigin
+    }
+  }), captions && /*#__PURE__*/React__default.createElement("div", {
+    className: "VideoPlayer-captions-container",
+    ref: captionsContainer
+  }, currentCaptions && /*#__PURE__*/React__default.createElement("p", null, currentCaptions)), hasControls && /*#__PURE__*/React__default.createElement(VideoControls$1, {
+    captions: Boolean(captions),
+    currentTime: Number(currentTime),
+    isPlaying: isPlaying,
+    isMuted: isMuted,
+    isFullScreen: isFullScreen,
+    isShowingCaptions: isShowingCaptions,
+    duration: duration,
+    onPlayToggle: togglePlay,
+    onMuteToggle: toggleMute,
+    onFullscreenToggle: toggleFullscreen,
+    onCaptionsToggle: toggleCaptions,
+    onTimeUpdate: updateTime,
+    playIcon: playIcon,
+    pauseIcon: pauseIcon,
+    mutedIcon: mutedIcon,
+    unmutedIcon: unmutedIcon,
+    exitFullscreenIcon: exitFullscreenIcon,
+    enterFullscreenIcon: enterFullscreenIcon,
+    captionsOnIcon: captionsOnIcon,
+    captionsOffIcon: captionsOffIcon,
+    onFocus: onControlsFocus,
+    onBlur: onControlsBlur
+  }));
+};
+
 VideoPlayer.propTypes = checkProps({
-  className: PropTypes.string,
-  style: PropTypes.object,
-  src: PropTypes.string.isRequired,
-  poster: PropTypes.string,
-  preload: PropTypes.string,
-  captions: PropTypes.object,
-  disableBackgroundCover: PropTypes.bool,
-  allowKeyboardControl: PropTypes.bool,
-  autoPlay: PropTypes.bool,
-  muted: PropTypes.bool,
-  loop: PropTypes.bool,
-  togglePlayOnClick: PropTypes.bool,
-  showControlsOnLoad: PropTypes.bool,
-  hasControls: PropTypes.bool,
-  playsInline: PropTypes.bool,
-  autoPlayDelay: PropTypes.number,
-  controlsTimeout: PropTypes.number,
-  windowWidth: PropTypes.number,
-  windowHeight: PropTypes.number,
-  volume: PropTypes.number,
-  startTime: PropTypes.number,
-  onPlay: PropTypes.func,
-  onPause: PropTypes.func,
-  onEnd: PropTypes.func,
-  playIcon: PropTypes.string,
-  pauseIcon: PropTypes.string,
-  mutedIcon: PropTypes.string,
-  unmutedIcon: PropTypes.string,
-  exitFullscreenIcon: PropTypes.string,
-  enterFullscreenIcon: PropTypes.string,
-  captionsOnIcon: PropTypes.string,
-  captionsOffIcon: PropTypes.string
+  className: PropTypes__default.string,
+  style: PropTypes__default.object,
+  src: PropTypes__default.string.isRequired,
+  poster: PropTypes__default.string,
+  preload: PropTypes__default.string,
+  captions: PropTypes__default.object,
+  disableBackgroundCover: PropTypes__default.bool,
+  allowKeyboardControl: PropTypes__default.bool,
+  autoPlay: PropTypes__default.bool,
+  muted: PropTypes__default.bool,
+  loop: PropTypes__default.bool,
+  togglePlayOnClick: PropTypes__default.bool,
+  showControlsOnLoad: PropTypes__default.bool,
+  hasControls: PropTypes__default.bool,
+  playsInline: PropTypes__default.bool,
+  autoPlayDelay: PropTypes__default.number,
+  controlsTimeout: PropTypes__default.number,
+  windowWidth: PropTypes__default.number,
+  windowHeight: PropTypes__default.number,
+  volume: PropTypes__default.number,
+  startTime: PropTypes__default.number,
+  onPlay: PropTypes__default.func,
+  onPause: PropTypes__default.func,
+  onEnd: PropTypes__default.func,
+  playIcon: PropTypes__default.string,
+  pauseIcon: PropTypes__default.string,
+  mutedIcon: PropTypes__default.string,
+  unmutedIcon: PropTypes__default.string,
+  exitFullscreenIcon: PropTypes__default.string,
+  enterFullscreenIcon: PropTypes__default.string,
+  captionsOnIcon: PropTypes__default.string,
+  captionsOffIcon: PropTypes__default.string,
+  crossOrigin: PropTypes__default.string
 });
 VideoPlayer.defaultProps = {
   style: {},
@@ -1392,14 +1336,16 @@ VideoPlayer.defaultProps = {
   showControlsOnLoad: true,
   disableBackgroundCover: true,
   preload: 'auto',
-  playsInline: false,
+  playsInline: true,
   volume: 1,
   startTime: 0,
   // in seconds
+  crossOrigin: 'anonymous',
   onPlay: noop,
   onPause: noop,
   onEnd: noop
 };
+var VideoPlayer$1 = /*#__PURE__*/React.memo(VideoPlayer);
 
 var css_248z$a = ".PageOverlay {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  background-color: rgba(0, 0, 0, 0.8);\n  opacity: 0;\n  visibility: hidden;\n  transition: opacity 0.2s;\n  transition-delay: visibility 0.2s; }\n  .PageOverlay.is-showing {\n    opacity: 1;\n    visibility: visible;\n    transition-delay: 0s; }\n";
 styleInject(css_248z$a);
@@ -1427,10 +1373,10 @@ var PageOverlay = function PageOverlay(_ref) {
 };
 
 PageOverlay.propTypes = checkProps({
-  className: PropTypes.string,
-  isShowing: PropTypes.bool,
-  triggerOnRouteChange: PropTypes.bool,
-  onClick: PropTypes.func
+  className: PropTypes__default.string,
+  isShowing: PropTypes__default.bool,
+  triggerOnRouteChange: PropTypes__default.bool,
+  onClick: PropTypes__default.func
 });
 PageOverlay.defaultProps = {
   triggerOnRouteChange: false,
@@ -1447,5 +1393,5 @@ exports.HamburgerMenu = HamburgerMenu$1;
 exports.MainTopNav = MainTopNav$1;
 exports.PageOverlay = PageOverlay$1;
 exports.RotateScreen = RotateScreen$1;
-exports.VideoPlayer = VideoPlayer;
+exports.VideoPlayer = VideoPlayer$1;
 //# sourceMappingURL=index.js.map

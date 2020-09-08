@@ -1,0 +1,17 @@
+.Tabs {
+  width: 100%; }
+  .Tabs .tabs-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0; }
+    .Tabs .tabs-list > .Tab {
+      list-style: none;
+      padding: 0.5rem;
+      font-size: 2rem;
+      text-transform: capitalize;
+      border-bottom: 1px solid transparent;
+      transition: border 0.125s ease-out; }
+      .Tabs .tabs-list > .Tab:hover {
+        cursor: pointer; }
+      .Tabs .tabs-list > .Tab.active {
+        border-bottom: 1px solid black; }

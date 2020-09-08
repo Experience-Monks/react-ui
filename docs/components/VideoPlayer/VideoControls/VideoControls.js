@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from 'no-op';
@@ -18,7 +18,40 @@ import CaptionsOffIcon from './assets/captions-off.svg';
 import VideoTimeline from '../VideoTimeline/VideoTimeline';
 import BaseButton from '../../BaseButton/BaseButton';
 
-const VideoControls = React.memo(props => {
+const VideoControls = ({
+  className,
+  duration,
+  currentTime,
+  onPlayToggle,
+  isPlaying,
+  onTimeUpdate,
+  captions,
+  isShowingCaptions,
+  onCaptionsToggle,
+  isMuted,
+  onMuteToggle,
+  isFullScreen,
+  onFullscreenToggle,
+  navAriaLabel,
+  playIcon,
+  playLabel,
+  pauseIcon,
+  pauseLabel,
+  captionsOnIcon,
+  captionsHideLabel,
+  captionsOffIcon,
+  captionsShowLabel,
+  mutedIcon,
+  unmuteLabel,
+  unmutedIcon,
+  muteLabel,
+  exitFullscreenIcon,
+  exitFullscreenLabel,
+  enterFullscreenIcon,
+  enterFullscreenLabel,
+  onFocus,
+  onBlur
+}) => {
   function formatTime(totalSeconds) {
     const totalSecondsFloat = totalSeconds;
     let minutes = Math.floor(totalSecondsFloat / 60);
@@ -29,70 +62,71 @@ const VideoControls = React.memo(props => {
     return `${minutes}:${seconds}`;
   }
 
+  const isFullscreenAPISupported = useMemo(() => {
+    return (
+      document.body.requestFullScreen ||
+      document.body.requestFullscreen ||
+      document.body.mozRequestFullScreen ||
+      document.body.webkitRequestFullscreen ||
+      document.body.webkitEnterFullScreen ||
+      document.body.msRequestFullscreen
+    );
+  }, []);
+
   return (
-    <nav className={classnames('VideoControls', props.className)} aria-label="Video Controls">
+    <nav className={classnames('VideoControls', className)} aria-label={navAriaLabel} onFocus={onFocus} onBlur={onBlur}>
       <BaseButton
         className="VideoControls-button"
-        aria-label={props.isPlaying ? 'Pause Video' : 'Play Video'}
-        title={props.isPlaying ? 'Pause Video' : 'Play Video'}
-        onClick={props.onPlayToggle}
+        aria-label={isPlaying ? pauseLabel : playLabel}
+        title={isPlaying ? pauseLabel : playLabel}
+        onClick={onPlayToggle}
       >
-        <img
-          src={props.isPlaying ? props.pauseIcon : props.playIcon}
-          alt={props.isPlaying ? 'Pause Icon' : 'Play Icon'}
-        />
+        <img src={isPlaying ? pauseIcon : playIcon} alt={isPlaying ? pauseLabel : playLabel} />
       </BaseButton>
 
-      <VideoTimeline
-        duration={props.duration}
-        currentTime={Number(props.currentTime)}
-        onTimeUpdate={props.onTimeUpdate}
-      />
+      <VideoTimeline duration={duration} currentTime={Number(currentTime)} onTimeUpdate={onTimeUpdate} />
 
-      <time className="VideoControls-time" tabIndex="0">
-        {formatTime(Number(props.currentTime))}
-      </time>
+      <time className="VideoControls-time">{formatTime(Number(currentTime))}</time>
 
-      {props.captions && (
+      {captions && (
         <BaseButton
           className="VideoControls-button"
-          aria-label={props.isShowingCaptions ? 'Hide Captions' : 'Show Captions'}
-          title={props.isShowingCaptions ? 'Hide Captions' : 'Show Captions'}
-          onClick={props.onCaptionsToggle}
+          aria-label={isShowingCaptions ? captionsHideLabel : captionsShowLabel}
+          title={isShowingCaptions ? captionsHideLabel : captionsShowLabel}
+          onClick={onCaptionsToggle}
         >
           <img
-            src={props.isShowingCaptions ? props.captionsOnIcon : props.captionsOffIcon}
-            alt={props.isShowingCaptions ? 'Captions On Icon' : 'Captions Off Icon'}
+            src={isShowingCaptions ? captionsOnIcon : captionsOffIcon}
+            alt={isShowingCaptions ? captionsHideLabel : captionsShowLabel}
           />
         </BaseButton>
       )}
 
       <BaseButton
         className="VideoControls-button"
-        aria-label={props.isMuted ? 'Unmute Video' : 'Mute Video'}
-        title={props.isMuted ? 'Unmute Video' : 'Mute Video'}
-        onClick={props.onMuteToggle}
+        aria-label={isMuted ? unmuteLabel : muteLabel}
+        title={isMuted ? unmuteLabel : muteLabel}
+        onClick={onMuteToggle}
       >
-        <img
-          src={props.isMuted ? props.mutedIcon : props.unmutedIcon}
-          alt={props.isMuted ? 'Muted Icon' : 'Unmuted Icon'}
-        />
+        <img src={isMuted ? mutedIcon : unmutedIcon} alt={isMuted ? unmuteLabel : muteLabel} />
       </BaseButton>
 
-      <BaseButton
-        className="VideoControls-button"
-        aria-label={props.isFullScreen ? 'Exit Fullscreen Mode' : 'Enter Fullscreen Mode'}
-        title={props.isFullScreen ? 'Exit Fullscreen Mode' : 'Enter Fullscreen Mode'}
-        onClick={props.onFullscreenToggle}
-      >
-        <img
-          src={props.isFullScreen ? props.exitFullscreenIcon : props.enterFullscreenIcon}
-          alt={props.isFullScreen ? 'Fullscreen Mode Icon' : 'Normal Mode Icon'}
-        />
-      </BaseButton>
+      {isFullscreenAPISupported && (
+        <BaseButton
+          className="VideoControls-button"
+          aria-label={isFullScreen ? exitFullscreenLabel : enterFullscreenLabel}
+          title={isFullScreen ? exitFullscreenLabel : enterFullscreenLabel}
+          onClick={onFullscreenToggle}
+        >
+          <img
+            src={isFullScreen ? exitFullscreenIcon : enterFullscreenIcon}
+            alt={isFullScreen ? exitFullscreenLabel : enterFullscreenLabel}
+          />
+        </BaseButton>
+      )}
     </nav>
   );
-});
+};
 
 VideoControls.propTypes = checkProps({
   className: PropTypes.string,
@@ -108,14 +142,25 @@ VideoControls.propTypes = checkProps({
   onFullscreenToggle: PropTypes.func,
   onCaptionsToggle: PropTypes.func,
   onTimeUpdate: PropTypes.func,
+  navAriaLabel: PropTypes.string,
   playIcon: PropTypes.string,
+  playLabel: PropTypes.string,
   pauseIcon: PropTypes.string,
+  pauseLabel: PropTypes.string,
   mutedIcon: PropTypes.string,
+  unmuteLabel: PropTypes.string,
   unmutedIcon: PropTypes.string,
+  muteLabel: PropTypes.string,
   exitFullscreenIcon: PropTypes.string,
+  exitFullscreenLabel: PropTypes.string,
   enterFullscreenIcon: PropTypes.string,
+  enterFullscreenLabel: PropTypes.string,
   captionsOnIcon: PropTypes.string,
-  captionsOffIcon: PropTypes.string
+  captionsHideLabel: PropTypes.string,
+  captionsOffIcon: PropTypes.string,
+  captionsShowLabel: PropTypes.string,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func
 });
 
 VideoControls.defaultProps = {
@@ -124,14 +169,25 @@ VideoControls.defaultProps = {
   onFullscreenToggle: noop,
   onCaptionsToggle: noop,
   onTimeUpdate: noop,
+  onFocus: noop,
+  onBlur: noop,
+  navAriaLabel: 'Video Controls',
   playIcon: PlayIcon,
+  playLabel: 'Play Video',
   pauseIcon: PauseIcon,
+  pauseLabel: 'Pause Video',
   mutedIcon: MutedIcon,
+  unmuteLabel: 'Unmute Video',
   unmutedIcon: UnmutedIcon,
+  muteLabel: 'Mute Video',
   exitFullscreenIcon: ExitFullscreenIcon,
+  exitFullscreenLabel: 'Exit Fullscreen Mode',
   enterFullscreenIcon: EnterFullscreenIcon,
+  enterFullscreenLabel: 'Enter Fullscreen Mode',
   captionsOnIcon: CaptionsOnIcon,
-  captionsOffIcon: CaptionsOffIcon
+  captionsHideLabel: 'Hide Captions',
+  captionsOffIcon: CaptionsOffIcon,
+  captionsShowLabel: 'Show Captions'
 };
 
-export default VideoControls;
+export default memo(VideoControls);
