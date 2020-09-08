@@ -21,7 +21,8 @@
     letter-spacing: inherit;
     font-size: inherit;
     text-transform: inherit;
-    color: inherit; }
+    color: inherit;
+    outline: none; }
     .VideoControls-button:first-of-type {
       margin-right: 2rem; }
     .VideoControls-button:last-of-type {

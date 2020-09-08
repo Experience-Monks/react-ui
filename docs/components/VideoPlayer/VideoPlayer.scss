@@ -7,25 +7,7 @@ $video-player-captions-bg-color: rgba(0, 0, 0, 0.8) !default;
 $video-player-captions-text-color: #fff !default;
 $video-player-captions-max-width: 50rem !default;
 $video-player-captions-padding: 1rem !default;
-$video-player-controls-transition: 0.2s !default;
-
-@mixin fullscreen-styles() {
-  width: 100% !important;
-  height: 100% !important;
-  background-color: $video-player-fullscreen-bg-color;
-
-  .BackgroundVideo {
-    display: flex;
-  }
-
-  video {
-    position: relative !important;
-    width: 100% !important;
-    height: 100% !important;
-    left: 0 !important;
-    top: 0 !important;
-  }
-}
+$video-player-controls-transition: 0.2s;
 
 .VideoPlayer {
   position: relative;
@@ -40,12 +22,26 @@ $video-player-controls-transition: 0.2s !default;
     }
   }
 
-  &:-webkit-full-screen {
-    @include fullscreen-styles;
-  }
-
   &:fullscreen {
-    @include fullscreen-styles;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: $video-player-fullscreen-bg-color;
+
+    .BackgroundVideo {
+      display: flex;
+    }
+
+    video {
+      position: relative !important;
+      width: 100% !important;
+      height: auto !important;
+      left: 0 !important;
+      top: 0 !important;
+    }
+
+    button.close {
+      opacity: 0;
+    }
   }
 
   &-captions-container {
@@ -87,9 +83,5 @@ $video-player-controls-transition: 0.2s !default;
     .VideoPlayer-captions-container {
       bottom: $video-player-captions-bottom-pos;
     }
-  }
-
-  track {
-    display: none !important;
   }
 }

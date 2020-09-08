@@ -32,6 +32,7 @@ $video-player-controls-timer-font-size: 1.5rem !default;
     font-size: inherit;
     text-transform: inherit;
     color: inherit;
+    outline: none;
 
     &:first-of-type {
       margin-right: $video-player-controls-buttons-margin;
