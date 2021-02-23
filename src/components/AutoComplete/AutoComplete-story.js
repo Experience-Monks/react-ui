@@ -1,0 +1,36 @@
+import React, { useState } from 'react';
+import { storiesOf } from '@storybook/react';
+import Component from './AutoComplete';
+
+import sampleData from './data/sample';
+
+const AutoCompleteTest = () => {
+  const [result, setResult] = useState(null);
+
+  return (
+    <>
+      <label for={'autoCompleteField'}>AutoComplete list of countries</label>
+      <br />
+      <Component
+        id={'autoCompleteField'}
+        data={sampleData.map((item) => item.name)}
+        autoCompleteResult={(newResult) => setResult(newResult)}
+      />
+      {
+        result
+          ? (
+            <ul>
+              {result.map((item, key) => (
+                <li key={`autocomplete-${key}`}>{item}</li>
+              ))}
+            </ul>
+          )
+          : null
+      }
+    </>
+  );
+};
+
+storiesOf('AutoComplete', module).add('Default', () => <AutoCompleteTest />, {
+  notes: 'This is an autocomplete field of countries name.',
+});

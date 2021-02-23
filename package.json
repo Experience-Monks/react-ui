@@ -43,7 +43,8 @@
     "no-op": "^1.0.3",
     "react-background-video-player": "^1.1.6",
     "react-use": "^15.3.3",
-    "remove-trailing-separator": "^1.1.0"
+    "remove-trailing-separator": "^1.1.0",
+    "typing-ahead": "^1.0.3"
   },
   "peerDependencies": {
     "react": "^16.13.1",
