@@ -4,29 +4,30 @@ import Component from './AutoComplete';
 
 import sampleData from './data/sample';
 
+function renderResult(result) {
+  return result.length > 0 ? (
+    <ul>
+      {result.map((item, key) => (
+        <li key={`autocomplete-${key}`}>{item}</li>
+      ))}
+    </ul>
+  ) : (
+    <p>No matches</p>
+  );
+};
+
 const AutoCompleteTest = () => {
   const [result, setResult] = useState(null);
-
   return (
     <>
-      <label for={'autoCompleteField'}>AutoComplete list of countries</label>
+      <label htmlFor="autoCompleteField">AutoComplete list of countries</label>
       <br />
       <Component
-        id={'autoCompleteField'}
-        data={sampleData.map((item) => item.name)}
-        autoCompleteResult={(newResult) => setResult(newResult)}
+        id="autoCompleteField"
+        data={sampleData.map(item => item.name)}
+        autoCompleteResult={newResult => setResult(newResult)}
       />
-      {
-        result
-          ? (
-            <ul>
-              {result.map((item, key) => (
-                <li key={`autocomplete-${key}`}>{item}</li>
-              ))}
-            </ul>
-          )
-          : null
-      }
+      {result && renderResult(result)}
     </>
   );
 };

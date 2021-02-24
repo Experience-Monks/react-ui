@@ -6,15 +6,15 @@ import checkProps from '@jam3/react-check-extra-props';
 import typingAhead from 'typing-ahead';
 
 const AutoComplete = ({
+  id,
   data,
   className,
   autoCompleteResult
 }) => {
   const [model, setModel] = useState(null);
 
-  function onInputChange(event) {
-    const inputValue = event.target.value;
-    autoCompleteResult(inputValue ? typingAhead.find(inputValue, model) : null);
+  function onInputChange({ target: { value } }) {
+    autoCompleteResult(value ? typingAhead.find(value, model) : null);
   }
 
   useEffect(() => {
@@ -23,6 +23,7 @@ const AutoComplete = ({
 
   return (
     <input
+      id={id}
       classnames={classnames('AutoCompleteField', className)}
       onChange={onInputChange}
     />
@@ -32,8 +33,8 @@ const AutoComplete = ({
 AutoComplete.propTypes = checkProps({
   id: PropTypes.string,
   className: PropTypes.string,
-  data: PropTypes.array,
-  autoCompleteResult: PropTypes.func,
+  data: PropTypes.array.isRequired,
+  autoCompleteResult: PropTypes.func.isRequired,
 });
 
 export default memo(AutoComplete);
