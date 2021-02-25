@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect, useRef, useCallback, useEffect, useState, useMemo } from 'react';
+import React, { memo, useLayoutEffect, useRef, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
@@ -80,7 +80,7 @@ function ImageSequence({
   );
 
   const drawImage = useCallback(
-    image => {
+    (image) => {
       const ratioDrawOffsetX = percentDrawOffsetX / 100;
       const ratioDrawOffsetY = percentDrawOffsetY / 100;
 
@@ -166,7 +166,7 @@ function ImageSequence({
 
   useEffect(() => {
     // Load remainder of the images
-    images.forEach(image => {
+    images.forEach((image) => {
       if (!image.src) image.src = image.dataSrc;
     });
   }, [images]);
@@ -195,7 +195,7 @@ function ImageSequence({
               onClick={() => {
                 alert(content);
               }}
-              ref={el => (tooltipElsRef.current[index] = el)}
+              ref={(el) => (tooltipElsRef.current[index] = el)}
             />
           );
         })}
