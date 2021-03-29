@@ -5,12 +5,13 @@ const chalk = require('chalk');
 
 const reactUiVersion = process.env.npm_package_version;
 const metaVersionFileName = '.ReactUIMetaVersion';
+const customConfigFileName = 'react-ui.json';
 
 const reactUiComponentDirectory = './src/components';
 const projectRootDirectory = '../../..';
 let projectComponentDirectory = `${projectRootDirectory}/src/components`;
 
-const configSnippetExample = `// Make sure you configure your package.json:
+const configSnippetExample = `// Make sure you configure your package.json or react-ui.json:
 "react-ui": {
   "eject": true, // enable/disable this script
   "eject-path": "./src/components", // your components folder path
@@ -40,15 +41,23 @@ const chalkProject = chalk.cyan('project');
 })();
 
 /**
- * Gets react-ui specific configuration data from projects package.json.
+ * Gets react-ui specific configuration data from projects {customConfigFileName} or package.json.
  * If no configuration data is present, or catches an error, forcefully terminates the application.
  *
  * @returns {object} Object containing the optional eject-path and components list.
  */
 function getProjectPackageData() {
-  let packageJson;
+  let jsonConfig;
+
   try {
-    packageJson = fs.readJsonSync(`${projectRootDirectory}/package.json`);
+    if(checkForExistence(`${projectRootDirectory}/${customConfigFileName}`)) {
+      jsonConfig =  fs.readJsonSync(`${projectRootDirectory}/${customConfigFileName}`);
+      console.log(jsonConfig)
+    }
+    else {
+      console.log(chalkRUIPrefix, `Configuration file ${customConfigFileName} not found, using projects package.json.\n`);
+      jsonConfig = fs.readJsonSync(`${projectRootDirectory}/package.json`)['react-ui'];
+    }
   } catch (err) {
     console.log(chalkRUIPrefix, chalkError('reading project package.json'));
     console.log(err);
@@ -56,10 +65,10 @@ function getProjectPackageData() {
   }
 
   if (
-    !packageJson['react-ui'] ||
-    !packageJson['react-ui'].eject ||
-    !packageJson['react-ui'].components ||
-    !packageJson['react-ui'].components.length
+    !jsonConfig ||
+    !jsonConfig.eject ||
+    !jsonConfig.components ||
+    !jsonConfig.components.length
   ) {
     console.log(chalkRUIPrefix, chalk.red('Ejecting is not configured, skipping copy-component-utility.\n'));
     console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
@@ -68,12 +77,12 @@ function getProjectPackageData() {
 
   try {
     if (
-      packageJson['react-ui']['eject-path'] &&
-      !fs.existsSync(`${projectRootDirectory}/${packageJson['react-ui']['eject-path']}`)
+      jsonConfig['eject-path'] &&
+      !fs.existsSync(`${projectRootDirectory}/${jsonConfig['eject-path']}`)
     ) {
       console.log(
         chalkRUIPrefix,
-        chalkError(`validating eject-path, '${packageJson['react-ui']['eject-path']}' does not exist`)
+        chalkError(`validating eject-path, '${jsonConfig['eject-path']}' does not exist`)
       );
       console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
       process.exit(0);
@@ -85,7 +94,7 @@ function getProjectPackageData() {
     process.exit(0);
   }
 
-  return { ejectPath: packageJson['react-ui']['eject-path'], components: packageJson['react-ui'].components };
+  return { ejectPath: jsonConfig['eject-path'], components: jsonConfig.components };
 }
 
 /**
