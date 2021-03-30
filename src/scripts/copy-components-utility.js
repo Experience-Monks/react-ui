@@ -10,6 +10,7 @@ const customConfigFileName = 'react-ui.json';
 const reactUiComponentDirectory = './src/components';
 const projectRootDirectory = '../../..';
 let projectComponentDirectory = `${projectRootDirectory}/src/components`;
+const intermediaryFolderPath = './intermediary/';
 
 const configSnippetExample = `// Make sure you configure your package.json or react-ui.json:
 "react-ui": {
@@ -29,13 +30,14 @@ const chalkProject = chalk.cyan('project');
  * Application entry point.
  */
 (function() {
-  const projectPackageData = getProjectPackageData();
-  if (projectPackageData.ejectPath) {
-    projectComponentDirectory = `${projectRootDirectory}/${projectPackageData.ejectPath}`;
+  const projectConfigData = getProjectConfigData();
+  if (projectConfigData.ejectPath) {
+    projectComponentDirectory = `${projectRootDirectory}/${projectConfigData.ejectPath}`;
   }
-  validatePackageComponentList(projectPackageData.components);
-  projectPackageData.components.forEach(component => {
-    copyComponentUtility(component);
+  validatePackageComponentList(projectConfigData.components);
+  unifyComponentsSimpleConfigToAdvanced(projectConfigData.components);
+  projectConfigData.components.forEach(component => {
+    copyComponentUtility(component.name, component.newName);
   });
   console.log(); // New line at program completion for better formatting seperation.
 })();
@@ -46,16 +48,17 @@ const chalkProject = chalk.cyan('project');
  *
  * @returns {object} Object containing the optional eject-path and components list.
  */
-function getProjectPackageData() {
+function getProjectConfigData() {
   let jsonConfig;
 
   try {
-    if(checkForExistence(`${projectRootDirectory}/${customConfigFileName}`)) {
-      jsonConfig =  fs.readJsonSync(`${projectRootDirectory}/${customConfigFileName}`);
-      console.log(jsonConfig)
-    }
-    else {
-      console.log(chalkRUIPrefix, `Configuration file ${customConfigFileName} not found, using projects package.json.\n`);
+    if (checkForExistence(`${projectRootDirectory}/${customConfigFileName}`)) {
+      jsonConfig = fs.readJsonSync(`${projectRootDirectory}/${customConfigFileName}`);
+    } else {
+      console.log(
+        chalkRUIPrefix,
+        `Configuration file ${customConfigFileName} not found, using projects package.json.\n`
+      );
       jsonConfig = fs.readJsonSync(`${projectRootDirectory}/package.json`)['react-ui'];
     }
   } catch (err) {
@@ -64,26 +67,15 @@ function getProjectPackageData() {
     process.exit(0);
   }
 
-  if (
-    !jsonConfig ||
-    !jsonConfig.eject ||
-    !jsonConfig.components ||
-    !jsonConfig.components.length
-  ) {
+  if (!jsonConfig || !jsonConfig.eject || !jsonConfig.components || !jsonConfig.components.length) {
     console.log(chalkRUIPrefix, chalk.red('Ejecting is not configured, skipping copy-component-utility.\n'));
     console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
     process.exit(0);
   }
 
   try {
-    if (
-      jsonConfig['eject-path'] &&
-      !fs.existsSync(`${projectRootDirectory}/${jsonConfig['eject-path']}`)
-    ) {
-      console.log(
-        chalkRUIPrefix,
-        chalkError(`validating eject-path, '${jsonConfig['eject-path']}' does not exist`)
-      );
+    if (jsonConfig['eject-path'] && !fs.existsSync(`${projectRootDirectory}/${jsonConfig['eject-path']}`)) {
+      console.log(chalkRUIPrefix, chalkError(`validating eject-path, '${jsonConfig['eject-path']}' does not exist`));
       console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
       process.exit(0);
     }
@@ -98,12 +90,12 @@ function getProjectPackageData() {
 }
 
 /**
- * Validates the package.json component list against the supported react-ui components.
- * Terminates the application when an unsupported component is detected, or an error is caught.
+ * Validates the configuration's components to be correctly typed and an existing react-ui component
+ * Terminates the application when types are mismatching, unsupported component is detected, or an error is caught.
  *
- * @param {Array} packageComponents Array of components to validate.
+ * @param {Array} configComponents Array of components to validate.
  */
-function validatePackageComponentList(packageComponents) {
+function validatePackageComponentList(configComponents) {
   let supportedComponents;
   try {
     supportedComponents = fs.readdirSync(reactUiComponentDirectory);
@@ -114,15 +106,48 @@ function validatePackageComponentList(packageComponents) {
     process.exit(0);
   }
 
-  packageComponents.forEach(packageComponent => {
-    if (!supportedComponents.some(supportedComponent => supportedComponent === packageComponent)) {
-      console.log(
-        chalkRUIPrefix,
-        chalkError(`validating package component list, '${packageComponent}' does not exist`)
-      );
+  configComponents.forEach(configComponent => {
+    const componentType = typeof configComponent;
+    if (componentType !== 'string' && componentType === 'object' && typeof configComponent.name !== 'string') {
+      console.log(chalkRUIPrefix, chalkError(`validating package component list, ${configComponent} mismatching type`));
+      process.exit(0);
+    } else if (
+      !supportedComponents.some(supportedComponent =>
+        componentType === 'string'
+          ? supportedComponent === configComponent
+          : supportedComponent === configComponent.name
+      )
+    ) {
+      console.log(chalkRUIPrefix, chalkError(`validating package component list, '${configComponent}' does not exist`));
       process.exit(0);
     }
   });
+}
+
+/**
+ * ReactUI configuration supports simple ejection:
+ *  "components": ["BaseButton"]
+ * and advanced ejection:
+ *  "components": [
+ *    {
+ *      "name": "BaseButton",
+ *      "newName": "PillButton",
+ *      etc...
+ *    }
+ *  ]
+ *
+ * Converts string defined components to object defined for a single unified system.
+ *
+ * @param {Array} configComponents Array of components to unify.
+ * @returns
+ */
+function unifyComponentsSimpleConfigToAdvanced(configComponents) {
+  for (let i = 0; i < configComponents.length; ++i) {
+    const component = configComponents[i];
+    if (typeof component === 'string') {
+      configComponents[i] = { name: component };
+    }
+  }
 }
 
 /**
@@ -134,19 +159,36 @@ function validatePackageComponentList(packageComponents) {
  *  - New file in react-ui component -> copy the new component file to the project directory.
  *
  * @param {String} componentName Name of the component to run the copy utility against.
+ * @param {String?} componentNewName Custom ejected name of the component.
  */
-function copyComponentUtility(componentName) {
+function copyComponentUtility(componentName, componentNewName) {
   console.log(chalkRUIPrefix, 'Running copy component utility for', chalkComponent(componentName) + '.');
-  const projectComponentNameDir = `${projectComponentDirectory}/${componentName}`;
+  const projectComponentNameDir = `${projectComponentDirectory}/${componentNewName || componentName}`;
+  let reactUiComponentNameDir;
+  if (componentNewName) {
+    createRenamedIntermediary(componentName, componentNewName);
+    reactUiComponentNameDir = `${intermediaryFolderPath}/${componentNewName}`;
+  } else {
+    reactUiComponentNameDir = `${reactUiComponentDirectory}/${componentName}`;
+  }
 
   if (!checkForExistence(projectComponentNameDir) || isEmptyDir(projectComponentNameDir)) {
-    console.log(chalkRUIPrefix, '-- Copied', chalkComponent(componentName), 'from', chalkRUI, 'to', chalkProject + '.');
-    copyFromTo(`${reactUiComponentDirectory}/${componentName}`, projectComponentNameDir);
+    copyFromTo(reactUiComponentNameDir, projectComponentNameDir);
     createMetaVersionFile(`${projectComponentNameDir}/${metaVersionFileName}`);
+    console.log(
+      chalkRUIPrefix,
+      '-- Copied',
+      chalk.green(componentName),
+      'from',
+      chalkRUI,
+      'to',
+      chalkProject,
+      chalk.cyan(componentNewName || '') + '.'
+    );
     return;
   }
 
-  if (getComponentsMetaVersion(componentName) === reactUiVersion) {
+  if (getComponentsMetaVersion(componentNewName || componentName) === reactUiVersion) {
     console.log(
       chalkRUIPrefix,
       `-- Already using the latest version of ${chalkComponent(componentName)}, skipping copy component utility.`
@@ -156,8 +198,11 @@ function copyComponentUtility(componentName) {
 
   createMetaVersionFile(`${projectComponentNameDir}/${metaVersionFileName}`);
 
-  const compareResults = compareComponentFromReactUiToProject(componentName);
-  if (compareResults.differences === 0) {
+  const compareResults = compareDirectories(reactUiComponentNameDir, projectComponentNameDir);
+  const filteredDiffSet = compareResults.diffSet.filter(
+    diff => !(diff.state === 'equal' || (diff.state == 'right' && diff.name2 === metaVersionFileName))
+  );
+  if (filteredDiffSet.length === 0) {
     console.log(
       chalkRUIPrefix,
       '-- No differences between',
@@ -170,7 +215,7 @@ function copyComponentUtility(componentName) {
     return;
   }
 
-  compareResults.diffSet.forEach(set => {
+  filteredDiffSet.forEach(set => {
     const pathString = set.relativePath === '/' ? '/' : set.relativePath + '/';
     if (set.state === 'distinct') {
       console.log(
@@ -192,9 +237,11 @@ function copyComponentUtility(componentName) {
         chalkRUI + ', copying it to',
         chalkProject + '.'
       );
-      copyFromTo(`${set.path1}/${set.name1}`, `${projectComponentDirectory}/${componentName}${pathString}${set.name1}`);
+      copyFromTo(`${set.path1}/${set.name1}`, `${projectComponentNameDir}${pathString}${set.name1}`);
     }
   });
+
+  componentNewName && deleteRenamedIntermediary();
 }
 
 /**
@@ -263,19 +310,14 @@ function createMetaVersionFile(path) {
 }
 
 /**
- * Compares the directory contents of react-ui and project components for various types of differences.
+ * Compares the directory contents of two project components folders for various types of differences.
  *
- * @param {String} componentName Component to compare between react-ui and project.
+ * @param {String} c1 First component directory.
+ * @param {String?} c2 Second component directory.
  * @returns {Object} Information on differences between the two directories. See documentation of dirCompare.
  */
-function compareComponentFromReactUiToProject(componentName) {
-  return dirCompare.compareSync(
-    `${reactUiComponentDirectory}/${componentName}`,
-    `${projectComponentDirectory}/${componentName}`,
-    {
-      compareContent: true
-    }
-  );
+function compareDirectories(c1, c2) {
+  return dirCompare.compareSync(c1, c2, { compareContent: true });
 }
 
 /**
@@ -311,4 +353,56 @@ function gitMergeFileUtility(reactUiFilePath, projectFilePath) {
  */
 function isEmptyDir(dirFolderPath) {
   return fs.readdirSync(dirFolderPath).length === 0;
+}
+
+/**
+ * Copies the react-ui component into a temporary directory, then it will rename the occurences
+ * of the old component's name with the new component's name.
+ *
+ * @param {String} oldComponentName The original name of the react-ui component.
+ * @param {String} newComponentName The ejected custom name of the react-ui component.
+ * @param {String?} intermediaryFolder Temporary folder path to hold the renamed copy
+ */
+function createRenamedIntermediary(oldComponentName, newComponentName, intermediaryFolder = intermediaryFolderPath) {
+  try {
+    const destination = intermediaryFolder + newComponentName + '/';
+
+    fs.copySync('./src/components/' + oldComponentName, destination);
+
+    const findFilesToRename = fs.readdirSync(destination).filter(file => file.includes(oldComponentName));
+
+    const oldToNewFilesMap = findFilesToRename.map(oldFileName => ({
+      oldFileName,
+      newFileName: oldFileName.replace(oldComponentName, newComponentName)
+    }));
+
+    oldToNewFilesMap.forEach(fileMap => {
+      fs.renameSync(destination + fileMap.oldFileName, destination + fileMap.newFileName);
+    });
+
+    oldToNewFilesMap.forEach(fileMap => {
+      const fileData = fs.readFileSync(destination + fileMap.newFileName, 'utf-8');
+      const renamedFileData = fileData.replace(new RegExp(oldComponentName, 'g'), newComponentName);
+      fs.writeFileSync(destination + fileMap.newFileName, renamedFileData);
+    });
+  } catch (err) {
+    console.log(chalkRUIPrefix, chalkError('Creating renamed intermediary folder'));
+    console.log(err);
+    process.exit(0);
+  }
+}
+
+/**
+ * Deletes the intermediary directory
+ *
+ * @param {String} intermediaryFolder Intermediary folder path to delete
+ */
+function deleteRenamedIntermediary(intermediaryFolder = intermediaryFolderPath) {
+  try {
+    fs.rmdirSync(intermediaryFolder, { recursive: true });
+  } catch (err) {
+    console.log(chalkRUIPrefix, chalkError('Deleting intermediary folder'));
+    console.log(err);
+    process.exit(0);
+  }
 }
