@@ -43,12 +43,13 @@
     "no-op": "^1.0.3",
     "react-background-video-player": "^1.1.6",
     "react-use": "^15.3.3",
-    "remove-trailing-separator": "^1.1.0"
+    "remove-trailing-separator": "^1.1.0",
+    "typing-ahead": "^1.0.3"
   },
   "peerDependencies": {
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "prop-types": "^15.7.2"
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
