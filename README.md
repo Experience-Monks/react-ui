@@ -28,14 +28,17 @@ import { BaseLink } from '@jam3/react-ui';
 
 The components in this library can be ejected for advanced customization while maintaining version control.
 This functionality is achieved by npm post install hook that runs src/scripts/copy-component-utility.js
-To use it, simply define some react-ui specific properties at the bottom of your project's local package.json.
+To use it, simply create a `react-ui.json` file with the following properties.
 
 ```
-"react-ui": {
+{
   "eject": true,
   "eject-path": "./src/components",
   "components": [
-    "BaseButton",
+    {
+      "name": BaseButton",
+      "newName": "PillButton"
+    },
     "VideoPlayer"
   ]
 }
@@ -43,7 +46,12 @@ To use it, simply define some react-ui specific properties at the bottom of your
 
 eject: Enables the ejection of components, if ommited the script will not be called.
 eject-path: Specifies a custom path for the components to be ejected to, if ommited defaults to src/components.
-components: A list of components to eject into your project.
+components: A list of components to eject into your project. Components can be defined as strings (simple mode)
+or as objects (advanced mode). In advanced mode you can specify a new ejected name to be used in your project.
+
+Every time `npm install` runs in your project, it will analyze react-ui for any updates to the base component,
+if an update is detected, it will generate git merge markers with the new changes while preserving any ejected changes
+made in the project.
 
 For more information, please refer to [Usage](USAGE.md) in our documentation.
 
