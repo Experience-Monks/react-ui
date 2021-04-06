@@ -2,17 +2,18 @@ const execSync = require('child_process').execSync;
 const fs = require('fs-extra');
 const dirCompare = require('dir-compare');
 const chalk = require('chalk');
+const { cosmiconfigSync } = require('cosmiconfig');
 
 const reactUiVersion = process.env.npm_package_version;
 const metaVersionFileName = '.ReactUIMetaVersion';
-const customConfigFileName = 'react-ui.json';
+const moduleName = 'react-ui';
 
 const reactUiComponentDirectory = './src/components';
 const projectRootDirectory = '../../..';
 let projectComponentDirectory = `${projectRootDirectory}/src/components`;
 const intermediaryFolderPath = './intermediary/';
 
-const configSnippetExample = `// Make sure you configure your package.json or react-ui.json:
+const configSnippetExample = `// Make sure you configure your package.json or .react-uirc.json:
 "react-ui": {
   "eject": true, // enable/disable this script
   "eject-path": "./src/components", // your components folder path
@@ -43,50 +44,20 @@ const chalkProject = chalk.cyan('project');
 })();
 
 /**
- * Gets react-ui specific configuration data from projects {customConfigFileName} or package.json.
- * If no configuration data is present, or catches an error, forcefully terminates the application.
+ * Gets react-ui specific configuration data from projects rc file or package.json.
+ * If no configuration data is present, forcefully terminates the application.
  *
  * @returns {object} Object containing the optional eject-path and components list.
  */
 function getProjectConfigData() {
-  let jsonConfig;
-
-  try {
-    if (checkForExistence(`${projectRootDirectory}/${customConfigFileName}`)) {
-      jsonConfig = fs.readJsonSync(`${projectRootDirectory}/${customConfigFileName}`);
-    } else {
-      console.log(
-        chalkRUIPrefix,
-        `Configuration file ${customConfigFileName} not found, using projects package.json.\n`
-      );
-      jsonConfig = fs.readJsonSync(`${projectRootDirectory}/package.json`)['react-ui'];
-    }
-  } catch (err) {
-    console.log(chalkRUIPrefix, chalkError('reading project package.json'));
-    console.log(err);
-    process.exit(0);
-  }
-
-  if (!jsonConfig || !jsonConfig.eject || !jsonConfig.components || !jsonConfig.components.length) {
-    console.log(chalkRUIPrefix, chalk.red('Ejecting is not configured, skipping copy-component-utility.\n'));
+  const results = cosmiconfigSync(moduleName).search();
+  if (!results) {
+    console.log(chalkRUIPrefix, chalkError('failing to read configuration data.'));
     console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
     process.exit(0);
   }
 
-  try {
-    if (jsonConfig['eject-path'] && !fs.existsSync(`${projectRootDirectory}/${jsonConfig['eject-path']}`)) {
-      console.log(chalkRUIPrefix, chalkError(`validating eject-path, '${jsonConfig['eject-path']}' does not exist`));
-      console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
-      process.exit(0);
-    }
-  } catch (err) {
-    console.log(chalkRUIPrefix, chalkError('checking for existence of eject-path.'));
-    console.log(chalkRUIPrefix, chalkCode(configSnippetExample));
-    console.log(err);
-    process.exit(0);
-  }
-
-  return { ejectPath: jsonConfig['eject-path'], components: jsonConfig.components };
+  return { ejectPath: results.config['eject-path'], components: results.config.components };
 }
 
 /**
