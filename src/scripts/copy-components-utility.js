@@ -4,7 +4,6 @@ const dirCompare = require('dir-compare');
 const chalk = require('chalk');
 const { cosmiconfigSync } = require('cosmiconfig');
 
-const reactUiVersion = process.env.npm_package_version;
 const metaVersionFileName = '.ReactUIMetaVersion';
 const moduleName = 'react-ui';
 
@@ -143,9 +142,12 @@ function copyComponentUtility(componentName, componentNewName) {
     reactUiComponentNameDir = `${reactUiComponentDirectory}/${componentName}`;
   }
 
+  const projectMetaVersion = getComponentsMetaVersion(componentNewName || componentName, projectComponentDirectory);
+  const reactUiMetaVersion = getComponentsMetaVersion(componentName, reactUiComponentDirectory);
+
   if (!checkForExistence(projectComponentNameDir) || isEmptyDir(projectComponentNameDir)) {
     copyFromTo(reactUiComponentNameDir, projectComponentNameDir);
-    createMetaVersionFile(`${projectComponentNameDir}/${metaVersionFileName}`);
+    createMetaVersionFile(`${projectComponentNameDir}/${metaVersionFileName}`, reactUiMetaVersion);
     console.log(
       chalkRUIPrefix,
       '-- Copied',
@@ -159,7 +161,7 @@ function copyComponentUtility(componentName, componentNewName) {
     return;
   }
 
-  if (getComponentsMetaVersion(componentNewName || componentName) === reactUiVersion) {
+  if (projectMetaVersion === reactUiMetaVersion) {
     console.log(
       chalkRUIPrefix,
       `-- Already using the latest version of ${chalkComponent(componentName)}, skipping copy component utility.`
@@ -167,7 +169,7 @@ function copyComponentUtility(componentName, componentNewName) {
     return;
   }
 
-  createMetaVersionFile(`${projectComponentNameDir}/${metaVersionFileName}`);
+  createMetaVersionFile(`${projectComponentNameDir}/${metaVersionFileName}`, reactUiMetaVersion);
 
   const compareResults = compareDirectories(reactUiComponentNameDir, projectComponentNameDir);
   const filteredDiffSet = compareResults.diffSet.filter(
@@ -219,15 +221,15 @@ function copyComponentUtility(componentName, componentNewName) {
  * Get a project components meta version.
  *
  * @param {String} componentName The project component whose meta version is requested.
+ * @param {String} directory The base directory of the component
+ *                           use projectComponentDirectory or reactUiComponentDirectory
  */
-function getComponentsMetaVersion(componentName) {
+function getComponentsMetaVersion(componentName, directory) {
   let version;
   try {
-    version = fs.readFileSync(`${projectComponentDirectory}/${componentName}/${metaVersionFileName}`).toString();
+    version = fs.readFileSync(`${directory}/${componentName}/${metaVersionFileName}`).toString();
   } catch (err) {
-    console.log(chalkRUIPrefix, chalkError(`reading ${componentName} meta version`));
-    console.log(err);
-    process.exit(0);
+    return null;
   }
   return version;
 }
@@ -270,10 +272,11 @@ function copyFromTo(from, to) {
  * Creates a meta version file in the project path to track ejected version of component.
  *
  * @param {String} path Path of the new meta file.
+ * @param {String} version Semantic Versioning MAJOR.MINOR.PATCH
  */
-function createMetaVersionFile(path) {
+function createMetaVersionFile(path, version) {
   try {
-    fs.writeFileSync(path, reactUiVersion);
+    fs.writeFileSync(path, version);
   } catch (err) {
     console.log(chalkRUIPrefix, chalkError('creating meta version file.'));
     console.log(err);
