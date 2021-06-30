@@ -41,6 +41,7 @@
     "dir-compare": "^2.2.0",
     "fs-extra": "^9.0.0",
     "fullscreen-handler": "0.0.2",
+    "hls.js": "^1.0.7",
     "no-op": "^1.0.3",
     "react-background-video-player": "^1.1.6",
     "react-use": "^15.3.3",
