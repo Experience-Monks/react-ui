@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import checkProps from '@jam3/react-check-extra-props';
 import noop from 'no-op';
 
-import './CookieBanner.scss';
+import styles from './CookieBanner.module.scss';
 
 import BaseButton from '../BaseButton/BaseButton';
 
@@ -45,13 +45,13 @@ function CookieBanner({ className, defaultText, children, acceptCta, rejectCta, 
   }, []);
 
   return visible ? (
-    <div className={classnames('CookieBanner', className)}>
-      <span className="description">{children || defaultText}</span>
-      <div className="buttons-container">
-        <BaseButton className="accept" onClick={onAcceptClick}>
+    <div className={classnames(styles.CookieBanner, className)}>
+      <span className={styles.description}>{children || defaultText}</span>
+      <div className={styles.buttonsContainer}>
+        <BaseButton className={styles.accept} onClick={onAcceptClick}>
           {acceptCta}
         </BaseButton>
-        <BaseButton className="reject" onClick={onRejectClick}>
+        <BaseButton className={styles.reject} onClick={onRejectClick}>
           {rejectCta}
         </BaseButton>
       </div>

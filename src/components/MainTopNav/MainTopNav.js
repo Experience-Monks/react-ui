@@ -6,7 +6,7 @@ import noop from 'no-op';
 import cleanPath from 'remove-trailing-separator';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './MainTopNav.scss';
+import styles from './MainTopNav.module.scss';
 
 import BaseLink from '../BaseLink/BaseLink';
 import HamburgerButton, { STATES } from '../HamburgerButton/HamburgerButton';
@@ -29,26 +29,26 @@ const MainTopNav = props => {
   const LinkComponent = props.linkComponent;
 
   return (
-    <header className={classnames('MainTopNav', props.className)}>
-      {props.ariaSiteTitle && <h1 className="only-aria-visible">{props.ariaSiteTitle}</h1>}
-      <nav className="nav" aria-label={props.ariaNavLabel}>
-        {props.ariaNavTitle && <h2 className="only-aria-visible">{props.ariaNavTitle}</h2>}
+    <header className={classnames(styles.MainTopNav, props.className)}>
+      {props.ariaSiteTitle && <h1 className={styles.onlyAriaVisible}>{props.ariaSiteTitle}</h1>}
+      <nav className={styles.nav} aria-label={props.ariaNavLabel}>
+        {props.ariaNavTitle && <h2 className={styles.onlyAriaVisible}>{props.ariaNavTitle}</h2>}
         {props.logoSrc && (
           <LinkComponent link={props.logoLink} aria-label={props.logoAriaLabel}>
-            <img className="nav-logo" src={props.logoSrc} alt={props.logoAlt} />
+            <img className={styles.navLogo} src={props.logoSrc} alt={props.logoAlt} />
           </LinkComponent>
         )}
         {props.showHamburger ? (
           <HamburgerButton onClick={handleHamburgerClick} currentState={buttonState} />
         ) : (
           props.links && (
-            <ul className="nav-list">
+            <ul className={styles.navList}>
               {props.links.map((link, index) => (
-                <li key={index} className="nav-item">
+                <li key={index} className={styles.navItem}>
                   <LinkComponent
                     link={link.path}
                     className={classnames({
-                      active: cleanPath(location.pathname) === cleanPath(link.path)
+                      [styles.active]: cleanPath(location.pathname) === cleanPath(link.path)
                     })}
                   >
                     {link.text}

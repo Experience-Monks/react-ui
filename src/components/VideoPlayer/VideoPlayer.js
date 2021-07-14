@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoPlayer.scss';
+import styles from './VideoPlayer.module.scss';
 
 import VideoControls from './VideoControls/VideoControls';
 
@@ -89,35 +89,26 @@ const VideoPlayer = ({
     };
   }, []);
 
-  useEffect(
-    () => {
-      setContainerSize({ width: windowWidth, height: windowHeight });
-    },
-    [windowWidth, windowHeight]
-  );
+  useEffect(() => {
+    setContainerSize({ width: windowWidth, height: windowHeight });
+  }, [windowWidth, windowHeight]);
 
-  useEffect(
-    () => {
-      if (isPlaying) {
-        onPlay();
-        hasControls && setHideControlsTimeout();
-      } else {
-        onPause();
-        if (hasControls && progress) {
-          clearHideControlsTimeout();
-          showControls();
-        }
+  useEffect(() => {
+    if (isPlaying) {
+      onPlay();
+      hasControls && setHideControlsTimeout();
+    } else {
+      onPause();
+      if (hasControls && progress) {
+        clearHideControlsTimeout();
+        showControls();
       }
-    },
-    [isPlaying]
-  );
+    }
+  }, [isPlaying]);
 
-  useEffect(
-    () => {
-      setCaptions(captions);
-    },
-    [captions]
-  );
+  useEffect(() => {
+    setCaptions(captions);
+  }, [captions]);
 
   function showControls() {
     !isShowingControls && setIsShowingControls(true);
@@ -286,9 +277,9 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={classnames('VideoPlayer', className, {
-        'show-controls': isShowingControls,
-        'show-captions': isShowingCaptions
+      className={classnames(styles.VideoPlayer, className, {
+        [styles.showControls]: isShowingControls,
+        [styles.showCaptions]: isShowingCaptions
       })}
       style={style}
       ref={container}
@@ -322,13 +313,14 @@ const VideoPlayer = ({
       />
 
       {captions && (
-        <div className="VideoPlayer-captions-container" ref={captionsContainer}>
+        <div className={styles.captionsContainer} ref={captionsContainer}>
           {currentCaptions && <p>{currentCaptions}</p>}
         </div>
       )}
 
       {hasControls && (
         <VideoControls
+          className={styles.controls}
           captions={Boolean(captions)}
           currentTime={Number(currentTime)}
           isPlaying={isPlaying}

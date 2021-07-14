@@ -19,7 +19,7 @@ $video-player-controls-timer-font-size: 1.5rem !default;
   z-index: 1;
   box-sizing: border-box;
 
-  &-button {
+  .button {
     width: $video-player-controls-buttons-width;
     height: $video-player-controls-buttons-height;
     margin-left: $video-player-controls-buttons-margin;
@@ -47,7 +47,7 @@ $video-player-controls-timer-font-size: 1.5rem !default;
     }
   }
 
-  &-time {
+  .time {
     width: $video-player-controls-timer-width;
     color: $video-player-controls-timer-color;
     font-size: $video-player-controls-timer-font-size;

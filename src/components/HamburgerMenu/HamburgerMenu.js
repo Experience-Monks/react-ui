@@ -6,7 +6,7 @@ import noop from 'no-op';
 import cleanPath from 'remove-trailing-separator';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './HamburgerMenu.scss';
+import styles from './HamburgerMenu.module.scss';
 
 import BaseLink from '../BaseLink/BaseLink';
 
@@ -25,29 +25,26 @@ const HamburgerMenu = ({
 
   const location = useLocation();
 
-  useEffect(
-    () => {
-      if (closeOnRouteChange && previousPathname.current && previousPathname.current !== location.pathname) {
-        isMobileMenuOpen && setIsMobileMenuOpen(false);
-      }
-      previousPathname.current = location.pathname;
+  useEffect(() => {
+    if (closeOnRouteChange && previousPathname.current && previousPathname.current !== location.pathname) {
+      isMobileMenuOpen && setIsMobileMenuOpen(false);
+    }
+    previousPathname.current = location.pathname;
 
-      return () => {
-        isMobileMenuOpen && setIsMobileMenuOpen(false);
-      };
-    },
-    [isMobileMenuOpen, closeOnRouteChange, location]
-  );
+    return () => {
+      isMobileMenuOpen && setIsMobileMenuOpen(false);
+    };
+  }, [isMobileMenuOpen, closeOnRouteChange, location]);
 
   return (
-    <nav className={classnames(`HamburgerMenu`, className, { open: isMobileMenuOpen })} ref={refContainer}>
+    <nav className={classnames(styles.HamburgerMenu, className, { open: isMobileMenuOpen })} ref={refContainer}>
       {links && (
-        <ul className="nav-list">
+        <ul className={styles.navList}>
           {links.map((link, index) => (
-            <li key={index} className="nav-item">
+            <li key={index} className={styles.navItem}>
               <LinkComponent
                 link={link.path}
-                className={classnames({ active: cleanPath(location.pathname) === cleanPath(link.path) })}
+                className={classnames({ [styles.active]: cleanPath(location.pathname) === cleanPath(link.path) })}
               >
                 {link.text}
               </LinkComponent>

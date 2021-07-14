@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './HamburgerButton.scss';
+import styles from './HamburgerButton.module.scss';
 
 import BaseButton from '../BaseButton/BaseButton';
 
@@ -14,19 +14,19 @@ export const STATES = {
   back: 'back'
 };
 
-const bars = [0, 1, 2].map(item => <span key={item} className={`bar ${item}`} />);
+const bars = [0, 1, 2].map(item => <span key={item} className={styles.bar} />);
 
 const HamburgerButton = ({ className, currentState, onMouseEnter, onMouseLeave, onClick, tabIndex, ariaLabel }) => {
   return (
     <BaseButton
-      className={classnames('HamburgerButton', className, currentState)}
+      className={classnames(styles.HamburgerButton, className, styles[currentState])}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
       tabIndex={tabIndex}
       aria-label={ariaLabel}
     >
-      <div className="bars-container">{bars}</div>
+      <div className={styles.barsContainer}>{bars}</div>
     </BaseButton>
   );
 };

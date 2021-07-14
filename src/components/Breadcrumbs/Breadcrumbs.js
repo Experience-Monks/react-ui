@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import checkProps from '@jam3/react-check-extra-props';
 import BaseLink from '../BaseLink/BaseLink';
 
-import './Breadcrumbs.scss';
+import styles from './Breadcrumbs.module.scss';
 
 const Breadcrumbs = ({ routes, breadStyle }) => {
   const [active, setActive] = useState(0);
@@ -18,7 +18,7 @@ const Breadcrumbs = ({ routes, breadStyle }) => {
   }, [location]);
 
   return (
-    <nav className="Breadcrumbs" aria-label="breadcrumbs">
+    <nav className={classnames(styles.Breadcrumbs)} aria-label="breadcrumbs">
       {routes
         .map((path, index) => {
           const LinkInstance = <LinkWrapper key={`${index}${path.text}`} {...path} pathname={location.pathname} />;
@@ -35,7 +35,7 @@ const Breadcrumbs = ({ routes, breadStyle }) => {
         .reduce(
           (prev, curr, index) => [
             prev,
-            <span key={index} className="separator" aria-hidden="true">
+            <span key={index} className={styles.seperator} aria-hidden="true">
               {'>'}
             </span>,
             curr
@@ -66,7 +66,7 @@ const LinkWrapper = ({ pathname, text, route }) => {
 
   return (
     <BaseLink
-      className={classnames('Link', { active: isActive })}
+      className={classnames(styles.link, { active: isActive })}
       link={route}
       {...(isActive ? { 'aria-current': 'location' } : {})}
     >

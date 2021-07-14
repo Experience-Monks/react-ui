@@ -25,10 +25,10 @@ $hamburger-nav-transition: 0.2s !default;
     transform: translateX(0%);
   }
 
-  .nav-list {
+  .navList {
     width: 100%;
 
-    .nav-item {
+    .navItem {
       display: block;
       margin-bottom: $hamburger-nav-links-margin;
 

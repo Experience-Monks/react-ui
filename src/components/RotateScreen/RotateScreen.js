@@ -6,7 +6,7 @@ import 'default-passive-events';
 import checkProps from '@jam3/react-check-extra-props';
 import { device } from '@jam3/detect';
 
-import './RotateScreen.scss';
+import styles from './RotateScreen.module.scss';
 
 const RotateScreen = ({ className, iconSrc, iconAlt, copy, children }) => {
   const containerRef = useRef();
@@ -28,12 +28,12 @@ const RotateScreen = ({ className, iconSrc, iconAlt, copy, children }) => {
 
   return (
     <div
-      className={classnames('RotateScreen', className, { show: device.isMobile && orientation.angle !== 0 })}
+      className={classnames(styles.RotateScreen, className, { show: device.isMobile && orientation.angle !== 0 })}
       ref={containerRef}
     >
-      <div className="container">
-        {iconSrc && <img src={iconSrc} className="rotate-icon" alt={iconAlt} />}
-        {copy && <p className="rotate-text">{copy}</p>}
+      <div className={styles.container}>
+        {iconSrc && <img src={iconSrc} className={styles.rotateIcon} alt={iconAlt} />}
+        {copy && <p className={styles.rotateText}>{copy}</p>}
         {children}
       </div>
     </div>

@@ -21,12 +21,12 @@ $rotate-screen-icon-width: 10rem !default;
   .container {
     text-align: center;
 
-    .rotate-text {
+    .rotateText {
       color: $rotate-screen-text-color;
       font-size: $rotate-screen-text-font-size;
     }
 
-    .rotate-icon {
+    .rotateIcon {
       width: $rotate-screen-icon-width;
     }
   }

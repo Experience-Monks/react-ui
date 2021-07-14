@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoControls.scss';
+import styles from './VideoControls.module.scss';
 
 import PlayIcon from './assets/play.svg';
 import PauseIcon from './assets/pause.svg';
@@ -74,9 +74,14 @@ const VideoControls = ({
   }, []);
 
   return (
-    <nav className={classnames('VideoControls', className)} aria-label={navAriaLabel} onFocus={onFocus} onBlur={onBlur}>
+    <nav
+      className={classnames(styles.VideoControls, className)}
+      aria-label={navAriaLabel}
+      onFocus={onFocus}
+      onBlur={onBlur}
+    >
       <BaseButton
-        className="VideoControls-button"
+        className={styles.button}
         aria-label={isPlaying ? pauseLabel : playLabel}
         title={isPlaying ? pauseLabel : playLabel}
         onClick={onPlayToggle}
@@ -86,11 +91,11 @@ const VideoControls = ({
 
       <VideoTimeline duration={duration} currentTime={Number(currentTime)} onTimeUpdate={onTimeUpdate} />
 
-      <time className="VideoControls-time">{formatTime(Number(currentTime))}</time>
+      <time className={styles.time}>{formatTime(Number(currentTime))}</time>
 
       {captions && (
         <BaseButton
-          className="VideoControls-button"
+          className={styles.button}
           aria-label={isShowingCaptions ? captionsHideLabel : captionsShowLabel}
           title={isShowingCaptions ? captionsHideLabel : captionsShowLabel}
           onClick={onCaptionsToggle}
@@ -103,7 +108,7 @@ const VideoControls = ({
       )}
 
       <BaseButton
-        className="VideoControls-button"
+        className={styles.button}
         aria-label={isMuted ? unmuteLabel : muteLabel}
         title={isMuted ? unmuteLabel : muteLabel}
         onClick={onMuteToggle}
@@ -113,7 +118,7 @@ const VideoControls = ({
 
       {isFullscreenAPISupported && (
         <BaseButton
-          className="VideoControls-button"
+          className={styles.button}
           aria-label={isFullScreen ? exitFullscreenLabel : enterFullscreenLabel}
           title={isFullScreen ? exitFullscreenLabel : enterFullscreenLabel}
           onClick={onFullscreenToggle}

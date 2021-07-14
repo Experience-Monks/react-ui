@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './ImageSequence.scss';
+import styles from './ImageSequence.module.scss';
 
 import { clamp, getViewportHeight, imageCoverDimensions, isImageLoaded } from './utils';
 
@@ -80,7 +80,7 @@ function ImageSequence({
   );
 
   const drawImage = useCallback(
-    (image) => {
+    image => {
       const ratioDrawOffsetX = percentDrawOffsetX / 100;
       const ratioDrawOffsetY = percentDrawOffsetY / 100;
 
@@ -166,27 +166,27 @@ function ImageSequence({
 
   useEffect(() => {
     // Load remainder of the images
-    images.forEach((image) => {
+    images.forEach(image => {
       if (!image.src) image.src = image.dataSrc;
     });
   }, [images]);
 
   return (
     <div
-      className={classnames('ImageSequence', className)}
+      className={classnames(styles.ImageSequence, className)}
       ref={ImageSequenceElRef}
       style={{
         height: `${images.length * heightMultiplier}vh`
       }}
     >
-      <div className="stickyContainer" ref={stickyContainerElRef}>
-        <canvas className="canvas" ref={canvasElRef} />
+      <div className={styles.stickyContainer} ref={stickyContainerElRef}>
+        <canvas className={styles.canvas} ref={canvasElRef} />
 
         {tooltips.map(({ percentPostionX, percentPositionY, content }, index) => {
           return (
             <button
               key={content}
-              className="tooltip"
+              className={styles.tooltip}
               // Basic tooltip positioning, overwritten by setTooltipsPosition() when canvas drawn
               style={{
                 top: `${percentPositionY}%`,
@@ -195,7 +195,7 @@ function ImageSequence({
               onClick={() => {
                 alert(content);
               }}
-              ref={(el) => (tooltipElsRef.current[index] = el)}
+              ref={el => (tooltipElsRef.current[index] = el)}
             />
           );
         })}

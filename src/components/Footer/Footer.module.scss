@@ -13,8 +13,8 @@ $main-footer-copyright-font-size: 1.6rem !default;
   background: $main-footer-bg-color;
   box-sizing: border-box;
 
-  .footer-nav {
-    .nav-list {
+  .footerNav {
+    .navList {
       display: inline-block;
       padding-left: 0;
 
@@ -34,7 +34,7 @@ $main-footer-copyright-font-size: 1.6rem !default;
     }
   }
 
-  .footer-copyright {
+  .footerCopyright {
     font-size: $main-footer-copyright-font-size;
     color: $main-footer-copyright-color;
   }

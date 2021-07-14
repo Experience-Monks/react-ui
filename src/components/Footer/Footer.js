@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './Footer.scss';
+import styles from './Footer.module.scss';
 
 import BaseLink from '../BaseLink/BaseLink';
 
 const Footer = forwardRef((props, ref) => {
   const LinkComponent = props.linkComponent;
   return (
-    <footer className={classnames('Footer', props.className)} ref={ref}>
+    <footer className={classnames(styles.Footer, props.className)} ref={ref}>
       {props.links && (
-        <nav className="footer-nav" aria-label={props.ariaNavLabel}>
-          <ul className="nav-list">
+        <nav className={styles.footerNav} aria-label={props.ariaNavLabel}>
+          <ul className={styles.navList}>
             {props.links.map((link, index) => (
-              <li key={index} className="nav-item">
+              <li key={index} className={styles.navItem}>
                 <LinkComponent link={link.path}>{link.text}</LinkComponent>
               </li>
             ))}
@@ -23,7 +23,7 @@ const Footer = forwardRef((props, ref) => {
         </nav>
       )}
       {props.children}
-      {props.copyright && <p className="footer-copyright">{props.copyright}</p>}
+      {props.copyright && <p className={styles.footerCopyright}>{props.copyright}</p>}
     </footer>
   );
 });
