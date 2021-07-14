@@ -2,7 +2,7 @@ const path = require('path');
 
 // Export a function. Accept the base config as the only param.
 module.exports = {
-  stories: ['../src/**/*-story.js'],
+  stories: ['../src/**/*.stories.@(js)'],
   addons: ['@storybook/addon-actions', '@storybook/addon-links', '@storybook/addon-knobs'],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
