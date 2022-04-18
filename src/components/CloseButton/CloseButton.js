@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './CloseButton.scss';
-
 import BaseButton from '../BaseButton/BaseButton';
+
+import styles from './CloseButton.module.scss';
 
 const CloseButton = ({ className, ...buttonProps }) => {
   return (
-    <BaseButton className={classnames('CloseButton', className)} {...buttonProps}>
+    <BaseButton {...buttonProps} className={classnames(styles.CloseButton, className)}>
       <span />
       <span />
     </BaseButton>

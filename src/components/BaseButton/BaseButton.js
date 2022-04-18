@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 
+import styles from './BaseButton.module.scss';
+
 const BaseButton = forwardRef((props, ref) => {
   const { component: Component, children, role: buttonRole, ...buttonProps } = props;
   const role = Component === 'button' ? buttonRole : 'button';
   return (
-    <Component className={classnames('BaseButton', props.className)} ref={ref} role={role} {...buttonProps}>
+    <Component className={classnames(styles.BaseButton, props.className)} ref={ref} role={role} {...buttonProps}>
       {children}
     </Component>
   );

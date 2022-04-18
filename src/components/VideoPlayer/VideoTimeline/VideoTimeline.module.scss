@@ -27,7 +27,7 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
   height: $video-player-controls-height;
   flex-grow: 1;
 
-  &-progress {
+  .progress {
     position: absolute;
     height: $video-player-controls-height;
     background-color: $video-player-controls-bg-color;

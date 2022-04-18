@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './BaseLink.scss';
+import styles from './BaseLink.module.scss';
 
 const excludes = ['children', 'download', 'target', 'rel', 'link'];
 
@@ -37,7 +37,7 @@ const BaseLink = forwardRef((props, ref) => {
   }
 
   return (
-    <Tag ref={ref} className={classnames('BaseLink', props.className)} {...componentProps}>
+    <Tag ref={ref} {...componentProps} className={classnames(styles.BaseLink, props.className)}>
       {props.children}
     </Tag>
   );

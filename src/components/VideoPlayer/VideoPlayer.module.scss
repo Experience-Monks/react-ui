@@ -48,7 +48,7 @@ $video-player-controls-transition: 0.2s !default;
     @include fullscreen-styles;
   }
 
-  &-captions-container {
+  .captionsContainer {
     position: absolute;
     left: 50%;
     bottom: $video-player-captions-bottom-collapsed-pos;
@@ -68,18 +68,18 @@ $video-player-controls-transition: 0.2s !default;
     }
   }
 
-  .VideoControls {
+  .controls {
     transform: translateY(100%);
     transition: $video-player-controls-transition;
   }
 
-  &.show-captions {
+  &.showCaptions {
     .VideoPlayer-captions-container {
       visibility: visible;
     }
   }
 
-  &.show-controls {
+  &.showControls {
     .VideoControls {
       transform: translateY(0%);
     }

@@ -11,7 +11,7 @@ const keys = {
   right: 39
 };
 
-import './Tabs.scss';
+import styles from './Tabs.module.scss';
 
 export const Tabs = ({ tabListLabel, children }) => {
   const containerRef = useRef(null);
@@ -35,8 +35,8 @@ export const Tabs = ({ tabListLabel, children }) => {
   }
 
   return (
-    <div className="Tabs" ref={containerRef}>
-      <ul className="tabs-list" role="tablist" aria-label={tabListLabel}>
+    <div className={styles.Tabs} ref={containerRef}>
+      <ul className={styles.tabsList} role="tablist" aria-label={tabListLabel}>
         {childrenArray.map((child, index) => {
           const label = child.props['data-label'];
           if (!label) {
@@ -59,7 +59,7 @@ export const Tabs = ({ tabListLabel, children }) => {
         })}
       </ul>
 
-      <div className="tabs-content">
+      <div className={styles.tabsContent}>
         {childrenArray.map((child, index) =>
           React.cloneElement(child, {
             id: `panel-${index}`,
@@ -93,7 +93,7 @@ export const Tab = ({ isActive, label, index, onClick, onKeyUp }) => {
     <li
       id={`tab-${index}`}
       ref={el}
-      className={classnames('Tab', { active: isActive })}
+      className={classnames(styles.Tab, { [styles.active]: isActive })}
       role="tab"
       aria-controls={`panel-${index}`}
       aria-selected={isActive}

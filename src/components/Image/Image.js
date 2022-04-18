@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import checkProps from '@jam3/react-check-extra-props';
 import { useIntersectionObserver } from '@jam3/react-hooks';
 
-import './Image.scss';
+import styles from './Image.module.scss';
 
 const TABLET_WIDTH = 768;
 const DESKTOP_WIDTH = 1024;
@@ -72,7 +72,7 @@ const Image = forwardRef(
 
     return (
       <img
-        className={classnames('Image', className, {
+        className={classnames(styles.Image, className, {
           hasFilterBlur: hasFilterBlur
         })}
         alt={alt}
