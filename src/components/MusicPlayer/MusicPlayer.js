@@ -19,7 +19,7 @@ const MusicPlayer = forwardRef(({ className, src, isPlaying = false, isLooping =
   }, [isPlaying]);
 
   useEffect(() => {
-    // Note: You may want to add some device tetec
+    if (detect.device.desktop) return;
 
     const unlockSound = () => {
       audioRef.current?.play();
@@ -27,6 +27,7 @@ const MusicPlayer = forwardRef(({ className, src, isPlaying = false, isLooping =
       window.removeEventListener('click', unlockSound);
       window.removeEventListener('touchstart', unlockSound);
     };
+
     window.addEventListener('click', unlockSound);
     window.addEventListener('touchstart', unlockSound);
 
