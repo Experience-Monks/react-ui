@@ -5,7 +5,7 @@ import detect from '@jam3/detect';
 
 import styles from './MusicPlayer.module.scss';
 
-const MusicPlayer = forwardRef(({ className, src, isPlaying = false }, ref) => {
+const MusicPlayer = forwardRef(({ className, src, isPlaying = false, isLooping = true }, ref) => {
   const audioRef = useRef < HTMLAudioElement > null;
 
   const handleVisibilityChange = useCallback(() => {
@@ -60,7 +60,7 @@ const MusicPlayer = forwardRef(({ className, src, isPlaying = false }, ref) => {
 
   return (
     <div className={classnames(styles.MusicPlayer, className)}>
-      <audio ref={audioRef} src={src} loop />
+      <audio ref={audioRef} src={src} loop={isLooping} />
     </div>
   );
 });
