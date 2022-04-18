@@ -43,7 +43,7 @@ $video-player-controls-transition: 0.2s !default;
     @include fullscreen-styles;
   }
 
-  &-captions-container {
+  .captionsContainer {
     position: absolute;
     left: 50%;
     bottom: $video-player-captions-bottom-collapsed-pos;
@@ -63,25 +63,25 @@ $video-player-controls-transition: 0.2s !default;
     }
   }
 
-  .VideoControls {
+  .videoControls {
     opacity: 0.01;
     visibility: hidden;
     transition: opacity $video-player-controls-transition;
   }
 
-  &.show-controls {
+  &.showControls {
     .VideoControls {
       opacity: 1;
       visibility: visible;
     }
 
-    .HlsPlayer-captions-container {
+    .captionsContainer {
       bottom: $video-player-captions-bottom-pos;
     }
   }
 
-  &.show-captions {
-    .HlsPlayer-captions-container {
+  &.showCaptions {
+    .captionsContainer {
       visibility: visible;
     }
   }

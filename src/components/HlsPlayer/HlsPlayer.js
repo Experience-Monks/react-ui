@@ -6,7 +6,7 @@ import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 import Hls from 'hls.js';
 
-import './HlsPlayer.scss';
+import styles from './HlsPlayer.module.scss';
 
 import VideoControls from './VideoControls/VideoControls';
 
@@ -254,9 +254,9 @@ const HlsPlayer = ({
 
   return (
     <div
-      className={classnames('HlsPlayer', className, {
-        'show-controls': isShowingControls,
-        'show-captions': isShowingCaptions
+      className={classnames(styles.HlsPlayer, className, {
+        [styles.showControls]: isShowingControls,
+        [styles.showCaptions]: isShowingCaptions
       })}
       tabIndex="0"
       onKeyPress={handleKeyPress}
@@ -280,7 +280,7 @@ const HlsPlayer = ({
       />
 
       {captions && (
-        <div className="HlsPlayer-captions-container" ref={captionsContainerRef}>
+        <div className={styles.captionsContainer} ref={captionsContainerRef}>
           {currentCaptions && <p>{currentCaptions}</p>}
         </div>
       )}

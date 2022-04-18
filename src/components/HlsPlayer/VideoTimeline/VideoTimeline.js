@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import noop from 'no-op';
 import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoTimeline.scss';
+import styles from './VideoTimeline.module.scss';
 
 const VideoTimeline = function({
   className,
@@ -30,8 +30,8 @@ const VideoTimeline = function({
   }, [currTime]);
 
   return (
-    <div className={classnames('VideoTimeline', className)}>
-      <div className="VideoTimeline-progress" style={{ width: (currentTime / duration) * 100 + '%' }} />
+    <div className={classnames(styles.VideoTimeline, className)}>
+      <div className={styles.progress} style={{ width: (currentTime / duration) * 100 + '%' }} />
       <input
         type="range"
         ref={inputRef}

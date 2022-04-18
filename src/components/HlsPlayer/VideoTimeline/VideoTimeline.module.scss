@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $video-player-controls-height: 3px !default;
 $video-player-controls-thumb-size: 1rem !default;
 $video-player-controls-bg-color: red !default;
@@ -27,7 +29,7 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
   height: $video-player-controls-height;
   flex-grow: 1;
 
-  &-progress {
+  .progress {
     position: absolute;
     height: $video-player-controls-height;
     background-color: $video-player-controls-bg-color;
@@ -90,7 +92,7 @@ $video-player-controls-track-color: rgba($video-player-controls-bg-color, 0.3) !
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       @include thumb;
-      margin-top: -$video-player-controls-thumb-size/4;
+      margin-top: math.div(-$video-player-controls-thumb-size, 4);
     }
 
     &::-moz-range-thumb {
