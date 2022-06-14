@@ -1,0 +1,11 @@
+.Breadcrumbs {
+  background-color: white;
+  font-size: 2rem; }
+  .Breadcrumbs > .link {
+    color: black;
+    text-decoration: none; }
+    .Breadcrumbs > .link.active {
+      color: blue;
+      text-decoration: underline; }
+  .Breadcrumbs > .separator {
+    padding: 0 0.3em; }

@@ -1,23 +1,26 @@
-import React, { memo, forwardRef } from 'react';
+import { memo, forwardRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import checkProps from '@jam3/react-check-extra-props';
 
-const BaseButton = forwardRef((props, ref) => {
-  const { component: Component, children, role: buttonRole, ...buttonProps } = props;
-  const role = Component === 'button' ? buttonRole : 'button';
+import styles from './BaseButton.module.scss';
+
+const BaseButton = forwardRef(({ className, component: Component, children, ...buttonProps }, ref) => {
+  const currRole = useMemo(() => (Component === 'button' ? null : 'button'), [Component]);
   return (
-    <Component className={classnames('BaseButton', props.className)} ref={ref} role={role} {...buttonProps}>
+    <Component className={classnames(styles.BaseButton, className)} ref={ref} role={currRole} {...buttonProps}>
       {children}
     </Component>
   );
 });
 
-BaseButton.propTypes = checkProps({
-  style: PropTypes.object,
+BaseButton.propTypes = {
   className: PropTypes.string,
   component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  disabled: PropTypes.bool,
+  'aria-label': PropTypes.string,
+  title: PropTypes.string,
   onClick: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
@@ -30,13 +33,8 @@ BaseButton.propTypes = checkProps({
   onMouseDown: PropTypes.func,
   onTouchEnd: PropTypes.func,
   onTouchMove: PropTypes.func,
-  onTouchStart: PropTypes.func,
-  role: PropTypes.string,
-  tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  disabled: PropTypes.bool,
-  'aria-label': PropTypes.string,
-  title: PropTypes.string
-});
+  onTouchStart: PropTypes.func
+};
 
 BaseButton.defaultProps = {
   component: 'button'

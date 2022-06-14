@@ -1,10 +1,8 @@
-import React, { memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import noop from 'no-op';
-import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoControls.scss';
+import styles from './VideoControls.module.scss';
 
 import PlayIcon from './assets/play.svg';
 import PauseIcon from './assets/pause.svg';
@@ -74,9 +72,14 @@ const VideoControls = ({
   }, []);
 
   return (
-    <nav className={classnames('VideoControls', className)} aria-label={navAriaLabel} onFocus={onFocus} onBlur={onBlur}>
+    <nav
+      className={classnames(styles.VideoControls, className)}
+      aria-label={navAriaLabel}
+      onFocus={onFocus}
+      onBlur={onBlur}
+    >
       <BaseButton
-        className="VideoControls-button"
+        className={styles.button}
         aria-label={isPlaying ? pauseLabel : playLabel}
         title={isPlaying ? pauseLabel : playLabel}
         onClick={onPlayToggle}
@@ -86,11 +89,11 @@ const VideoControls = ({
 
       <VideoTimeline duration={duration} currentTime={Number(currentTime)} onTimeUpdate={onTimeUpdate} />
 
-      <time className="VideoControls-time">{formatTime(Number(currentTime))}</time>
+      <time className={styles.time}>{formatTime(Number(currentTime))}</time>
 
       {captions && (
         <BaseButton
-          className="VideoControls-button"
+          className={styles.button}
           aria-label={isShowingCaptions ? captionsHideLabel : captionsShowLabel}
           title={isShowingCaptions ? captionsHideLabel : captionsShowLabel}
           onClick={onCaptionsToggle}
@@ -103,7 +106,7 @@ const VideoControls = ({
       )}
 
       <BaseButton
-        className="VideoControls-button"
+        className={styles.button}
         aria-label={isMuted ? unmuteLabel : muteLabel}
         title={isMuted ? unmuteLabel : muteLabel}
         onClick={onMuteToggle}
@@ -113,7 +116,7 @@ const VideoControls = ({
 
       {isFullscreenAPISupported && (
         <BaseButton
-          className="VideoControls-button"
+          className={styles.button}
           aria-label={isFullScreen ? exitFullscreenLabel : enterFullscreenLabel}
           title={isFullScreen ? exitFullscreenLabel : enterFullscreenLabel}
           onClick={onFullscreenToggle}
@@ -128,7 +131,7 @@ const VideoControls = ({
   );
 };
 
-VideoControls.propTypes = checkProps({
+VideoControls.propTypes = {
   className: PropTypes.string,
   captions: PropTypes.bool,
   isFullScreen: PropTypes.bool,
@@ -161,16 +164,16 @@ VideoControls.propTypes = checkProps({
   captionsShowLabel: PropTypes.string,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func
-});
+};
 
 VideoControls.defaultProps = {
-  onPlayToggle: noop,
-  onMuteToggle: noop,
-  onFullscreenToggle: noop,
-  onCaptionsToggle: noop,
-  onTimeUpdate: noop,
-  onFocus: noop,
-  onBlur: noop,
+  onPlayToggle: () => {},
+  onMuteToggle: () => {},
+  onFullscreenToggle: () => {},
+  onCaptionsToggle: () => {},
+  onTimeUpdate: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
   navAriaLabel: 'Video Controls',
   playIcon: PlayIcon,
   playLabel: 'Play Video',

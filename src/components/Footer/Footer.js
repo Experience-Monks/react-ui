@@ -1,54 +1,45 @@
-import React, { memo, forwardRef } from 'react';
+import { memo, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import checkProps from '@jam3/react-check-extra-props';
 
 import styles from './Footer.module.scss';
 
 import BaseLink from '../BaseLink/BaseLink';
 
-const Footer = forwardRef((props, ref) => {
-  const LinkComponent = props.linkComponent;
+const Footer = forwardRef(({ className, copyright, links, ariaNavLabel }, ref) => {
   return (
-    <footer className={classnames(styles.Footer, props.className)} ref={ref}>
-      {props.links && (
-        <nav className={styles.footerNav} aria-label={props.ariaNavLabel}>
+    <footer className={classnames(styles.Footer, className)} ref={ref}>
+      {links && (
+        <nav className={styles.footerNav} aria-label={ariaNavLabel}>
           <ul className={styles.navList}>
-            {props.links.map((link, index) => (
+            {links.map((link, index) => (
               <li key={index} className={styles.navItem}>
-                <LinkComponent link={link.path}>{link.text}</LinkComponent>
+                <BaseLink {...link}>{link.title}</BaseLink>
               </li>
             ))}
           </ul>
         </nav>
       )}
-      {props.children}
-      {props.copyright && <p className={styles.footerCopyright}>{props.copyright}</p>}
+      {copyright && <p className={styles.footerCopyright}>{copyright}</p>}
     </footer>
   );
 });
 
-Footer.propTypes = checkProps({
+Footer.propTypes = {
   className: PropTypes.string,
   links: PropTypes.arrayOf(
     PropTypes.shape({
-      text: PropTypes.string,
-      path: PropTypes.string
+      title: PropTypes.string,
+      href: PropTypes.string
     })
   ),
   ariaNavLabel: PropTypes.string,
-  copyright: PropTypes.string,
-  linkComponent: (props, propName) => {
-    if (props[propName] && !props[propName]['$$typeof']) {
-      return new Error(`Invalid prop '${propName}' supplied to 'Footer'. A valid React component expected`);
-    }
-  }
-});
+  copyright: PropTypes.string
+};
 
 Footer.defaultProps = {
   ariaNavLabel: 'Footer Navigation',
-  copyright: '© Copyright',
-  linkComponent: BaseLink
+  copyright: '© Copyright'
 };
 
 export default memo(Footer);

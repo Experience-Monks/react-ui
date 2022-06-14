@@ -1,56 +1,79 @@
-import React, { memo, forwardRef } from 'react';
-import { Link } from 'react-router-dom';
+import { memo, forwardRef, useMemo } from 'react';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import checkProps from '@jam3/react-check-extra-props';
 
-import './BaseLink.scss';
+import styles from './BaseLink.module.scss';
 
 const excludes = ['children', 'download', 'target', 'rel', 'link'];
+const targets = {
+  self: '_self',
+  blank: '_blank'
+};
 
 const externalLinkRegex = /^(https:\/\/|http:\/\/|www\.|tel:|mailto:)/;
 const externalSiteRegex = /^(https:\/\/|http:\/\/|www\.)/;
 
-const BaseLink = forwardRef((props, ref) => {
-  const Tag = externalLinkRegex.test(props.link) || props.download ? 'a' : Link;
+const BaseLink = forwardRef(
+  ({ className, href, download, rel, target, children, prefetch, shallow, ...props }, ref) => {
+    const isDownload = useMemo(() => Boolean(download), [download]);
+    const Component = useMemo(() => (externalLinkRegex.test(href) || isDownload ? 'a' : Link), [href, isDownload]);
 
-  // clean props
-  let componentProps = Object.keys(props).reduce(
-    (acc, key) => ([...excludes].indexOf(key) > -1 ? acc : { ...acc, [key]: props[key] }),
-    {}
-  );
+    const componentProps = useMemo(
+      () =>
+        Object.keys(props).reduce(
+          (acc, key) => ([...excludes].indexOf(key) > -1 ? acc : { ...acc, [key]: props[key] }),
+          { className: classnames(styles.BaseLink, className) }
+        ),
+      [className, props]
+    );
 
-  if (Tag === 'a') {
-    componentProps.href = props.link;
-    componentProps.download = props.download;
+    return useMemo(() => {
+      componentProps['aria-label'] = props['aria-label'] || props.title;
 
-    // set external link attributes
-    if (externalSiteRegex.test(props.link) && !props.download) {
-      componentProps.target = props.target;
-      if (props.target === '_blank') {
-        componentProps.rel = props.rel || 'noopener';
+      if (Component === 'a') {
+        componentProps.href = href;
+
+        if (isDownload) {
+          componentProps.download = download;
+        }
+
+        // set external link attributes
+        if (externalSiteRegex.test(href) && !isDownload) {
+          componentProps.target = target;
+          if (target === targets.blank) {
+            componentProps.rel = rel || 'noreferrer noopener';
+          }
+        }
+
+        return (
+          <Component ref={ref} {...componentProps}>
+            {children}
+          </Component>
+        );
+      } else {
+        return (
+          <Component ref={ref} href={href}>
+            <a {...componentProps}>{children}</a>
+          </Component>
+        );
       }
-    }
-  } else {
-    // react router Link
-    componentProps.to = props.link;
+    }, [Component, children, componentProps, download, href, isDownload, props, ref, rel, target]);
   }
+);
 
-  return (
-    <Tag ref={ref} className={classnames('BaseLink', props.className)} {...componentProps}>
-      {props.children}
-    </Tag>
-  );
-});
-BaseLink.propTypes = checkProps({
+BaseLink.propTypes = {
   className: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   rel: PropTypes.string,
-  link: PropTypes.string,
-  target: PropTypes.oneOf(['_blank', '_self']),
+  href: PropTypes.string,
+  target: PropTypes.oneOf(Object.values(targets)),
+  shallow: PropTypes.bool,
   tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  download: PropTypes.string,
+  download: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   title: PropTypes.string,
-  children: PropTypes.node,
+  'aria-label': PropTypes.string,
+  'aria-current': PropTypes.string,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   onKeyDown: PropTypes.func,
@@ -63,14 +86,12 @@ BaseLink.propTypes = checkProps({
   onTouchEnd: PropTypes.func,
   onTouchMove: PropTypes.func,
   onTouchStart: PropTypes.func,
-  onClick: PropTypes.func,
-  'aria-label': PropTypes.string,
-  'aria-current': PropTypes.string
-});
+  onClick: PropTypes.func
+};
 
 BaseLink.defaultProps = {
-  link: '',
-  target: '_blank'
+  href: '#',
+  target: targets.blank
 };
 
 export default memo(BaseLink);

@@ -1,0 +1,42 @@
+.Nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 4rem;
+  height: 6rem;
+  background: #eee;
+  box-sizing: border-box; }
+  .Nav .onlyAriaVisible {
+    clip-path: inset(100%);
+    clip: rect(1px 1px 1px 1px);
+    /* IE 6/7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px; }
+  .Nav > .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%; }
+    .Nav > .nav > .navLogo {
+      width: 4rem; }
+    .Nav > .nav > .navList {
+      display: inline-block; }
+      .Nav > .nav > .navList > .navItem {
+        display: inline-block;
+        margin-left: 2rem; }
+        .Nav > .nav > .navList > .navItem > .link {
+          font-size: 2rem;
+          color: rgba(0, 0, 0, 0.6);
+          text-decoration: none; }
+          .Nav > .nav > .navList > .navItem > .link.active {
+            color: #000;
+            text-decoration: underline; }
+          .Nav > .nav > .navList > .navItem > .link:hover:not(.active) {
+            color: #000;
+            text-decoration: none; }

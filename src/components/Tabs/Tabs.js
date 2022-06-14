@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import noop from 'no-op';
-import checkProps from '@jam3/react-check-extra-props';
+
+import styles from './Tabs.module.scss';
 
 const keys = {
   end: 35,
@@ -11,11 +11,9 @@ const keys = {
   right: 39
 };
 
-import styles from './Tabs.module.scss';
-
 export const Tabs = ({ tabListLabel, children }) => {
   const containerRef = useRef(null);
-  const childrenArray = React.Children.toArray(children);
+  const childrenArray = Children.toArray(children);
   const [active, setActive] = useState(0);
 
   function previousTab() {
@@ -41,7 +39,7 @@ export const Tabs = ({ tabListLabel, children }) => {
           const label = child.props['data-label'];
           if (!label) {
             console.warn('Child component has no data-label prop');
-            return;
+            return null;
           } else {
             return (
               <Tab
@@ -61,7 +59,7 @@ export const Tabs = ({ tabListLabel, children }) => {
 
       <div className={styles.tabsContent}>
         {childrenArray.map((child, index) =>
-          React.cloneElement(child, {
+          cloneElement(child, {
             id: `panel-${index}`,
             role: 'tabpanel',
             tabIndex: '0',
@@ -74,9 +72,9 @@ export const Tabs = ({ tabListLabel, children }) => {
   );
 };
 
-Tabs.propTypes = checkProps({
+Tabs.propTypes = {
   tabListLabel: PropTypes.string
-});
+};
 
 Tabs.defaultProps = {
   tabListLabel: ''
@@ -93,7 +91,7 @@ export const Tab = ({ isActive, label, index, onClick, onKeyUp }) => {
     <li
       id={`tab-${index}`}
       ref={el}
-      className={classnames(styles.Tab, { [styles.active]: isActive })}
+      className={classnames(styles.tab, { [styles.active]: isActive })}
       role="tab"
       aria-controls={`panel-${index}`}
       aria-selected={isActive}
@@ -106,14 +104,15 @@ export const Tab = ({ isActive, label, index, onClick, onKeyUp }) => {
   );
 };
 
-Tab.propTypes = checkProps({
+Tab.propTypes = {
   isActive: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onKeyUp: PropTypes.func.isRequired
-});
+  onClick: PropTypes.func,
+  onKeyUp: PropTypes.func
+};
 
 Tab.defaultProps = {
-  onKeyUp: noop
+  onClick: () => {},
+  onKeyUp: () => {}
 };

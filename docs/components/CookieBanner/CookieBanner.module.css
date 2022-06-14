@@ -1,0 +1,33 @@
+.CookieBanner {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 2rem 2rem 1rem;
+  background-color: black; }
+  .CookieBanner > .description {
+    margin: 0 0 2rem;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    color: white; }
+    .CookieBanner > .description a {
+      color: currentColor; }
+  .CookieBanner > .buttonsContainer > button {
+    border: none;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+    font-weight: bold;
+    white-space: nowrap; }
+    .CookieBanner > .buttonsContainer > button:first-of-type {
+      margin-right: 1rem; }
+    .CookieBanner > .buttonsContainer > button.accept {
+      background-color: green;
+      color: white; }
+    .CookieBanner > .buttonsContainer > button.reject {
+      background-color: darkred;
+      color: white; }

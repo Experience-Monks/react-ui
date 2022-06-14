@@ -1,41 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { useLocation } from 'react-router-dom';
-import checkProps from '@jam3/react-check-extra-props';
+import { useRouter } from 'next/router';
+import cleanPath from 'remove-trailing-slash';
+
+import styles from './Breadcrumbs.module.scss';
+
 import BaseLink from '../BaseLink/BaseLink';
 
-import './Breadcrumbs.scss';
+const breadStyles = {
+  all: 'all',
+  current: 'current',
+  forward: 'forward'
+};
 
 const Breadcrumbs = ({ routes, breadStyle }) => {
   const [active, setActive] = useState(0);
-  const location = useLocation();
+  const router = useRouter();
 
   useEffect(() => {
-    const pos = routes.map(path => path.route).indexOf(location.pathname);
-    if (pos < 0) setActive(0);
-    else setActive(pos);
-  }, [location]);
+    const pos = routes.map((path) => path.route).indexOf(router.asPath);
+    pos < 0 ? setActive(0) : setActive(pos);
+  }, [router.asPath, routes]);
 
   return (
-    <nav className="Breadcrumbs" aria-label="breadcrumbs">
+    <nav className={classnames(styles.Breadcrumbs)} aria-label="breadcrumbs">
       {routes
         .map((path, index) => {
-          const LinkInstance = <LinkWrapper key={`${index}${path.text}`} {...path} pathname={location.pathname} />;
+          const LinkInstance = <LinkWrapper key={`${index}${path.text}`} {...path} pathname={router.pathname} />;
 
-          if (index <= active + 1 && breadStyle === 'forward') {
+          if (index <= active + 1 && breadStyle === breadStyles.forward) {
             return LinkInstance;
-          } else if (index <= active && breadStyle === 'current') {
+          } else if (index <= active && breadStyle === breadStyles.current) {
             return LinkInstance;
-          } else if (breadStyle === 'all') {
+          } else if (breadStyle === breadStyles.all) {
             return LinkInstance;
           }
+          return null;
         })
-        .filter(route => Boolean(route))
+        .filter((route) => Boolean(route))
         .reduce(
           (prev, curr, index) => [
             prev,
-            <span key={index} className="separator" aria-hidden="true">
+            <span key={index} className={styles.separator} aria-hidden="true">
               {'>'}
             </span>,
             curr
@@ -46,28 +53,27 @@ const Breadcrumbs = ({ routes, breadStyle }) => {
   );
 };
 
-Breadcrumbs.propTypes = checkProps({
-  breadStyle: PropTypes.oneOf(['all', 'current', 'forward']),
+Breadcrumbs.propTypes = {
+  breadStyle: PropTypes.oneOf(Object.values(breadStyles)),
   routes: PropTypes.arrayOf(
-    PropTypes.shape({
+    PropTypes.exact({
       route: PropTypes.string,
       text: PropTypes.string
     }).isRequired
   ).isRequired
-});
-
-Breadcrumbs.defaultProps = {
-  breadStyle: 'all'
 };
 
-// NOTE: Adapt this to your specific router, next/link for example
+Breadcrumbs.defaultProps = {
+  breadStyle: breadStyles.all
+};
+
 const LinkWrapper = ({ pathname, text, route }) => {
-  const isActive = route === pathname;
+  const isActive = cleanPath(route) === cleanPath(pathname);
 
   return (
     <BaseLink
-      className={classnames('Link', { active: isActive })}
-      link={route}
+      className={classnames(styles.link, { [styles.active]: isActive })}
+      href={route}
       {...(isActive ? { 'aria-current': 'location' } : {})}
     >
       {text}
@@ -75,10 +81,10 @@ const LinkWrapper = ({ pathname, text, route }) => {
   );
 };
 
-LinkWrapper.propTypes = checkProps({
+LinkWrapper.propTypes = {
   pathname: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired
-});
+};
 
-export default Breadcrumbs;
+export default memo(Breadcrumbs);

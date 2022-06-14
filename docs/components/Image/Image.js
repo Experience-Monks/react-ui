@@ -1,10 +1,9 @@
-import React, { memo, forwardRef, useRef, useEffect, useState, useCallback } from 'react';
+import { memo, forwardRef, useRef, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import checkProps from '@jam3/react-check-extra-props';
 import { useIntersectionObserver } from '@jam3/react-hooks';
 
-import './Image.scss';
+import styles from './Image.module.scss';
 
 const TABLET_WIDTH = 768;
 const DESKTOP_WIDTH = 1024;
@@ -34,11 +33,9 @@ const Image = forwardRef(
     const [loadImage, setLoadImage] = useState(!lazyLoad);
     const [hasFilterBlur, setHasFilterBlur] = useState(lazyLoad);
 
-    const isLazyLoadIntersecting =
-      lazyLoad &&
-      useIntersectionObserver(ImageElRef, {
-        rootMargin: lazyLoadIntersectionRootMargin
-      });
+    const isLazyLoadIntersecting = useIntersectionObserver(ImageElRef, {
+      rootMargin: lazyLoadIntersectionRootMargin
+    });
 
     const buildSrc = useCallback(
       (w, q) => {
@@ -72,8 +69,8 @@ const Image = forwardRef(
 
     return (
       <img
-        className={classnames('Image', className, {
-          hasFilterBlur: hasFilterBlur
+        className={classnames(styles.Image, className, {
+          [styles.hasFilterBlur]: hasFilterBlur
         })}
         alt={alt}
         draggable={draggable}
@@ -81,7 +78,7 @@ const Image = forwardRef(
         src={loadImage ? src : buildSrc(lazyLoadFallbackWidth, lazyLoadFallbackQuality)}
         srcSet={loadImage ? buildSrcSet() : null}
         sizes={`(min-width: ${DESKTOP_WIDTH}px) ${sizeDesktop}, (min-width: ${TABLET_WIDTH}px) ${sizeTablet}, ${sizeMobile}`}
-        ref={el => {
+        ref={(el) => {
           ImageElRef.current = el;
           if (ref) typeof ref === 'object' ? (ref.current = el) : ref(el);
         }}
@@ -90,7 +87,7 @@ const Image = forwardRef(
   }
 );
 
-Image.propTypes = checkProps({
+Image.propTypes = {
   // Width of the container image resides within. Accepts px, vw and rem.
   // For rem, uses 16px as html root value, not set value
   sizeMobile: PropTypes.string,
@@ -110,7 +107,7 @@ Image.propTypes = checkProps({
   quality: PropTypes.number,
   srcSetTotal: PropTypes.number,
   srcSetWidthIncrement: PropTypes.number
-});
+};
 
 Image.defaultProps = {
   sizeMobile: '100vw',

@@ -1,12 +1,10 @@
-import React, { useLayoutEffect, useEffect, useState, useRef, memo } from 'react';
-import PropTypes, { func } from 'prop-types';
+import { useLayoutEffect, useEffect, useState, useRef, memo } from 'react';
+import PropTypes from 'prop-types';
 import BackgroundVideo from 'react-background-video-player';
 import fullscreenHandler from 'fullscreen-handler';
 import classnames from 'classnames';
-import noop from 'no-op';
-import checkProps from '@jam3/react-check-extra-props';
 
-import './VideoPlayer.scss';
+import styles from './VideoPlayer.module.scss';
 
 import VideoControls from './VideoControls/VideoControls';
 
@@ -87,37 +85,31 @@ const VideoPlayer = ({
       fullScreen.current.destroy();
       trackRef.current && trackRef.current.removeEventListener('cuechange', onTrackChange);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(
-    () => {
-      setContainerSize({ width: windowWidth, height: windowHeight });
-    },
-    [windowWidth, windowHeight]
-  );
+  useEffect(() => {
+    setContainerSize({ width: windowWidth, height: windowHeight });
+  }, [windowWidth, windowHeight]);
 
-  useEffect(
-    () => {
-      if (isPlaying) {
-        onPlay();
-        hasControls && setHideControlsTimeout();
-      } else {
-        onPause();
-        if (hasControls && progress) {
-          clearHideControlsTimeout();
-          showControls();
-        }
+  useEffect(() => {
+    if (isPlaying) {
+      onPlay();
+      hasControls && setHideControlsTimeout();
+    } else {
+      onPause();
+      if (hasControls && progress) {
+        clearHideControlsTimeout();
+        showControls();
       }
-    },
-    [isPlaying]
-  );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlaying]);
 
-  useEffect(
-    () => {
-      setCaptions(captions);
-    },
-    [captions]
-  );
+  useEffect(() => {
+    setCaptions(captions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [captions]);
 
   function showControls() {
     !isShowingControls && setIsShowingControls(true);
@@ -286,9 +278,9 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={classnames('VideoPlayer', className, {
-        'show-controls': isShowingControls,
-        'show-captions': isShowingCaptions
+      className={classnames(styles.VideoPlayer, className, {
+        [styles.showControls]: isShowingControls,
+        [styles.showCaptions]: isShowingCaptions
       })}
       style={style}
       ref={container}
@@ -315,20 +307,21 @@ const VideoPlayer = ({
         onMute={onMute}
         onUnmute={onUnmute}
         onEnd={onVideoEnd}
-        onClick={togglePlayOnClick ? togglePlay : noop}
+        onClick={togglePlayOnClick ? togglePlay : () => {}}
         onKeyPress={onKeyPress}
         tabIndex={allowKeyboardControl ? 0 : null}
         extraVideoElementProps={{ crossOrigin }}
       />
 
       {captions && (
-        <div className="VideoPlayer-captions-container" ref={captionsContainer}>
+        <div className={styles.captionsContainer} ref={captionsContainer}>
           {currentCaptions && <p>{currentCaptions}</p>}
         </div>
       )}
 
       {hasControls && (
         <VideoControls
+          className={styles.controls}
           captions={Boolean(captions)}
           currentTime={Number(currentTime)}
           isPlaying={isPlaying}
@@ -357,7 +350,7 @@ const VideoPlayer = ({
   );
 };
 
-VideoPlayer.propTypes = checkProps({
+VideoPlayer.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   src: PropTypes.string.isRequired,
@@ -391,7 +384,7 @@ VideoPlayer.propTypes = checkProps({
   captionsOnIcon: PropTypes.string,
   captionsOffIcon: PropTypes.string,
   crossOrigin: PropTypes.string
-});
+};
 
 VideoPlayer.defaultProps = {
   style: {},
@@ -410,9 +403,9 @@ VideoPlayer.defaultProps = {
   volume: 1,
   startTime: 0, // in seconds
   crossOrigin: 'anonymous',
-  onPlay: noop,
-  onPause: noop,
-  onEnd: noop
+  onPlay: () => {},
+  onPause: () => {},
+  onEnd: () => {}
 };
 
 export default memo(VideoPlayer);

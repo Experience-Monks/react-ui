@@ -1,54 +1,52 @@
-import React, { memo, useLayoutEffect, useRef } from 'react';
+import { memo, useLayoutEffect, useRef, useCallback } from 'react';
 import { useOrientation } from 'react-use';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import 'default-passive-events';
-import checkProps from '@jam3/react-check-extra-props';
 import { device } from '@jam3/detect';
 
-import './RotateScreen.scss';
+import styles from './RotateScreen.module.scss';
 
-const RotateScreen = ({ className, iconSrc, iconAlt, copy, children }) => {
+const RotateScreen = ({ className, iconSrc, iconAlt, copy }) => {
   const containerRef = useRef();
   const orientation = useOrientation();
 
-  useLayoutEffect(() => {
-    containerRef.current.addEventListener('touchmove', preventScrolling, { passive: false });
-    console.log(containerRef.current);
-
-    return () => {
-      containerRef.current.removeEventListener('touchmove', preventScrolling);
-    };
-  }, []);
-
-  function preventScrolling(e) {
+  const preventScrolling = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-  }
+  }, []);
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    container.addEventListener('touchmove', preventScrolling, { passive: false });
+
+    return () => {
+      container.removeEventListener('touchmove', preventScrolling);
+    };
+  }, [preventScrolling]);
 
   return (
     <div
-      className={classnames('RotateScreen', className, { show: device.isMobile && orientation.angle !== 0 })}
+      className={classnames(styles.RotateScreen, className, {
+        [styles.show]: device.phone && orientation.angle !== 0
+      })}
       ref={containerRef}
     >
-      <div className="container">
-        {iconSrc && <img src={iconSrc} className="rotate-icon" alt={iconAlt} />}
-        {copy && <p className="rotate-text">{copy}</p>}
-        {children}
+      <div className={styles.container}>
+        {iconSrc && <img src={iconSrc} className={styles.rotateIcon} alt={iconAlt} />}
+        {copy && <p className={styles.rotateText}>{copy}</p>}
       </div>
     </div>
   );
 };
 
-RotateScreen.propTypes = checkProps({
+RotateScreen.propTypes = {
   className: PropTypes.string,
   copy: PropTypes.string,
   iconSrc: PropTypes.string,
   iconAlt: PropTypes.string
-});
+};
 
 RotateScreen.defaultProps = {
-  className: '',
   copy: 'Please rotate your device into portrait mode.',
   iconAlt: 'Please rotate your device'
 };

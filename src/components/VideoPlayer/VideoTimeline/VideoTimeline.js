@@ -1,12 +1,10 @@
-import React, { memo, useState, useRef, useEffect } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import noop from 'no-op';
-import checkProps from '@jam3/react-check-extra-props';
 
 import styles from './VideoTimeline.module.scss';
 
-const VideoTimeline = function({
+const VideoTimeline = function ({
   className,
   style,
   currentTime: currTime,
@@ -51,7 +49,7 @@ const VideoTimeline = function({
   );
 };
 
-VideoTimeline.propTypes = checkProps({
+VideoTimeline.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   duration: PropTypes.number.isRequired,
@@ -60,7 +58,7 @@ VideoTimeline.propTypes = checkProps({
   stepFast: PropTypes.number,
   inputAriaLabel: PropTypes.string,
   onTimeUpdate: PropTypes.func
-});
+};
 
 VideoTimeline.defaultProps = {
   style: {},
@@ -68,7 +66,7 @@ VideoTimeline.defaultProps = {
   step: 0.1,
   stepFast: 5,
   inputAriaLabel: 'Seek Video',
-  onTimeUpdate: noop
+  onTimeUpdate: () => {}
 };
 
 export default memo(VideoTimeline);

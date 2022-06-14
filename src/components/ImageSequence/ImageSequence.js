@@ -1,9 +1,10 @@
 import React, { memo, useLayoutEffect, useRef, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import checkProps from '@jam3/react-check-extra-props';
 
 import styles from './ImageSequence.module.scss';
+
+import BaseButton from '../BaseButton/BaseButton';
 
 import { clamp, getViewportHeight, imageCoverDimensions, isImageLoaded } from './utils';
 
@@ -67,20 +68,20 @@ function ImageSequence({
 
   const setTooltipsPosition = useCallback(
     ({ cx, cy, ih, iw, nw, nh }) => {
-      tooltips.forEach(({ percentPostionX, percentPositionY }, index) => {
+      tooltips.forEach(({ percentPositionX, percentPositionY }, index) => {
         const tooltipEl = tooltipElsRef.current[index];
-        const ratioPostionX = percentPostionX / 100;
+        const ratioPositionX = percentPositionX / 100;
         const ratioPositionY = percentPositionY / 100;
 
         tooltipEl.style.top = `${nh * ratioPositionY - (cy / ih) * nh}px`;
-        tooltipEl.style.left = `${nw * ratioPostionX - (cx / iw) * nw}px`;
+        tooltipEl.style.left = `${nw * ratioPositionX - (cx / iw) * nw}px`;
       });
     },
     [tooltips]
   );
 
   const drawImage = useCallback(
-    image => {
+    (image) => {
       const ratioDrawOffsetX = percentDrawOffsetX / 100;
       const ratioDrawOffsetY = percentDrawOffsetY / 100;
 
@@ -166,7 +167,7 @@ function ImageSequence({
 
   useEffect(() => {
     // Load remainder of the images
-    images.forEach(image => {
+    images.forEach((image) => {
       if (!image.src) image.src = image.dataSrc;
     });
   }, [images]);
@@ -182,21 +183,26 @@ function ImageSequence({
       <div className={styles.stickyContainer} ref={stickyContainerElRef}>
         <canvas className={styles.canvas} ref={canvasElRef} />
 
-        {tooltips.map(({ percentPostionX, percentPositionY, content }, index) => {
+        {tooltips.map(({ percentPositionX, percentPositionY, content, tooltipLabel }, index) => {
           return (
-            <button
+            <div
               key={content}
               className={styles.tooltip}
               // Basic tooltip positioning, overwritten by setTooltipsPosition() when canvas drawn
               style={{
                 top: `${percentPositionY}%`,
-                left: `${percentPostionX}%`
+                left: `${percentPositionX}%`
               }}
-              onClick={() => {
-                alert(content);
-              }}
-              ref={el => (tooltipElsRef.current[index] = el)}
-            />
+            >
+              <BaseButton
+                onClick={() => {
+                  alert(content);
+                }}
+                aria-label={tooltipLabel}
+                className={styles.button}
+                ref={(el) => (tooltipElsRef.current[index] = el)}
+              />
+            </div>
           );
         })}
       </div>
@@ -204,7 +210,7 @@ function ImageSequence({
   );
 }
 
-ImageSequence.propTypes = checkProps({
+ImageSequence.propTypes = {
   className: PropTypes.string,
   imageUrls: PropTypes.arrayOf(PropTypes.string),
   heightMultiplier: PropTypes.number,
@@ -212,14 +218,15 @@ ImageSequence.propTypes = checkProps({
   percentDrawOffsetY: PropTypes.number,
   tooltips: PropTypes.arrayOf(
     PropTypes.exact({
-      percentPostionX: PropTypes.number,
+      percentPositionX: PropTypes.number,
       percentPositionY: PropTypes.number,
       percentVisibleStart: PropTypes.number,
       percentVisibleEnd: PropTypes.number,
-      content: PropTypes.string
+      content: PropTypes.string,
+      tooltipLabel: PropTypes.string
     })
   )
-});
+};
 
 ImageSequence.defaultProps = {
   imageUrls: [],

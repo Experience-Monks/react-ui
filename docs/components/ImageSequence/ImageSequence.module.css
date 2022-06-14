@@ -1,0 +1,25 @@
+.ImageSequence {
+  height: 300vh; }
+  .ImageSequence > .stickyContainer {
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: sticky;
+    overflow: hidden; }
+    .ImageSequence > .stickyContainer > .canvas {
+      width: 100%;
+      height: 100%;
+      background-color: black; }
+    .ImageSequence > .stickyContainer > .tooltip {
+      position: absolute; }
+      .ImageSequence > .stickyContainer > .tooltip > .button {
+        width: 4rem;
+        height: 4rem;
+        background-color: red;
+        border-radius: 100%;
+        border: 1px solid white;
+        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        visibility: hidden; }

@@ -1,0 +1,22 @@
+.Footer {
+  display: inline-block;
+  width: 100%;
+  padding: 2rem 4rem;
+  background: #000;
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  line-height: 1.9rem;
+  color: #fff; }
+  .Footer > .footerNav {
+    border-bottom: 1px solid gray; }
+    .Footer > .footerNav > .navList {
+      display: inline-block;
+      padding-left: 0; }
+      .Footer > .footerNav > .navList > .navItem {
+        display: inline-block;
+        margin-right: 2rem; }
+        .Footer > .footerNav > .navList > .navItem:last-of-type {
+          margin-right: 0; }
+      .Footer > .footerNav > .navList a {
+        color: #fff;
+        text-decoration: none; }
