@@ -1,6 +1,5 @@
-import React, { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { storiesOf } from '@storybook/react';
-import 'default-passive-events';
 
 import VideoPlayer from './VideoPlayer';
 

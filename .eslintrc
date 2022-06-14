@@ -1,19 +1,18 @@
 {
-  "env": {
-    "browser": true,
-    "commonjs": true,
-    "es6": true,
-    "node": true
+  "extends": [
+    "react-app",
+    "react-jam3",
+    "prettier"
+  ],
+  "plugins": ["jam3"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
-  },
-  "plugins": ["prettier", "jam3"],
-  "extends": ["eslint:recommended", "prettier", "react-app", "jam3"],
-  "globals": {},
   "rules": {
     "prettier/prettier": "warn",
+    "import/no-anonymous-default-export": "off",
     "jam3/no-sanitizer-with-danger": [
       2,
       {
@@ -22,6 +21,14 @@
     ],
     "jam3/forbid-methods": 2,
     "no-console": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ],
     "react/sort-comp": [
       1,
       {

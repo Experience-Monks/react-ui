@@ -1,12 +1,12 @@
 .Tabs {
   width: 100%;
 
-  .tabsList {
+  > .tabsList {
     display: flex;
     flex-wrap: wrap;
     padding-left: 0;
 
-    > .Tab {
+    > .tab {
       list-style: none;
       padding: 0.5rem;
       font-size: 2rem;

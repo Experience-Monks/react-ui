@@ -1,20 +1,20 @@
-import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import Component from './Footer';
 
 const props = {
   links: [
     {
-      text: 'Home',
-      path: '/'
+      title: 'Home',
+      href: '/'
     },
     {
-      text: 'Contact',
-      path: 'https://www.jam3.com/contact/'
+      title: 'Contact',
+      href: 'https://www.jam3.com/contact/'
     },
     {
-      text: 'Accessibility',
-      path: 'https://www.jam3.com/accessibility/'
+      title: 'Accessibility',
+      href: 'https://www.jam3.com/accessibility/'
     }
   ]
 };

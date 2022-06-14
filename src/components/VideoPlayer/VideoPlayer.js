@@ -1,10 +1,8 @@
-import React, { useLayoutEffect, useEffect, useState, useRef, memo } from 'react';
-import PropTypes, { func } from 'prop-types';
+import { useLayoutEffect, useEffect, useState, useRef, memo } from 'react';
+import PropTypes from 'prop-types';
 import BackgroundVideo from 'react-background-video-player';
 import fullscreenHandler from 'fullscreen-handler';
 import classnames from 'classnames';
-import noop from 'no-op';
-import checkProps from '@jam3/react-check-extra-props';
 
 import styles from './VideoPlayer.module.scss';
 
@@ -87,6 +85,7 @@ const VideoPlayer = ({
       fullScreen.current.destroy();
       trackRef.current && trackRef.current.removeEventListener('cuechange', onTrackChange);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -104,10 +103,12 @@ const VideoPlayer = ({
         showControls();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPlaying]);
 
   useEffect(() => {
     setCaptions(captions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [captions]);
 
   function showControls() {
@@ -306,7 +307,7 @@ const VideoPlayer = ({
         onMute={onMute}
         onUnmute={onUnmute}
         onEnd={onVideoEnd}
-        onClick={togglePlayOnClick ? togglePlay : noop}
+        onClick={togglePlayOnClick ? togglePlay : () => {}}
         onKeyPress={onKeyPress}
         tabIndex={allowKeyboardControl ? 0 : null}
         extraVideoElementProps={{ crossOrigin }}
@@ -349,7 +350,7 @@ const VideoPlayer = ({
   );
 };
 
-VideoPlayer.propTypes = checkProps({
+VideoPlayer.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   src: PropTypes.string.isRequired,
@@ -383,7 +384,7 @@ VideoPlayer.propTypes = checkProps({
   captionsOnIcon: PropTypes.string,
   captionsOffIcon: PropTypes.string,
   crossOrigin: PropTypes.string
-});
+};
 
 VideoPlayer.defaultProps = {
   style: {},
@@ -402,9 +403,9 @@ VideoPlayer.defaultProps = {
   volume: 1,
   startTime: 0, // in seconds
   crossOrigin: 'anonymous',
-  onPlay: noop,
-  onPause: noop,
-  onEnd: noop
+  onPlay: () => {},
+  onPause: () => {},
+  onEnd: () => {}
 };
 
 export default memo(VideoPlayer);

@@ -6,13 +6,13 @@
   flex-wrap: wrap;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 4.5rem 2rem;
+  padding: 2rem 2rem 1rem;
   background-color: black;
 
   > .description {
-    margin-bottom: 3rem;
-    font-size: 2.4rem;
-    line-height: 3.1rem;
+    margin: 0 0 2rem;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
     color: white;
 
     a {
@@ -22,21 +22,26 @@
 
   > .buttonsContainer {
     > button {
-      border: 0;
-      padding: 2rem;
-      background-color: black;
-      font-size: 2.4rem;
-      line-height: 3.1rem;
+      border: none;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+      line-height: 1.9rem;
+      font-weight: bold;
       white-space: nowrap;
-      cursor: pointer;
+
+      &:first-of-type {
+        margin-right: 1rem;
+      }
 
       &.accept {
-        background-color: red;
+        background-color: green;
         color: white;
       }
 
       &.reject {
-        color: red;
+        background-color: darkred;
+        color: white;
       }
     }
   }

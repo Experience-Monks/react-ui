@@ -1,11 +1,11 @@
-$color: black !default;
-$active-color: blue !default;
+$color: black;
+$active-color: blue;
 
 .Breadcrumbs {
   background-color: white;
   font-size: 2rem;
 
-  .link {
+  > .link {
     color: $color;
     text-decoration: none;
 
@@ -15,7 +15,7 @@ $active-color: blue !default;
     }
   }
 
-  .separator {
+  > .separator {
     padding: 0 0.3em;
   }
 }

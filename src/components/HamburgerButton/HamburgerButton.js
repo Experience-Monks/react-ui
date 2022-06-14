@@ -1,8 +1,6 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import noop from 'no-op';
-import checkProps from '@jam3/react-check-extra-props';
 
 import styles from './HamburgerButton.module.scss';
 
@@ -14,7 +12,7 @@ export const STATES = {
   back: 'back'
 };
 
-const bars = [0, 1, 2].map(item => <span key={item} className={styles.bar} />);
+const bars = [0, 1, 2].map((item) => <span key={item} className={styles.bar} />);
 
 const HamburgerButton = ({ className, currentState, onMouseEnter, onMouseLeave, onClick, tabIndex, ariaLabel }) => {
   return (
@@ -31,7 +29,7 @@ const HamburgerButton = ({ className, currentState, onMouseEnter, onMouseLeave, 
   );
 };
 
-HamburgerButton.propTypes = checkProps({
+HamburgerButton.propTypes = {
   className: PropTypes.string,
   tabIndex: PropTypes.number,
   currentState: PropTypes.string,
@@ -39,15 +37,15 @@ HamburgerButton.propTypes = checkProps({
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
   ariaLabel: PropTypes.string
-});
+};
 
 HamburgerButton.defaultProps = {
   tabIndex: 0,
   currentState: STATES.idle,
-  onClick: noop,
-  onMouseEnter: noop,
-  onMouseLeave: noop,
-  ariaLabel: 'Mobile menu button'
+  onClick: () => {},
+  onMouseEnter: () => {},
+  onMouseLeave: () => {},
+  ariaLabel: 'Menu button'
 };
 
 export default memo(HamburgerButton);

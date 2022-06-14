@@ -17,16 +17,9 @@ npm install @jam3/react-ui
 yarn add @jam3/react-ui
 ```
 
-## Basic Usage
-
-```
-import React from 'react';
-import { BaseLink } from '@jam3/react-ui';
-```
-
 # Eject Usage
 
-The components in this library can be ejected for advanced customization while maintaining version control.
+The components in this library to be ejected for advanced customization while maintaining version control.
 This functionality is achieved by npm post install hook that runs src/scripts/copy-component-utility.js
 To use it, simply create a `react-ui.json` file with the following properties.
 

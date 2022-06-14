@@ -1,13 +1,13 @@
-$video-player-fullscreen-bg-color: #000 !default;
-$video-player-captions-bottom-pos: 8rem !default;
-$video-player-captions-bottom-collapsed-pos: 3rem !default;
-$video-player-captions-font-size: 3rem !default;
-$video-player-captions-font-weight: bold !default;
-$video-player-captions-bg-color: rgba(0, 0, 0, 0.8) !default;
-$video-player-captions-text-color: #fff !default;
-$video-player-captions-max-width: 50rem !default;
-$video-player-captions-padding: 1rem !default;
-$video-player-controls-transition: 0.2s !default;
+$video-player-fullscreen-bg-color: #000;
+$video-player-captions-bottom-pos: 8rem;
+$video-player-captions-bottom-collapsed-pos: 3rem;
+$video-player-captions-font-size: 3rem;
+$video-player-captions-font-weight: bold;
+$video-player-captions-bg-color: rgba(0, 0, 0, 0.8);
+$video-player-captions-text-color: #fff;
+$video-player-captions-max-width: 50rem;
+$video-player-captions-padding: 1rem;
+$video-player-controls-transition: 0.2s;
 
 @mixin fullscreen-styles() {
   width: 100% !important;
@@ -74,17 +74,17 @@ $video-player-controls-transition: 0.2s !default;
   }
 
   &.showCaptions {
-    .VideoPlayer-captions-container {
+    .captionsContainer {
       visibility: visible;
     }
   }
 
   &.showControls {
-    .VideoControls {
+    .controls {
       transform: translateY(0%);
     }
 
-    .VideoPlayer-captions-container {
+    .captionsContainer {
       bottom: $video-player-captions-bottom-pos;
     }
   }

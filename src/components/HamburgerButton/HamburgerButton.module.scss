@@ -1,8 +1,4 @@
-$hamburger-button-width: 2.5rem !default;
-$hamburger-button-height: 2rem !default;
-$hamburger-button-bar-thickness: 2px !default;
-$hamburger-button-bar-color: #000 !default;
-$hamburger-button-transition: 0.2s ease-out !default;
+$hamburger-button-transition: 0.2s ease-out;
 
 .HamburgerButton {
   border: none;
@@ -16,18 +12,18 @@ $hamburger-button-transition: 0.2s ease-out !default;
   text-transform: inherit;
   color: inherit;
 
-  .barsContainer {
+  > .barsContainer {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: $hamburger-button-width;
-    height: $hamburger-button-height;
+    width: 2.5rem;
+    height: 2rem;
 
-    .bar {
+    > .bar {
       width: 100%;
-      height: $hamburger-button-bar-thickness;
-      background: $hamburger-button-bar-color;
+      height: 2px;
+      background: #000;
       transform-origin: top left;
       transition: transform $hamburger-button-transition, opacity $hamburger-button-transition;
     }

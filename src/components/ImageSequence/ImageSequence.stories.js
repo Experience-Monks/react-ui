@@ -1,5 +1,5 @@
-import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import Component from './ImageSequence';
 
 const props = {
@@ -13,24 +13,27 @@ const props = {
     }),
   tooltips: [
     {
-      percentPostionX: 83,
+      percentPositionX: 83,
       percentPositionY: 33,
       percentVisibleStart: 0,
       percentVisibleEnd: 5,
+      tooltipLabel: 'tooltip 1',
       content: 'I am tooltip one!'
     },
     {
-      percentPostionX: 65,
+      percentPositionX: 65,
       percentPositionY: 35,
       percentVisibleStart: 30,
       percentVisibleEnd: 60,
+      tooltipLabel: 'tooltip 2',
       content: 'I am tooltip two!'
     },
     {
-      percentPostionX: 45,
+      percentPositionX: 45,
       percentPositionY: 45,
       percentVisibleStart: 60,
       percentVisibleEnd: 85,
+      tooltipLabel: 'tooltip 3',
       content: 'I am tooltip three!'
     }
   ],

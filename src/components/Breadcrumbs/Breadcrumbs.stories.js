@@ -1,6 +1,6 @@
-import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Link } from 'react-router-dom';
+
+import BaseLink from '../BaseLink/BaseLink';
 import Breadcrumbs from './Breadcrumbs';
 
 const commonStyles = {
@@ -29,23 +29,18 @@ const routesExample = [
   }
 ];
 
-storiesOf('Breadcrumbs', module).add(
-  'Default',
-  () => (
-    <React.Fragment>
-      <h2>Forward Style: Show the next</h2>
-      <Breadcrumbs breadStyle="forward" routes={routesExample} />
-      <h2>Forward Style: Show all</h2>
-      <Breadcrumbs breadStyle="all" routes={routesExample} />
-      <h2>Forward Style: Show current</h2>
-      <Breadcrumbs breadStyle="current" routes={routesExample} />
-
-      <div style={{ ...commonStyles }}>
-        <Link to="/test">Route not included in the list</Link>
-      </div>
-    </React.Fragment>
-  ),
-  {
-    notes: 'Simple Autocomplete for countries'
-  }
-);
+storiesOf('Breadcrumbs', module).add('Default', () => (
+  <>
+    <h2>Forward Style: Show the next</h2>
+    <Breadcrumbs breadStyle="forward" routes={routesExample} />
+    <h2>Forward Style: Show all</h2>
+    <Breadcrumbs breadStyle="all" routes={routesExample} />
+    <h2>Forward Style: Show current</h2>
+    <Breadcrumbs breadStyle="current" routes={routesExample} />
+    <div style={{ ...commonStyles }}>
+      <BaseLink href="/test" style={{ color: '#770606' }}>
+        Route not included in the list
+      </BaseLink>
+    </div>
+  </>
+));

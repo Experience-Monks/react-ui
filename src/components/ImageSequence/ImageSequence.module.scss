@@ -2,7 +2,7 @@
   // Default height, overwritten in JS by heightMultiplier and images length
   height: 300vh;
 
-  .stickyContainer {
+  > .stickyContainer {
     width: 100%;
     height: 100vh;
     top: 0;
@@ -10,24 +10,26 @@
     position: sticky;
     overflow: hidden;
 
-    .canvas {
+    > .canvas {
       width: 100%;
       height: 100%;
       background-color: black;
     }
 
-    .tooltip {
-      cursor: pointer;
+    > .tooltip {
       position: absolute;
-      width: 40px;
-      height: 40px;
-      background-color: red;
-      border-radius: 100%;
-      border: 1px solid white;
-      transform: translate(-50%, -50%);
-      top: 0;
-      left: 0;
-      visibility: hidden;
+
+      > .button {
+        width: 4rem;
+        height: 4rem;
+        background-color: red;
+        border-radius: 100%;
+        border: 1px solid white;
+        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        visibility: hidden;
+      }
     }
   }
 }

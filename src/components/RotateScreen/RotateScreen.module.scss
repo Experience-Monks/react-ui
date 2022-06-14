@@ -1,8 +1,3 @@
-$rotate-screen-bg-color: #000 !default;
-$rotate-screen-text-color: #fff !default;
-$rotate-screen-text-font-size: 1.6rem !default;
-$rotate-screen-icon-width: 10rem !default;
-
 .RotateScreen {
   display: none;
   position: fixed;
@@ -10,7 +5,7 @@ $rotate-screen-icon-width: 10rem !default;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: $rotate-screen-bg-color;
+  background-color: #000;
 
   &.show {
     display: flex;
@@ -18,16 +13,16 @@ $rotate-screen-icon-width: 10rem !default;
     justify-content: center;
   }
 
-  .container {
+  > .container {
     text-align: center;
 
-    .rotateText {
-      color: $rotate-screen-text-color;
-      font-size: $rotate-screen-text-font-size;
+    > .rotateText {
+      color: #fff;
+      font-size: 1.6rem;
     }
 
-    .rotateIcon {
-      width: $rotate-screen-icon-width;
+    > .rotateIcon {
+      width: 10rem;
     }
   }
 }

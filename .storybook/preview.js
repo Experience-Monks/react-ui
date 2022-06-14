@@ -1,4 +1,14 @@
-import { addDecorator } from '@storybook/react';
-import StoryRouter from 'storybook-react-router';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
 
-addDecorator(StoryRouter());
+export const parameters = {
+  nextRouter: {
+    Provider: RouterContext.Provider
+  },
+  actions: { argTypesRegex: '^on[A-Z].*' },
+  controls: {
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/
+    }
+  }
+};

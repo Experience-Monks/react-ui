@@ -1,8 +1,6 @@
-import React, { memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import noop from 'no-op';
-import checkProps from '@jam3/react-check-extra-props';
 
 import styles from './VideoControls.module.scss';
 
@@ -133,7 +131,7 @@ const VideoControls = ({
   );
 };
 
-VideoControls.propTypes = checkProps({
+VideoControls.propTypes = {
   className: PropTypes.string,
   captions: PropTypes.bool,
   isFullScreen: PropTypes.bool,
@@ -166,16 +164,16 @@ VideoControls.propTypes = checkProps({
   captionsShowLabel: PropTypes.string,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func
-});
+};
 
 VideoControls.defaultProps = {
-  onPlayToggle: noop,
-  onMuteToggle: noop,
-  onFullscreenToggle: noop,
-  onCaptionsToggle: noop,
-  onTimeUpdate: noop,
-  onFocus: noop,
-  onBlur: noop,
+  onPlayToggle: () => {},
+  onMuteToggle: () => {},
+  onFullscreenToggle: () => {},
+  onCaptionsToggle: () => {},
+  onTimeUpdate: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
   navAriaLabel: 'Video Controls',
   playIcon: PlayIcon,
   playLabel: 'Play Video',
